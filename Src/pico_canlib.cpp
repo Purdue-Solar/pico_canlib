@@ -1,6 +1,4 @@
-#include "RP2040_XL2515_Driver.h"
-#include "pico/stdlib.h"
-#include "hardware/spi.h"
+#include "pico_canlib.hpp"
 
 // SPI Defines
 // We are going to use SPI 0, and allocate it to the following GPIO pins
@@ -11,17 +9,17 @@
 #define PIN_SCK  18
 #define PIN_MOSI 19
 
-XL2515_Driver::XL2515_Driver()
+pico_canlib::pico_canlib()
 {
     // Constructor
 }
 
-XL2515_Driver::~XL2515_Driver()
+pico_canlib::~pico_canlib()
 {
     // Destructor
 }
 
-void XL2515_Driver::init(void)
+void pico_canlib::init(void)
 {
     // Initialize SPI port at 1 MHz
     spi_init(SPI_PORT, 1000 * 1000);
@@ -38,7 +36,7 @@ void XL2515_Driver::init(void)
     gpio_put(PIN_CS, 1);
 }
 
-void XL2515_Driver::sendData(const uint8_t* data, size_t length)
+bool pico_canlib::sendData(const uint8_t* data, size_t length)
 {
     // Pull CS low to select the device
     gpio_put(PIN_CS, 0);
@@ -50,7 +48,7 @@ void XL2515_Driver::sendData(const uint8_t* data, size_t length)
     gpio_put(PIN_CS, 1);
 }
 
-size_t XL2515_Driver::receiveData(uint8_t* buffer, size_t bufferSize)
+bool pico_canlib::receiveData(uint8_t* buffer, size_t bufferSize)
 {
     // Pull CS low to select the device
     gpio_put(PIN_CS, 0);

@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/CMakeFiles/picotoolBuild"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/CMakeFiles/picotoolBuild.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/CMakeFiles/picotoolBuild-complete.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-build.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-configure.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-download.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-install.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-mkdir.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-patch.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-test.rule"
+		},
+		{
+			"file" : "/home/khoi-anh-nguyen/Projects/PSR/Pico_CANLib/picotool/src/picotoolBuild-stamp/picotoolBuild-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"picotoolBuild"
+		],
+		"name" : "picotoolBuild"
+	}
+}
