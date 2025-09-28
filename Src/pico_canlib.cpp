@@ -39,13 +39,14 @@ void pico_canlib::requestTS(uint8_t buffer){
 bool pico_canlib::checkStatus(uint8_t RX_ID){
     uint8_t data = XL2515::SPI_INSTR_XL::READ_STATUS;
     uint8_t temp;
-    if (spi_read_blocking(in_spi_hw, data, &temp, 8) != 8){
+    if (spi_read_blocking(in_spi_hw, data, &temp, 1) != 1){
         return false;
     };
 
     if ((temp & 0x1)){ // Check RX0IF || RX1IF pin
         return false;
     }
+    
     return true
 }
 
