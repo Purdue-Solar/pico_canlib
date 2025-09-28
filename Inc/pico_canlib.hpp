@@ -23,6 +23,7 @@ public:
     bool sendCAN(uint8_t buffer_num, uint8_t * id, uint8_t idSize, uint8_t* data, size_t length);
     bool receiveCAN(uint8_t RX_ID, uint8_t* buffer, uint8_t idSize, uint8_t bufferSize);
     void reset();
+    bool checkStatus(uint8_t RX_ID);
 private:
     uint in_miso;
     uint in_mosi;
