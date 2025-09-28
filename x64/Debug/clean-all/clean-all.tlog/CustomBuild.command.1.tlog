@@ -1,0 +1,20 @@
+^D:\PROJECTS\PSR\PICO_CANLIB\CMAKEFILES\03226AE31C2630ABBAB34B781232D0B3\CLEAN-ALL.RULE
+setlocal
+C:\Users\Admin\.pico-sdk\cmake\v3.31.5\bin\cmake.exe -P D:/Projects/PSR/Pico_CANLib/cmake_clean.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PSR\PICO_CANLIB\CMAKELISTS.TXT
+setlocal
+C:\Users\Admin\.pico-sdk\cmake\v3.31.5\bin\cmake.exe -SD:/Projects/PSR/Pico_CANLib -BD:/Projects/PSR/Pico_CANLib --check-stamp-file D:/Projects/PSR/Pico_CANLib/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

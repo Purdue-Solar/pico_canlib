@@ -1,0 +1,10 @@
+^D:\PROJECTS\PSR\PICO_CANLIB\CMAKEFILES\03226AE31C2630ABBAB34B781232D0B3\GENERATE.STAMP.RULE
+setlocal
+C:\Users\Admin\.pico-sdk\cmake\v3.31.5\bin\cmake.exe -SD:/Projects/PSR/Pico_CANLib -BD:/Projects/PSR/Pico_CANLib --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/Projects/PSR/Pico_CANLib/pico_canlib.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

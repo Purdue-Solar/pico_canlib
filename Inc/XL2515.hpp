@@ -1,10 +1,11 @@
 #pragma once
-
 #include <stdio.h>
 
+#define XL2515_BAUDRATE 1000000
 class XL2515{
     public:
-        enum class SPI_INSTR_XL {
+        /// @brief XL2515 SPI Communication Protocol
+        enum SPI_INSTR_XL {
             RESET        = 0xC0,
             READ         = 0x03,
             READ_RX_BUFF = 0x90,
@@ -16,30 +17,34 @@ class XL2515{
             BIT_MODIFY   = 0x05
         };
 
-        enum class dir_RX_Address{
+        /// @brief Mask for READ_RX_BUFF
+        enum dir_RX_Address{
             RXB0_ID,
-            RXB0_DAT,
             RXB1_ID,
+            RXB0_DAT,
             RXB1_DAT
         };
 
-        enum class dir_TX_Address{
+        /// @brief Mask for LOAD_TX_BUFF
+        enum dir_TX_Address{
             TXB0_ID,
-            TXB0_DAT,
             TXB1_ID,
-            TXB1_DAT,
             TXB2_ID,
+            TXB0_DAT,
+            TXB1_DAT,
             TXB2_DAT
         };
 
-        enum class RX_Address{
+        /// @brief Address mask for READ
+        enum RX_Address{
             RXB0_ID = 0x61,
             RXB0_DAT = 0x66,
             RXB1_ID = 0x71,
             RXB1_DAT = 0x76
         };
 
-        enum class TX_Address{
+        /// @brief Address mask for WRITE
+        enum TX_Address{
             TXB0_ID  = 0x31,
             TXB0_DAT = 0x36,
             TXB1_ID  = 0x41,
@@ -48,30 +53,41 @@ class XL2515{
             TXB2_DAT = 0x56
         };
 
+        /// @brief TX_Buffer Selection Mask
+        enum TX_SEL{
+            TX0 = 1,
+            TX1 = 2,
+            TX2 = 4
+        };
+
+        /// @brief RX_Buffer Selection Mask
+        enum RX_SEL{
+            RX0 = 0,
+            RX1 = 1,
+        };
+
+        /// @brief WRITE SPI payload struct
         struct write_buffer{
-            SPI_INSTR_XL instruction; //SPI_INSTR_XL
+            uint8_t instruction; //SPI_INSTR_XL
             uint8_t addr;
             uint8_t * payload;
         };
 
+        /// @brief READ SPI payload struct
         struct read_buffer{
-            SPI_INSTR_XL instruction;
+            uint8_t instruction;
             uint8_t addr;
             uint8_t * payload;
         };
 
+        /// @brief READ_RX_BUFFER SPI payload struct
         struct dir_read_rx_buffer{
-            SPI_INSTR_XL instruction;
-            uint8_t * payload;
+            uint8_t instruction;
         };
         
+        /// @brief LOAD_TX_BUFFER SPI payload struct
         struct dir_load_tx_buffer{
-            SPI_INSTR_XL instruction;
-            uint8_t * payload;
-        };
-
-        struct dri_read_rx_buffer{
-            SPI_INSTR_XL instruction;
+            uint8_t instruction;
             uint8_t * payload;
         };
 

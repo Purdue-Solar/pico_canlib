@@ -28,35 +28,33 @@ set(PICO_BOARD pico CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(RP2040_XL2515_Driver C CXX ASM)
+project(pico_canlib C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(RP2040_XL2515_Driver RP2040_XL2515_Driver.cpp )
+add_executable(pico_canlib Src/pico_canlib.cpp )
 
-pico_set_program_name(RP2040_XL2515_Driver "RP2040_XL2515_Driver")
-pico_set_program_version(RP2040_XL2515_Driver "0.1")
+pico_set_program_name(pico_canlib "pico_canlib")
+pico_set_program_version(pico_canlib "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(RP2040_XL2515_Driver 1)
-pico_enable_stdio_usb(RP2040_XL2515_Driver 1)
+pico_enable_stdio_uart(pico_canlib 1)
+pico_enable_stdio_usb(pico_canlib 1)
 
 # Add the standard library to the build
-target_link_libraries(RP2040_XL2515_Driver
+target_link_libraries(pico_canlib
         pico_stdlib)
 
 # Add the standard include files to the build
-target_include_directories(RP2040_XL2515_Driver PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+target_include_directories(pico_canlib PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/Inc
 )
 
 # Add any user requested libraries
-target_link_libraries(RP2040_XL2515_Driver 
-        hardware_spi
-        )
+target_link_libraries(pico_canlib hardware_spi)
 
-pico_add_extra_outputs(RP2040_XL2515_Driver)
+pico_add_extra_outputs(pico_canlib)
 
