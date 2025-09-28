@@ -29,7 +29,7 @@ void pico_canlib::reset(){
     gpio_put(in_cs, 1);
 }
 
-/// @brief Deivice Request To Send Signal
+/// @brief Device Request To Send Signal
 /// @param buffer Determine which TX buffer to use
 void pico_canlib::requestTS(uint8_t buffer){
     uint8_t data = XL2515::SPI_INSTR_XL::READ | buffer;
