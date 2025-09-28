@@ -47,7 +47,7 @@ bool pico_canlib::checkStatus(uint8_t RX_ID){
         return false;
     }
     
-    return true
+    return true;
 }
 
 /// @brief Send SPI request to send CAN messages
@@ -56,7 +56,7 @@ bool pico_canlib::checkStatus(uint8_t RX_ID){
 /// @param TX_buffer  Payload bytes array
 /// @param length Length in bytes of payload
 /// @return True if SPI request was successful sent
-bool pico_canlib::sendCAN(uint8_t TX_ID, uint8_t * id, uint8_t idSize = 4, uint8_t* TX_buffer, size_t length)
+bool pico_canlib::sendCAN(uint8_t TX_ID, uint8_t * id, uint8_t idSize, uint8_t* TX_buffer, size_t length)
 {
     // Pull CS low to select the transceiver
     gpio_put(in_cs, 0);

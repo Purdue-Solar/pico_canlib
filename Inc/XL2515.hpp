@@ -19,20 +19,20 @@ class XL2515{
 
         /// @brief Mask for READ_RX_BUFF
         enum dir_RX_Address{
-            RXB0_ID,
-            RXB1_ID,
-            RXB0_DAT,
-            RXB1_DAT
+            dir_RXB0_ID,
+            dir_RXB1_ID,
+            dir_RXB0_DAT,
+            dir_RXB1_DAT
         };
 
         /// @brief Mask for LOAD_TX_BUFF
         enum dir_TX_Address{
-            TXB0_ID,
-            TXB1_ID,
-            TXB2_ID,
-            TXB0_DAT,
-            TXB1_DAT,
-            TXB2_DAT
+            dir_TXB0_ID,
+            dir_TXB1_ID,
+            dir_TXB2_ID,
+            dir_TXB0_DAT,
+            dir_TXB1_DAT,
+            dir_TXB2_DAT
         };
 
         /// @brief Address mask for READ

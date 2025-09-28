@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(pico_canlib Src/pico_canlib.cpp )
+add_executable(pico_canlib ./Src/pico_canlib.cpp )
 
 pico_set_program_name(pico_canlib "pico_canlib")
 pico_set_program_version(pico_canlib "0.1")
