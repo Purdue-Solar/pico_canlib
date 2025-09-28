@@ -80,7 +80,6 @@ bool pico_canlib::receiveCAN(uint8_t RX_ID, uint8_t * buffer, uint8_t idSize = 4
 {
     // Pull CS low to select the device
     gpio_put(in_cs, 0);
-
     // Read ID over SPI
     XL2515::dir_read_rx_buffer read_request;
     read_request.instruction = XL2515::SPI_INSTR_XL::READ_RX_BUFF | RX_ID;
