@@ -1,5 +1,4 @@
 build
 !.vscode/*
 CMakeCache.txt
-x64/
-.cache/
+x64
