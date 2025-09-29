@@ -19,6 +19,7 @@ set(sdkVersion 2.2.0)
 set(toolchainVersion 14_2_Rel1)
 set(picotoolVersion 2.2.0)
 set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+
 if (EXISTS ${picoVscode})
     include(${picoVscode})
 endif()
@@ -34,8 +35,12 @@ project(pico_canlib C CXX ASM)
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
-
-add_executable(pico_canlib ./Src/pico_canlib.cpp )
+# Collect all .cpp files under Src/
+file(GLOB_RECURSE SRC_FILES
+    CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/Src/*.cpp"
+)
+add_executable(pico_canlib ${SRC_FILES})
 
 pico_set_program_name(pico_canlib "pico_canlib")
 pico_set_program_version(pico_canlib "0.1")
