@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #define XL2515_BAUDRATE 1000000
+
 class XL2515{
     public:
         /// @brief XL2515 SPI Communication Protocol

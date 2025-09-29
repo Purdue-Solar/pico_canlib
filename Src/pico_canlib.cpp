@@ -69,6 +69,7 @@ bool pico_canlib::sendCAN(uint8_t TX_ID, uint8_t * id, uint8_t idSize, uint8_t* 
     buffer.instruction = XL2515::SPI_INSTR_XL::LOAD_TX_BUFF | TX_ID;
     buffer.payload = id;
     if (spi_write_blocking(in_spi_hw, (uint8_t *) &buffer, idSize) != idSize){
+        gpio_put(in_cs, 1);
         return false;
     }
 
@@ -76,6 +77,7 @@ bool pico_canlib::sendCAN(uint8_t TX_ID, uint8_t * id, uint8_t idSize, uint8_t* 
     buffer.instruction = XL2515::SPI_INSTR_XL::LOAD_TX_BUFF | (TX_ID + 3); // TXx_ID + 3 = TXx_DAT
     buffer.payload = TX_buffer;  
     if (spi_write_blocking(in_spi_hw, (uint8_t *) &buffer, length) != length){
+        gpio_put(in_cs, 1);
         return false;
     }
 
@@ -98,12 +100,14 @@ bool pico_canlib::receiveCAN(uint8_t RX_ID, uint8_t * buffer, uint8_t idSize = 4
     XL2515::dir_read_rx_buffer read_request;
     read_request.instruction = XL2515::SPI_INSTR_XL::READ_RX_BUFF | RX_ID;
     if (spi_read_blocking(in_spi_hw, read_request.instruction, &buffer[0], idSize) != idSize){
+        gpio_put(in_cs, 1);
         return false;
     };
 
     // Read DATA over SPI
     read_request.instruction = XL2515::SPI_INSTR_XL::READ_RX_BUFF | (RX_ID + 2);
     if (spi_read_blocking(in_spi_hw, read_request.instruction, &buffer[idSize], bufferSize) != bufferSize){
+        gpio_put(in_cs, 1);
         return false;
     };
 

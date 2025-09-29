@@ -3,3 +3,4 @@ build
 CMakeCache.txt
 x64
 .cache
+picotool
