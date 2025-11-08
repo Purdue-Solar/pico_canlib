@@ -36,14 +36,14 @@ void pico_canlib::requestTS(uint8_t buffer){
     spi_write_blocking(in_spi_hw, &data, 8);
 }
 
-bool pico_canlib::checkStatus(uint8_t RX_ID){
+bool pico_canlib::checkRXStatus(){
     uint8_t data = XL2515::SPI_INSTR_XL::READ_STATUS;
     uint8_t temp;
     if (spi_read_blocking(in_spi_hw, data, &temp, 1) != 1){
         return false;
     };
 
-    if ((temp & 0x1)){ // Check RX0IF || RX1IF pin
+    if (!(temp & 0x1)){ // Check RX0IF || RX1IF pin assuming 0x1 is still in progress and 0x0 is not
         return false;
     }
     
@@ -51,12 +51,12 @@ bool pico_canlib::checkStatus(uint8_t RX_ID){
 }
 
 /// @brief Send SPI request to send CAN messages
-/// @param TX_ID TX Buffer select
+/// @param TX_ID TX Buffer select (0, 1, or 2)
 /// @param id    29 bits extended ids as bytes array
 /// @param TX_buffer  Payload bytes array
 /// @param length Length in bytes of payload
 /// @return True if SPI request was successful sent
-bool pico_canlib::sendCAN(uint8_t TX_ID, uint8_t * id, uint8_t idSize, uint8_t* TX_buffer, size_t length)
+bool pico_canlib::transmitCAN(uint8_t TX_ID, uint8_t * can_id, uint8_t idSize, uint8_t* TX_buffer, size_t length)
 {
     // Pull CS low to select the transceiver
     gpio_put(in_cs, 0);
@@ -67,7 +67,7 @@ bool pico_canlib::sendCAN(uint8_t TX_ID, uint8_t * id, uint8_t idSize, uint8_t* 
     // Send id over SPI
     XL2515::dir_load_tx_buffer buffer;
     buffer.instruction = XL2515::SPI_INSTR_XL::LOAD_TX_BUFF | TX_ID;
-    buffer.payload = id;
+    buffer.payload = can_id;
     if (spi_write_blocking(in_spi_hw, (uint8_t *) &buffer, idSize) != idSize){
         gpio_put(in_cs, 1);
         return false;
