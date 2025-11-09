@@ -43,7 +43,7 @@ bool pico_canlib::checkRXStatus(){
         return false;
     };
 
-    if (!(temp & 0x1)){ // Check RX0IF || RX1IF pin assuming 0x1 is still in progress and 0x0 is not
+    if ((temp & 0x1)){ // Check RX0IF || RX1IF pin assuming 0x1 is still in progress and 0x0 is not
         return false;
     }
     
