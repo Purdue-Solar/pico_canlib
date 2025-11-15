@@ -44,6 +44,7 @@
         "text_encoding": "cpp",
         "functional": "cpp",
         "cstdint": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "string": "cpp"
     }
 }

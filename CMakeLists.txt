@@ -59,6 +59,15 @@ target_include_directories(pico_canlib PRIVATE
 )
 
 # Add any user requested libraries
-target_link_libraries(pico_canlib hardware_spi hardware_uart hardware_timer)
-
+target_link_libraries(pico_canlib 
+        hardware_spi
+        hardware_i2c
+        hardware_dma
+        hardware_pio
+        hardware_interp
+        hardware_timer
+        hardware_watchdog
+        hardware_clocks
+        )
+    
 pico_add_extra_outputs(pico_canlib)

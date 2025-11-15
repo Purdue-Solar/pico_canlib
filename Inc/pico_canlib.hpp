@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
+#include <iostream>
+#include <string>
 
 /// @brief RP2350 functions to communicate with XL2515 CAN tranciever
 class pico_canlib
@@ -15,26 +17,42 @@ public:
     /// @param cs   Chip Select Pin
     /// @param sck  Serial CLK pin
     /// @param spi_hw SPI peripheral address
-    pico_canlib(uint8_t miso = 12, uint8_t mosi =11, uint8_t cs = 9, uint8_t sck = 10, spi_inst_t * spi_hw = spi0) : in_miso(miso), in_mosi(mosi), in_cs(cs), in_sck(sck), in_spi_hw(spi_hw) {};
+    pico_canlib(uint8_t gpioInt = 8, uint8_t miso = 12, uint8_t mosi =11, uint8_t cs = 9, uint8_t sck = 10, spi_inst_t * spi_hw = spi0) : in_intGPIO(gpioInt), in_miso(miso), in_mosi(mosi), in_cs(cs), in_sck(sck), in_spi_hw(spi_hw) {};
     // ~pico_canlib();
 
-    void init();
-    bool transmitCAN(uint8_t TX_ID, uint8_t * can_id, uint8_t idSize, uint8_t* TX_buffer, size_t length);
-    bool receiveCAN(uint8_t RX_ID, uint8_t* buffer, uint8_t idSize, uint8_t bufferSize);
-    void reset();
-    bool checkRXStatus();
+    /// @brief Error Codes when using CAN, only use these if CAN is used
+    enum class status : uint8_t {
+        SUCCESS = 0,
+        TX_ID_COMMAND_ERROR = 1,
+        TX_PAYLOAD_COMMAND_ERROR = 2,
+        TX_ID_ERROR = 3,
+        TX_PAYLOAD_ERROR = 4,
+        RX_ID_ERROR = 5,
+        RX_PAYLOAD_ERROR = 6,
+        RX_STATUS_ERROR = 7,
+        RX_STATUS_DONE = 8,
+        RX_STATUS_STALL = 9,
+        RESET_ERROR = 10,
+        RESET_INIT_ERROR = 11,
+        REQUESTTS_ERROR = 12
+    };
+
+    status init();
+    status transmitCAN(uint8_t TX_ID, uint8_t * can_id, uint8_t idSize, uint8_t* TX_buffer, size_t length);
+    status receiveCAN(uint8_t RX_ID, uint8_t* buffer, uint8_t idSize, uint8_t bufferSize);
+    status reset();
+    status checkRXStatus(uint8_t buffer);
+
+    // void statusLookup(status curr_stats, char * successString);
 private:
+    uint8_t in_intGPIO;
     uint8_t in_miso;
     uint8_t in_mosi;
     uint8_t in_cs;
     uint8_t in_sck;
     spi_inst_t * in_spi_hw;
-    void requestTS(uint8_t buffer);
-
+    status requestTS(uint8_t buffer);
 };
-
-#pragma once
-#include <stdio.h>
 
 #define XL2515_BAUDRATE 1000000
 
@@ -122,10 +140,10 @@ class XL2515{
         };
         
         /// @brief LOAD_TX_BUFFER SPI payload struct
-        struct dir_load_tx_buffer{
-            uint8_t instruction;
-            uint8_t * payload;
-        };
+        // struct dir_load_tx_buffer{
+        //     uint8_t * instruction;
+        //     uint8_t * payload;
+        // };
 
     private:
         

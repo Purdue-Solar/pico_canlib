@@ -1,5 +1,6 @@
 #include "pico_canlib.hpp"
 #include "artemis_canid.hpp"
+#include <stdio.h>
 
 int main(void){
     stdio_init_all();
@@ -7,13 +8,14 @@ int main(void){
     can.init();
     uint8_t SOC[8] = {0,0,0,100,0,0,0,0};
     while (true){
-        can.transmitCAN(0, (uint8_t *) &artemis_canid::tempSOC, 4, SOC, 8);
-        while (!can.checkRXStatus()){
-            fprintf(stdout, "RX Pending\n");
+        pico_canlib::status errorCode = can.transmitCAN(0, (uint8_t *) &artemis_canid::tempSOC, 4, SOC, 8);
+        if (errorCode != pico_canlib::status::SUCCESS){
+            fprintf(stderr, "Failed to Transmit. Error Code #%d\n", errorCode);
         }
-        fprintf(stdout, "RX Done\n");
+        else{
+            fprintf(stdout, "Successfully Transmitted");
+        }
     }
     
-
     return 0;
 }
