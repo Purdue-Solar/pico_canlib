@@ -32,18 +32,46 @@ public:
         RX_STATUS_ERROR = 7,
         RX_STATUS_DONE = 8,
         RX_STATUS_STALL = 9,
-        RESET_ERROR = 10,
-        RESET_INIT_ERROR = 11,
-        REQUESTTS_ERROR = 12
-    };
+        TX_STATUS_ERROR = 10,
+        TX_STATUS_DONE = 11,
+        TX_STATUS_STALL = 12,
+        RESET_ERROR = 13,
+        RESET_INIT_ERROR = 14,
+        REQUESTTS_ERROR = 15
+    }; //Don't ask me why I label them even though this is an enum class. It is for ease of debugging status
 
+    /// @brief Initialized spi ports and reset XL2515 Configuration
     status init();
+
+    /// @brief Send SPI request to send CAN messages
+    /// @param TX_ID TX Buffer select (0, 1, or 2)
+    /// @param id    29 bits extended ids as bytes array
+    /// @param TX_buffer  Payload bytes array
+    /// @param length Length in bytes of payload
+    /// @return True if SPI request was successful sent
     status transmitCAN(uint8_t TX_ID, uint8_t * can_id, uint8_t idSize, uint8_t* TX_buffer, size_t length);
+    
+    /// @brief Send SPI request to recieve CAN messages
+    /// @param RX_ID RX Buffer select
+    /// @param buffer Bytes array to save payload
+    /// @param idSize Length in bytes of id
+    /// @param bufferSize Length in bytes of payload
+    /// @return True if SPI request was successful sent
     status receiveCAN(uint8_t RX_ID, uint8_t* buffer, uint8_t idSize, uint8_t bufferSize);
+    
+    /// @brief Reset XL2515 Configuration
     status reset();
+    
+    /// @brief Check if RX has anything in it
+    /// @param buffer Buffer Number (XL2515 Specifics. Check datasheet)
+    /// @return Status of RX Buffer
     status checkRXStatus(uint8_t buffer);
 
-    // void statusLookup(status curr_stats, char * successString);
+    /// @brief Check if TX has anything in it
+    /// @param buffer Buffer Number (XL2515 Specifics. Check datasheet)
+    /// @return Status of TX Buffer
+    status checkTXStatus(uint8_t buffer);
+
 private:
     uint8_t in_intGPIO;
     uint8_t in_miso;
@@ -51,11 +79,15 @@ private:
     uint8_t in_cs;
     uint8_t in_sck;
     spi_inst_t * in_spi_hw;
+
+    /// @brief Device Request To Send Signal
+    /// @param buffer Determine which TX buffer to use
     status requestTS(uint8_t buffer);
 };
 
 #define XL2515_BAUDRATE 1000000
 
+/// @brief XL2515 Commands
 class XL2515{
     public:
         /// @brief XL2515 SPI Communication Protocol

@@ -1,6 +1,5 @@
 #include "pico_canlib.hpp"
 
-/// @brief Initialized spi ports and reset XL2515 Configuration
 pico_canlib::status pico_canlib::init(void)
 {
     // Initialize SPI port at 1 MHz
@@ -21,7 +20,6 @@ pico_canlib::status pico_canlib::init(void)
     return reset();
 }
 
-/// @brief Reset XL2515 Configuration
 pico_canlib::status pico_canlib::reset(){
     gpio_put(in_cs, 0);
     uint8_t data = XL2515::SPI_INSTR_XL::RESET;
@@ -34,8 +32,6 @@ pico_canlib::status pico_canlib::reset(){
     gpio_put(in_cs, 1);
 }
 
-/// @brief Device Request To Send Signal
-/// @param buffer Determine which TX buffer to use
 pico_canlib::status pico_canlib::requestTS(uint8_t buffer){
     uint8_t data = XL2515::SPI_INSTR_XL::READ | buffer;
     if (spi_write_blocking(in_spi_hw, &data, 8) != 8){
@@ -45,7 +41,6 @@ pico_canlib::status pico_canlib::requestTS(uint8_t buffer){
         return pico_canlib::status::SUCCESS;
     }
 }
-
 
 pico_canlib::status pico_canlib::checkRXStatus(uint8_t buffer){
     uint8_t data = XL2515::SPI_INSTR_XL::READ_STATUS;
@@ -61,12 +56,6 @@ pico_canlib::status pico_canlib::checkRXStatus(uint8_t buffer){
     return pico_canlib::status::RX_STATUS_DONE;
 }
 
-/// @brief Send SPI request to send CAN messages
-/// @param TX_ID TX Buffer select (0, 1, or 2)
-/// @param id    29 bits extended ids as bytes array
-/// @param TX_buffer  Payload bytes array
-/// @param length Length in bytes of payload
-/// @return True if SPI request was successful sent
 pico_canlib::status pico_canlib::transmitCAN(uint8_t TX_ID, uint8_t * can_id, uint8_t idSize, uint8_t* TX_buffer, size_t length)
 {
     // Pull CS low to select the transceiver
@@ -94,7 +83,7 @@ pico_canlib::status pico_canlib::transmitCAN(uint8_t TX_ID, uint8_t * can_id, ui
         gpio_put(in_cs, 1);
         return pico_canlib::status::TX_PAYLOAD_COMMAND_ERROR;
     }
-    if (spi_write_blocking(in_spi_hw, TX_buffer, length + 1) != length){
+    if (spi_write_blocking(in_spi_hw, TX_buffer, length) != length){
         gpio_put(in_cs, 1);
         return pico_canlib::status::TX_PAYLOAD_ERROR;
     }
@@ -104,12 +93,6 @@ pico_canlib::status pico_canlib::transmitCAN(uint8_t TX_ID, uint8_t * can_id, ui
     return pico_canlib::status::SUCCESS;
 }
 
-/// @brief Send SPI request to recieve CAN messages
-/// @param RX_ID RX Buffer select
-/// @param buffer Bytes array to save payload
-/// @param idSize Length in bytes of id
-/// @param bufferSize Length in bytes of payload
-/// @return True if SPI request was successful sent
 pico_canlib::status pico_canlib::receiveCAN(uint8_t RX_ID, uint8_t * buffer, uint8_t idSize = 4, uint8_t bufferSize = 8)
 {
     // Pull CS low to select the device
