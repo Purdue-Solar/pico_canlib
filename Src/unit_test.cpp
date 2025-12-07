@@ -9,7 +9,7 @@ int main(void){
     uint8_t SOC[8] = {0,0,0,100,0,0,0,0};
     uint8_t status;
     while (true){
-        pico_canlib::status errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, (uint8_t *) &artemis_canid::tempAndSOC, 4, SOC, 8);
+        pico_canlib::status errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::tempAndSOC, 4, SOC, 8);
         if (errorCode != pico_canlib::status::SUCCESS){
             fprintf(stderr, "Failed to Transmit. Error Code #%d\n", errorCode);
         }

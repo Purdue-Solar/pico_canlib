@@ -3,7 +3,7 @@
 pico_canlib::status pico_canlib::init(void)
 {
     // Initialize SPI port at 1 MHz
-    spi_init(in_spi_hw, XL2515_BAUDRATE);
+    spi_init(in_spi_hw, XL2515::XL2515_BAUDRATE);
     
     // Set the GPIO functions for the SPI pins
     gpio_set_function(in_miso, GPIO_FUNC_SPI);
@@ -17,19 +17,85 @@ pico_canlib::status pico_canlib::init(void)
     gpio_put(in_cs, 1);
 
     //Reset XL2515 Configuration
-    return reset();
+    status reset_status = reset();
+    if (reset_status != status::SUCCESS){
+        return reset_status;
+    }
+    
+    //Set Control Bits
+    return setControlBits(XL2515::NORMAL_MODE);
 }
+
+
 
 pico_canlib::status pico_canlib::reset(){
     gpio_put(in_cs, 0);
     uint8_t data = (uint8_t) XL2515::SPI_INSTR_XL::RESET;
-    if (spi_write_blocking(in_spi_hw, &data, 8) != 8){
+    if (spi_write_blocking(in_spi_hw, &data, 1) != 8){
+        gpio_put(in_cs, 1);
         return pico_canlib::status::RESET_ERROR;
     }
     else {
+        gpio_put(in_cs, 1);
         return pico_canlib::status::SUCCESS;
     }
+}
+
+pico_canlib::status pico_canlib::modifiedBit(uint8_t bytes, uint8_t address, uint8_t masked){
+    gpio_put(in_cs, 0);
+    uint8_t data[4];
+    data[0] = (uint8_t) XL2515::SPI_INSTR_XL::BIT_MODIFY;
+    data[1] = address;
+    data[2] = masked;
+    data[3] = bytes;
+
+    if (spi_write_blocking(in_spi_hw, data, 1) != 4){
+        gpio_put(in_cs, 1);
+        return status::MODIFIED_ERROR;
+    }
+    else{
+        gpio_put(in_cs, 1);
+        return status::SUCCESS;
+    }
+}
+
+pico_canlib::status pico_canlib::getControlBits(uint8_t * bytes){
+    gpio_put(in_cs, 0);
+    
+    uint8_t data[2];
+    data[0] = (uint8_t) XL2515::SPI_INSTR_XL::READ;
+    data[1] = 0x0F;
+    uint8_t temp;
+    
+    if (spi_write_blocking(in_spi_hw, data, 2) != 2){
+        gpio_put(in_cs, 0);
+        return status::GET_CONTROL_BITS_INSTR_ERROR;
+    }
+
+    if (spi_read_blocking(in_spi_hw, 0, &temp, 2) != 2){
+        gpio_put(in_cs, 0);
+        return status::GET_CONTROL_BITS_ERROR;
+    }
+
+    gpio_put(in_cs, 0);
+    *bytes = temp;
+    
+    return status::SUCCESS;
+}
+
+pico_canlib::status pico_canlib::setControlBits(uint8_t bytes){
+    uint8_t data[3];
+    data[0] = (uint8_t) XL2515::SPI_INSTR_XL::WRITE;
+    data[1] = 0x0F;
+    data[2] = bytes;
+    gpio_put(in_cs, 0);
+    
+    if (spi_write_blocking(in_spi_hw, data, 1) != 4){
+        gpio_put(in_cs, 1);
+        return status::SET_CONTROL_BITS_ERROR;
+    }
     gpio_put(in_cs, 1);
+    return status::SUCCESS;    
 }
 
 pico_canlib::status pico_canlib::requestTS(uint8_t buffer){
@@ -42,7 +108,7 @@ pico_canlib::status pico_canlib::requestTS(uint8_t buffer){
     }
 }
 
-pico_canlib::status pico_canlib::checkStatus(uint8_t * status){
+pico_canlib::status pico_canlib::checkRXStatus(uint8_t * status){
     if (spi_read_blocking(in_spi_hw, (uint8_t) XL2515::SPI_INSTR_XL::READ_STATUS, status, 1) != 1){
         return pico_canlib::status::RX_STATUS_ERROR;
     }

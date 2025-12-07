@@ -7,13 +7,14 @@
 #include <iostream>
 #include <string>
 
-
-#define XL2515_BAUDRATE 1000000
-
 /// @brief XL2515 Commands
 class XL2515{
     public:
-        /// @brief XL2515 SPI Communication Protocol
+    static const uint XL2515_BAUDRATE = 1000000;
+
+    static const uint8_t NORMAL_MODE = 0x0;
+
+    /// @brief XL2515 SPI Communication Protocol
         enum class SPI_INSTR_XL : uint8_t {
             RESET        = 0xC0,
             READ         = 0x03,
@@ -125,23 +126,27 @@ public:
     // ~pico_canlib();
 
     /// @brief Error Codes when using CAN, only use these if CAN is used
-    enum class status : uint8_t {
-        SUCCESS = 0,
-        TX_ID_COMMAND_ERROR = 1,
-        TX_PAYLOAD_COMMAND_ERROR = 2,
-        TX_ID_ERROR = 3,
-        TX_PAYLOAD_ERROR = 4,
-        RX_ID_ERROR = 5,
-        RX_PAYLOAD_ERROR = 6,
-        RX_STATUS_ERROR = 7,
-        RX_STATUS_DONE = 8,
-        RX_STATUS_STALL = 9,
-        TX_STATUS_ERROR = 10,
-        TX_STATUS_DONE = 11,
-        TX_STATUS_STALL = 12,
-        RESET_ERROR = 13,
-        RESET_INIT_ERROR = 14,
-        REQUESTTS_ERROR = 15
+    enum class status : uint16_t {
+        SUCCESS                      = 0,
+        TX_ID_COMMAND_ERROR          = 1,
+        TX_PAYLOAD_COMMAND_ERROR     = 2,
+        TX_ID_ERROR                  = 3,
+        TX_PAYLOAD_ERROR             = 4,
+        RX_ID_ERROR                  = 5,
+        RX_PAYLOAD_ERROR             = 6,
+        RX_STATUS_ERROR              = 7,
+        RX_STATUS_DONE               = 8,
+        RX_STATUS_STALL              = 9,
+        TX_STATUS_ERROR              = 10,
+        TX_STATUS_DONE               = 11,
+        TX_STATUS_STALL              = 12,
+        RESET_ERROR                  = 13,
+        RESET_INIT_ERROR             = 14,
+        REQUESTTS_ERROR              = 15,
+        MODIFIED_ERROR               = 16,
+        GET_CONTROL_BITS_ERROR       = 17,
+        GET_CONTROL_BITS_INSTR_ERROR = 18,
+        SET_CONTROL_BITS_ERROR       = 19
     }; //Don't ask me why I label them even though this is an enum class. It is for ease of debugging status
 
     /// @brief Initialized spi ports and reset XL2515 Configuration
@@ -163,14 +168,23 @@ public:
     /// @return True if SPI request was successful sent
     status receiveCAN(uint8_t RX_ID, uint8_t* buffer, uint8_t idSize, uint8_t bufferSize);
     
-    /// @brief Reset XL2515 Configuration
-    status reset();
     
     /// @brief Check if RX has anything in it
     /// @param status Return status byte (XL2515 Specifics. Check datasheet)
-    /// @return Status of all Buffer
+    /// @return Status of function
+    status checkRXStatus(uint8_t * status);
+
+    /// @brief Check can status register (Tell setting of the tranciever)
+    /// @param status Return status byte (XL2515 Specifics. Check datasheet)
+    /// @return Status of function
     status checkStatus(uint8_t * status);
-private:
+
+    /// @brief 
+    /// @param bytes 
+    /// @return 
+    status getControlBits(uint8_t * bytes);
+
+    private:
     ///Idk LED indicator or smth, default LED pin is 25 on Pico 2. Thinking of implementing it but it won't fix my problem just excessive. Cool feature to have tho
     bool isLED;
     uint in_LEDPin;
@@ -184,4 +198,12 @@ private:
     /// @brief Device Request To Send Signal
     /// @param buffer Determine which TX buffer to use
     status requestTS(uint8_t buffer);
+    
+    /// @brief Reset XL2515 Configuration
+    status reset();
+    
+    status modifiedBit(uint8_t bytes, uint8_t address, uint8_t masked);
+
+    status setControlBits(uint8_t bytes);
+
 };
