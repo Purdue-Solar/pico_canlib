@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
 #include <iostream>
@@ -10,11 +11,38 @@
 /// @brief XL2515 Commands
 class XL2515{
     public:
-    static const uint XL2515_BAUDRATE = 1000000;
+        static const uint XL2515_BAUDRATE = 10000000;
 
-    static const uint8_t NORMAL_MODE = 0x0;
+        static const uint8_t NORMAL_MODE = 0x00;
+        static const uint8_t LOOPBACK_MODE = 0x40;
+        static const uint8_t INTE_EN = 0x00;
+        static const uint8_t NORMAL_CNF1 = 0x00;
+        static const uint8_t NORMAL_CNF2 = 0x9E;
+        static const uint8_t NORMAL_CNF3 = 0x03;
+        
 
-    /// @brief XL2515 SPI Communication Protocol
+        enum class PRIORITY : uint8_t{
+            Lowest = 0,
+            Low,
+            High,
+            Highest
+        };
+
+        enum class IN_ADDR : uint8_t {
+            CANINTE  = 0x2B,
+            CANCTRL  = 0x0F,
+            CNF1     = 0x2A,
+            CNF2     = 0x29,
+            CNF3     = 0x28,
+            TXBxCTRL = 0x30,
+            TXBxSIDH = 0x31,
+            TXBxSIDL = 0x32,
+            TXBxEID8 = 0x33,
+            TXBxEID0 = 0x34,
+            TXBxDLC  = 0x35,
+        };
+
+        /// @brief XL2515 SPI Communication Protocol
         enum class SPI_INSTR_XL : uint8_t {
             RESET        = 0xC0,
             READ         = 0x03,
@@ -46,29 +74,11 @@ class XL2515{
             dir_TXB2_DAT
         };
 
-        /// @brief Address mask for READ
-        enum class RX_Address : uint8_t {
-            RXB0_ID = 0x61,
-            RXB0_DAT = 0x66,
-            RXB1_ID = 0x71,
-            RXB1_DAT = 0x76
-        };
-
-        /// @brief Address mask for WRITE
-        enum class TX_Address : uint8_t {
-            TXB0_ID  = 0x31,
-            TXB0_DAT = 0x36,
-            TXB1_ID  = 0x41,
-            TXB1_DAT = 0x46,
-            TXB2_ID  = 0x51,
-            TXB2_DAT = 0x56
-        };
-
         /// @brief TX_Buffer Selection Mask
         enum class TX_BUFFER_SEL : uint8_t {
             TX0 = 0,
-            TX1 = 2,
-            TX2 = 4
+            TX1 = 1,
+            TX2 = 2,
         };
 
         /// @brief RX_Buffer Selection Mask
@@ -80,30 +90,29 @@ class XL2515{
 
         static constexpr uint8_t write_buffer_len = 14;
         /// @brief WRITE SPI payload struct
-        struct write_buffer{
-            uint8_t id_TXBuffer_instr = (uint8_t) XL2515::SPI_INSTR_XL::LOAD_TX_BUFF;
-            uint32_t can_id;   // 29 bit but obviously not gonna fit so define as 32 bit, there is a total of 5 bytes for ID within chip memory so should be fine
-            uint8_t payload_TXBuffer_instr = (uint8_t) XL2515::SPI_INSTR_XL::LOAD_TX_BUFF;
+        struct load_tx_buffer{
+            uint8_t instr;
             uint8_t * payload; //Length 8 bytes
         };
 
         /// @brief READ SPI payload struct
-        struct read_buffer{
+        struct write_buffer{
             uint8_t instruction;
             uint8_t addr;
-            uint8_t * payload;
+            uint8_t payload;
+        };
+
+        struct bit_modify{
+            uint8_t instruction = (uint8_t) SPI_INSTR_XL::BIT_MODIFY;
+            uint8_t addr;
+            uint8_t mask;
+            uint8_t payload;
         };
 
         /// @brief READ_RX_BUFFER SPI payload struct
         struct dir_read_rx_buffer{
             uint8_t instruction;
         };
-        
-        /// @brief LOAD_TX_BUFFER SPI payload struct
-        // struct dir_load_tx_buffer{
-        //     uint8_t * instruction;
-        //     uint8_t * payload;
-        // };
 
     private:
         
@@ -122,7 +131,7 @@ public:
     /// @param cs   Chip Select Pin
     /// @param sck  Serial CLK pin
     /// @param spi_hw SPI peripheral address
-    pico_canlib(uint8_t gpioInt = 8, uint8_t miso = 12, uint8_t mosi =11, uint8_t cs = 9, uint8_t sck = 10, spi_inst_t * spi_hw = spi0) : in_intGPIO(gpioInt), in_miso(miso), in_mosi(mosi), in_cs(cs), in_sck(sck), in_spi_hw(spi_hw) {};
+    pico_canlib(uint8_t gpioInt = 8, uint8_t miso = 12, uint8_t mosi =11, uint8_t cs = 9, uint8_t sck = 10, spi_inst_t * spi_hw = spi1) : in_intGPIO(gpioInt), in_miso(miso), in_mosi(mosi), in_cs(cs), in_sck(sck), in_spi_hw(spi_hw) {};
     // ~pico_canlib();
 
     /// @brief Error Codes when using CAN, only use these if CAN is used
@@ -134,9 +143,9 @@ public:
         TX_PAYLOAD_ERROR             = 4,
         RX_ID_ERROR                  = 5,
         RX_PAYLOAD_ERROR             = 6,
-        RX_STATUS_ERROR              = 7,
-        RX_STATUS_DONE               = 8,
-        RX_STATUS_STALL              = 9,
+        STATUS_ERROR                 = 7,
+        STATUS_DONE                  = 8,
+        STATUS_STALL                 = 9,
         TX_STATUS_ERROR              = 10,
         TX_STATUS_DONE               = 11,
         TX_STATUS_STALL              = 12,
@@ -146,7 +155,9 @@ public:
         MODIFIED_ERROR               = 16,
         GET_CONTROL_BITS_ERROR       = 17,
         GET_CONTROL_BITS_INSTR_ERROR = 18,
-        SET_CONTROL_BITS_ERROR       = 19
+        SET_CONTROL_BITS_ERROR       = 19,
+        WRITE_ERROR                  = 20,
+        INIT_ERROR                   = 21
     }; //Don't ask me why I label them even though this is an enum class. It is for ease of debugging status
 
     /// @brief Initialized spi ports and reset XL2515 Configuration
@@ -158,7 +169,7 @@ public:
     /// @param TX_buffer  Payload bytes array
     /// @param length Length in bytes of payload
     /// @return True if SPI request was successful sent
-    status transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint32_t can_id, uint8_t idSize, uint8_t* TX_buffer, uint8_t length);
+    status transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint32_t can_id, bool isExtended, uint8_t* data_buffer, uint8_t data_length, XL2515::PRIORITY priority);
     
     /// @brief Send SPI request to recieve CAN messages
     /// @param RX_ID RX Buffer select
@@ -182,7 +193,11 @@ public:
     /// @brief 
     /// @param bytes 
     /// @return 
-    status getControlBits(uint8_t * bytes);
+    status getByte(uint8_t * bytes, XL2515::IN_ADDR addr);
+
+    status setByte(uint8_t bytes, XL2515::IN_ADDR addr);
+
+    uint8_t getBit (uint8_t addr);
 
     private:
     ///Idk LED indicator or smth, default LED pin is 25 on Pico 2. Thinking of implementing it but it won't fix my problem just excessive. Cool feature to have tho
@@ -204,6 +219,6 @@ public:
     
     status modifiedBit(uint8_t bytes, uint8_t address, uint8_t masked);
 
-    status setControlBits(uint8_t bytes);
+    // status setControlBits(uint8_t bytes);
 
 };
