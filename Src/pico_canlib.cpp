@@ -58,7 +58,7 @@ pico_canlib::status pico_canlib::init(void)
         return status::INIT_ERROR;
     }
     
-    fprintf(stdout, "CANCTRL SET. Error Status: %d\n", setByte(XL2515::NORMAL_MODE, XL2515::IN_ADDR::CANCTRL));
+    fprintf(stdout, "CANCTRL SET. Error Status: %d\n", setByte(XL2515::LOOPBACK_MODE, XL2515::IN_ADDR::CANCTRL));
     getByte(&mode, XL2515::IN_ADDR::CANCTRL);
     fprintf(stdout, "CANCONTROL Bytes = %d\n", mode);
 

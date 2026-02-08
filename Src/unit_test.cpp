@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 int main(void){
-    stdio_init_all();
+    stdio_usb_init();
     sleep_ms(1000);
     fprintf(stdout, "Start\n");
     pico_canlib can = pico_canlib();
@@ -16,7 +16,7 @@ int main(void){
     }
     uint8_t SOC[8] = {0,0,0,100,0,0,0,0};
     uint8_t status;
-    // while (true){
+    while (true){
         errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
         if (errorCode != pico_canlib::status::SUCCESS){
             fprintf(stdout, "Failed to Transmit. Error Code #%d\n", errorCode);
@@ -33,6 +33,9 @@ int main(void){
         }
         sleep_ms(1000);
 
+    }
+    // while (true){
+    //     sleep_ms(500);
     // }
     
     return 0;
