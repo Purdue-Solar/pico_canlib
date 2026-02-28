@@ -2,7 +2,9 @@
 #include "artemis_canid.hpp"
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
+/*
 int main(void){
     stdio_init_all();
     sleep_ms(1000);
@@ -34,6 +36,51 @@ int main(void){
         sleep_ms(1000);
 
     // }
-    
+
     return 0;
+} */
+
+int main(void)
+{
+    stdio_init_all();
+    sleep_ms(1000);
+    fprintf(stdout, "Start\n");
+    pico_canlib can = pico_canlib();
+    pico_canlib::status errorCode;
+    errorCode = can.init();
+    fprintf(stdout, "Init Code %d\n", errorCode);
+    if (errorCode != pico_canlib::status::SUCCESS)
+    {
+        fprintf(stdout, "Failed Startup\n");
+    }
+
+    uint8_t buffer[12];
+    uint32_t id;
+    uint8_t st;
+    while (true)
+    {
+        can.checkRXStatus(&st);
+        if (st & 0x01)
+        {
+            if (can.receiveCAN(st, 0x01, buffer, 4, 8) != pico_canlib::status::SUCCESS)
+            {
+                printf("failed receive rxb0\n");
+            }
+        }
+        if (st & 0x02)
+        {
+            if (can.receiveCAN(st, 0x02, buffer, 4, 8) != pico_canlib::status::SUCCESS)
+            {
+                printf("failed receive rxb1\n");
+            }
+        }
+        printf("id: %d\n", memcpy(&id, &buffer, 4));
+        printf("data: ");
+        for (int i = 0; i < 8; i++)
+        {
+            printf("%d ", buffer[4 + i]);
+        }
+        printf("\n");
+        sleep_ms(1);
+    }
 }
