@@ -67,14 +67,14 @@ int main(void)
         can.checkStatus(&st);
         if (st & 0x01)
         {
-            if (can.receiveCAN(st, 0x01, buffer, 4, 8) != pico_canlib::status::SUCCESS)
+            if (can.receiveCAN(st, 0x00, buffer, 4, 8) != pico_canlib::status::SUCCESS)
             {
                 printf("failed receive rxb0\n");
             }
         }
         if (st & 0x02)
         {
-            if (can.receiveCAN(st, 0x02, buffer, 4, 8) != pico_canlib::status::SUCCESS)
+            if (can.receiveCAN(st, 0x01, buffer, 4, 8) != pico_canlib::status::SUCCESS)
             {
                 printf("failed receive rxb1\n");
             }

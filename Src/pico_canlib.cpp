@@ -249,7 +249,7 @@ pico_canlib::status pico_canlib::receiveCAN(uint8_t rxstat, uint8_t RX_ID, uint8
     }
 
     // READ RX BUFFER command + read
-    uint8_t instr = (uint8_t)XL2515::SPI_INSTR_XL::READ_RX_BUFF | (RX_ID << 1);
+    uint8_t instr = (uint8_t)XL2515::SPI_INSTR_XL::READ_RX_BUFF | (RX_ID << 2);
 
     gpio_put(in_cs, 0);
     if (spi_write_blocking(in_spi_hw, &instr, 1) != 1)
