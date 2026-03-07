@@ -22,25 +22,28 @@ int main(void)
     }
     uint8_t SOC[8] = {0, 0, 0, 100, 0, 0, 0, 0};
     uint8_t status;
-    // while (true){
-    errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
-    if (errorCode != pico_canlib::status::SUCCESS)
+    while (true)
     {
-        fprintf(stdout, "Failed to Transmit. Error Code #%d\n", errorCode);
-    }
-    else
-    {
-        fprintf(stdout, "Successfully Transmitted. Code #%d\n", errorCode);
-        asm volatile("nop \n nop \n nop \n nop \n nop \n nop \n");
-        errorCode = can.checkStatus(&status);
-        // if (errorCode & )
+        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
         if (errorCode != pico_canlib::status::SUCCESS)
         {
-            fprintf(stdout, "Failed to fetch status byte Error Code #%d\n", errorCode);
+            fprintf(stdout, "Failed to Transmit. Error Code #%d\n", errorCode);
         }
-        fprintf(stdout, "Status Buffer: %d\n", status);
+        else
+        {
+            fprintf(stdout, "Successfully Transmitted. Code #%d\n", errorCode);
+            asm volatile("nop \n nop \n nop \n nop \n nop \n nop \n");
+            // pg70 of mcp2515 datasheet
+            errorCode = can.checkStatus(&status);
+            // if (errorCode & )
+            if (errorCode != pico_canlib::status::SUCCESS)
+            {
+                fprintf(stdout, "Failed to fetch status byte Error Code #%d\n", errorCode);
+            }
+            fprintf(stdout, "Status Buffer: %d\n", status);
+        }
+        sleep_ms(1000);
     }
-    sleep_ms(1000);
 
     return 0;
 }
@@ -59,17 +62,35 @@ int main(void)
         fprintf(stdout, "Failed Startup\n");
     }
 
-    uint8_t buffer[12];
+    uint8_t buffer[13];
     uint32_t id;
     uint8_t st;
     while (true)
     {
-        can.checkStatus(&st);
+        errorCode = can.checkStatus(&st);
+        printf("status: %d\n", st);
+        // if (errorCode & )
+        if (errorCode != pico_canlib::status::SUCCESS)
+        {
+            fprintf(stdout, "Failed to fetch status byte Error Code #%d\n", errorCode);
+        }
         if (st & 0x01)
         {
             if (can.receiveCAN(st, 0x00, buffer, 4, 8) != pico_canlib::status::SUCCESS)
             {
                 printf("failed receive rxb0\n");
+            }
+            else
+            {
+                // first 4 bytes are buffer, byte 0 & 1 are non-extended id, 2-3 are extended
+                printf("id: %d\n", (buffer[0] << 3) | (buffer[1] >> 5));
+                printf("dlc: %d\n", buffer[4]);
+                printf("data: ");
+                for (int i = 0; i < 8; i++)
+                {
+                    printf("%d ", buffer[5 + i]);
+                }
+                printf("\n");
             }
         }
         if (st & 0x02)
@@ -78,16 +99,24 @@ int main(void)
             {
                 printf("failed receive rxb1\n");
             }
+            else
+            {
+                // first 4 bytes are buffer, byte 0 & 1 are non-extended id, 2-3 are extended
+                printf("id: %d\n", (buffer[0] << 3) | (buffer[1] >> 5));
+                printf("dlc: %d\n", buffer[4]);
+                printf("data: ");
+                for (int i = 0; i < 8; i++)
+                {
+                    printf("%d ", buffer[5 + i]);
+                }
+                printf("\n");
+            }
         }
-        memcpy(&id, buffer, 4);
-        printf("id: %d\n", id);
-        printf("data: ");
-        for (int i = 0; i < 8; i++)
+        else
         {
-            printf("%d ", buffer[4 + i]);
+            printf("no new message\n");
         }
-        printf("\n");
-        sleep_ms(1);
+        sleep_ms(250);
     }
 }
 #endif

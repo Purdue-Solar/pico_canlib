@@ -67,7 +67,7 @@ pico_canlib::status pico_canlib::init(void)
     getByte(&mode, XL2515::IN_ADDR::CANCTRL);
     fprintf(stdout, "CANCONTROL Bytes = %d\n", mode);
 
-    if (mode != XL2515::LOOPBACK_MODE)
+    if (mode == XL2515::LOOPBACK_MODE)
     {
         return status::INIT_ERROR;
     }
@@ -103,7 +103,6 @@ pico_canlib::status pico_canlib::getByte(uint8_t *bytes, XL2515::IN_ADDR addr)
     data[1] = (uint8_t)addr;
 
     gpio_put(in_cs, 0);
-    sleep_ms(500);
 
     spi_write_blocking(in_spi_hw, data, 2);
     if (spi_read_blocking(in_spi_hw, 0, bytes, 1) != 1)
@@ -146,12 +145,14 @@ pico_canlib::status pico_canlib::requestTS(uint8_t buffer)
 pico_canlib::status pico_canlib::checkStatus(uint8_t *status)
 {
     uint8_t instr = (uint8_t)XL2515::SPI_INSTR_XL::READ_STATUS;
+    gpio_put(in_cs, 0);
     spi_write_blocking(in_spi_hw, &instr, 1);
     if (spi_read_blocking(in_spi_hw, 0, status, 1) != 1)
     {
+        gpio_put(in_cs, 1);
         return pico_canlib::status::STATUS_ERROR;
     }
-
+    gpio_put(in_cs, 1);
     return pico_canlib::status::SUCCESS;
 }
 
@@ -258,7 +259,8 @@ pico_canlib::status pico_canlib::receiveCAN(uint8_t rxstat, uint8_t RX_ID, uint8
         return status::RX_ID_ERROR;
     }
 
-    uint16_t totalBytes = (uint16_t)idSize + (uint16_t)bufferSize;
+    // reads ID, data length, buffer
+    uint16_t totalBytes = (uint16_t)idSize + (uint16_t)bufferSize + 1;
     if (spi_read_blocking(in_spi_hw, 0, buffer, totalBytes) != totalBytes)
     {
         gpio_put(in_cs, 1);
