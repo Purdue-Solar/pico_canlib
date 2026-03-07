@@ -189,11 +189,6 @@ public:
     /// @return True if SPI request was successful sent
     status receiveCAN(uint8_t rxstat, uint8_t RX_ID, uint8_t *buffer, uint8_t idSize, uint8_t bufferSize);
 
-    /// @brief Check if RX has anything in it
-    /// @param status Return status byte (XL2515 Specifics. Check datasheet)
-    /// @return Status of function
-    status checkRXStatus(uint8_t *status);
-
     /// @brief Check can status register (Tell setting of the tranciever)
     /// @param status Return status byte (XL2515 Specifics. Check datasheet)
     /// @return Status of function

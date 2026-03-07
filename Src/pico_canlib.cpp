@@ -173,29 +173,6 @@ pico_canlib::status pico_canlib::modifiedBit(uint8_t bytes, uint8_t address, uin
     return pico_canlib::status::SUCCESS;
 }
 
-// read RX status register (RX_STATUS command)
-pico_canlib::status pico_canlib::checkRXStatus(uint8_t *status)
-{
-    if (!status)
-        return pico_canlib::status::RX_STATUS_ERROR;
-
-    uint8_t instr = (uint8_t)XL2515::SPI_INSTR_XL::RX_STATUS;
-    gpio_put(in_cs, 0);
-    if (spi_write_blocking(in_spi_hw, &instr, 1) != 1)
-    {
-        gpio_put(in_cs, 1);
-        return pico_canlib::status::GET_CONTROL_BITS_INSTR_ERROR;
-    }
-
-    if (spi_read_blocking(in_spi_hw, 0, status, 1) != 1)
-    {
-        gpio_put(in_cs, 1);
-        return pico_canlib::status::STATUS_ERROR;
-    }
-    gpio_put(in_cs, 1);
-    return pico_canlib::status::SUCCESS;
-}
-
 pico_canlib::status pico_canlib::transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint32_t can_id, bool isExtended, uint8_t *data_buffer, uint8_t data_length, XL2515::PRIORITY priority)
 {
     uint8_t TX_ID = (uint8_t)TX_SEL;
