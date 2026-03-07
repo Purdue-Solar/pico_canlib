@@ -155,7 +155,7 @@ pico_canlib::status pico_canlib::reset()
 
 pico_canlib::status pico_canlib::requestTS(uint8_t buffer)
 {
-    uint8_t data = (uint8_t)XL2515::SPI_INSTR_XL::REQTS | buffer;
+    uint8_t data = (uint8_t)XL2515::SPI_INSTR_XL::REQTS | (1 << buffer);
     gpio_put(in_cs, 0);
     if (spi_write_blocking(in_spi_hw, &data, 1) != 1)
     {
@@ -236,7 +236,7 @@ pico_canlib::status pico_canlib::transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint3
 
     // Set Data
     // XL2515::load_tx_buffer message;
-    uint8_t instr = (uint8_t)XL2515::SPI_INSTR_XL::LOAD_TX_BUFF | (TX_ID == 0 ? 0 : (TX_ID == 1 ? 2 : 4));
+    uint8_t instr = 0x41 + (TX_ID * 2);
 
     gpio_put(in_cs, 0);
     spi_write_blocking(in_spi_hw, &instr, 1);
@@ -250,14 +250,7 @@ pico_canlib::status pico_canlib::transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint3
     gpio_put(in_cs, 1);
 
     // Request to send CAN message
-    if (TX_ID == 0)
-    {
-        return requestTS(1);
-    }
-    else
-    {
-        return requestTS(TX_ID);
-    }
+    return requestTS(TX_ID);
 }
 
 // flow:
