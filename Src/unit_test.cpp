@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define TX_OR_RX 0 // tx = 0, rx = 1
+#define TX_OR_RX 1 // tx = 0, rx = 1
 
 #if TX_OR_RX == 0
 int main(void)

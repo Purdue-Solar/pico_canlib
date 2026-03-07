@@ -24,13 +24,13 @@ pico_canlib::status pico_canlib::init(void)
         return status;
     }
 
-    // set rx to recieve all messages (no filtering) by setting masks to 0 and filters to 0
-    filtersAndMasks(14, (XL2515::IN_ADDR)0x00);
-    filtersAndMasks(14, (XL2515::IN_ADDR)0x10);
-    filtersAndMasks(10, (XL2515::IN_ADDR)0x20);
-    // set rxb0ctrl to receive all messages (no filtering)
-    setByte(0x64, (XL2515::IN_ADDR)0x60); // receive all valid messages with standard or extended identifiers
-    setByte(0x60, (XL2515::IN_ADDR)0x70);
+    // // set rx to recieve all messages (no filtering) by setting masks to 0 and filters to 0
+    // filtersAndMasks(14, (XL2515::IN_ADDR)0x00);
+    // filtersAndMasks(14, (XL2515::IN_ADDR)0x10);
+    // filtersAndMasks(10, (XL2515::IN_ADDR)0x20);
+    // // set rxb0ctrl to receive all messages (no filtering)
+    // setByte(0x64, (XL2515::IN_ADDR)0x60); // receive all valid messages with standard or extended identifiers
+    // setByte(0x60, (XL2515::IN_ADDR)0x70);
 
     // Set Control Bits
     uint8_t mode;
@@ -235,16 +235,17 @@ pico_canlib::status pico_canlib::transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint3
     gpio_put(in_cs, 1);
 
     // Set Data
-    XL2515::load_tx_buffer message;
-    message.instr = (uint8_t)XL2515::SPI_INSTR_XL::LOAD_TX_BUFF | (TX_ID + 1);
-    message.payload = data_buffer;
+    // XL2515::load_tx_buffer message;
+    uint8_t instr = (uint8_t)XL2515::SPI_INSTR_XL::LOAD_TX_BUFF | (TX_ID == 0 ? 0 : (TX_ID == 1 ? 2 : 4));
 
     gpio_put(in_cs, 0);
-    if (spi_write_blocking(in_spi_hw, (uint8_t *)&message, data_length + 1) != (data_length + 1))
-    {
-        gpio_put(in_cs, 1);
-        return pico_canlib::status::TX_PAYLOAD_COMMAND_ERROR;
-    }
+    spi_write_blocking(in_spi_hw, &instr, 1);
+    spi_write_blocking(in_spi_hw, data_buffer, data_length);
+    // if (spi_write_blocking(in_spi_hw, (uint8_t *)&message, data_length + 1) != (data_length + 1))
+    // {
+    //     gpio_put(in_cs, 1);
+    //     return pico_canlib::status::TX_PAYLOAD_COMMAND_ERROR;
+    // }
 
     gpio_put(in_cs, 1);
 
