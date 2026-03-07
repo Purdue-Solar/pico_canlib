@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define TX_OR_RX 1 // tx = 0, rx = 1
+#define TX_OR_RX 0 // tx = 0, rx = 1
 
 #if TX_OR_RX == 0
 int main(void)
@@ -20,11 +20,11 @@ int main(void)
     {
         fprintf(stdout, "Failed Startup\n");
     }
-    uint8_t SOC[8] = {0, 0, 0, 100, 0, 0, 0, 0};
+    uint8_t SOC[8] = {0, 10, 100, 0, 10, 100, 0, 10};
     uint8_t status;
     while (true)
     {
-        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
+        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::battDiagnostic, false, SOC, 8, XL2515::PRIORITY::Highest);
         if (errorCode != pico_canlib::status::SUCCESS)
         {
             fprintf(stdout, "Failed to Transmit. Error Code #%d\n", errorCode);
