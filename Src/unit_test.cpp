@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define TX_OR_RX 0 // tx = 0, rx = 1
+#define TX_OR_RX 1 // tx = 0, rx = 1
 
 #if TX_OR_RX == 0
 int main(void)
@@ -20,11 +20,13 @@ int main(void)
     {
         fprintf(stdout, "Failed Startup\n");
     }
-    uint8_t SOC[8] = {0, 10, 100, 0, 10, 100, 0, 10};
+    // message
+    uint8_t SOC[8] = {6, 7, 6, 7, 6, 8, 7, 6};
     uint8_t status;
     while (true)
     {
-        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX0, artemis_canid::battDiagnostic, false, SOC, 8, XL2515::PRIORITY::Highest);
+        // transmits to tx buffer 2 in mcp2515
+        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX2, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
         if (errorCode != pico_canlib::status::SUCCESS)
         {
             fprintf(stdout, "Failed to Transmit. Error Code #%d\n", errorCode);
@@ -40,6 +42,7 @@ int main(void)
             {
                 fprintf(stdout, "Failed to fetch status byte Error Code #%d\n", errorCode);
             }
+            // 8 = tx0, 32 = tx1, 128 = tx2
             fprintf(stdout, "Status Buffer: %d\n", status);
         }
         sleep_ms(1000);
@@ -67,6 +70,7 @@ int main(void)
     uint8_t st;
     while (true)
     {
+        /*
         errorCode = can.checkStatus(&st);
         printf("status: %d\n", st);
         // if (errorCode & )
@@ -83,7 +87,7 @@ int main(void)
             else
             {
                 // first 4 bytes are buffer, byte 0 & 1 are non-extended id, 2-3 are extended
-                printf("id: %d\n", (buffer[0] << 3) | (buffer[1] >> 5));
+                printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
                 printf("dlc: %d\n", buffer[4]);
                 printf("data: ");
                 for (int i = 0; i < 8; i++)
@@ -102,7 +106,7 @@ int main(void)
             else
             {
                 // first 4 bytes are buffer, byte 0 & 1 are non-extended id, 2-3 are extended
-                printf("id: %d\n", (buffer[0] << 3) | (buffer[1] >> 5));
+                printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
                 printf("dlc: %d\n", buffer[4]);
                 printf("data: ");
                 for (int i = 0; i < 8; i++)
@@ -111,12 +115,23 @@ int main(void)
                 }
                 printf("\n");
             }
+        } */
+        if (can.receiveCAN(buffer, 4, 8) == pico_canlib::status::SUCCESS)
+        {
+            printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
+            printf("dlc: %d\n", buffer[4]);
+            printf("data: ");
+            for (int i = 0; i < 8; i++)
+            {
+                printf("%d ", buffer[5 + i]);
+            }
+            printf("\n");
         }
         else
         {
             printf("no new message\n");
         }
-        sleep_ms(250);
+        sleep_ms(1);
     }
 }
 #endif

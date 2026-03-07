@@ -167,7 +167,8 @@ public:
         SET_CONTROL_BITS_ERROR = 19,
         WRITE_ERROR = 20,
         INIT_ERROR = 21,
-        RX_STATUS_ERROR = 22 // failure reading RX status register
+        RX_STATUS_ERROR = 22, // failure reading RX status register
+        NO_NEW_MESSAGE = 23
     }; // Don't ask me why I label them even though this is an enum class. It is for ease of debugging status
 
     /// @brief Initialized spi ports and reset XL2515 Configuration
@@ -187,7 +188,7 @@ public:
     /// @param idSize Length in bytes of id
     /// @param bufferSize Length in bytes of payload
     /// @return True if SPI request was successful sent
-    status receiveCAN(uint8_t rxstat, uint8_t RX_ID, uint8_t *buffer, uint8_t idSize, uint8_t bufferSize);
+    status receiveCAN(/*uint8_t rxstat, uint8_t RX_ID,*/ uint8_t *buffer, uint8_t idSize, uint8_t bufferSize);
 
     /// @brief Check can status register (Tell setting of the tranciever)
     /// @param status Return status byte (XL2515 Specifics. Check datasheet)

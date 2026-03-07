@@ -258,11 +258,27 @@ pico_canlib::status pico_canlib::transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint3
 // 2. check if bit 0 and 1 of received byte
 // 3. if bit is high, send READ RX BUFFER command
 // 4. clear CANINTF via bitmodify
-pico_canlib::status pico_canlib::receiveCAN(uint8_t rxstat, uint8_t RX_ID, uint8_t *buffer, uint8_t idSize = 4, uint8_t bufferSize = 8)
+pico_canlib::status pico_canlib::receiveCAN(/*uint8_t rxstat, uint8_t RX_ID,*/ uint8_t *buffer, uint8_t idSize = 4, uint8_t bufferSize = 8)
 {
+    uint8_t st;
+    uint8_t RX_ID;
+    status errorCode = checkStatus(&st);
+    printf("status: %d\n", st);
+    if (st != 0x01 && st != 0x02 && st != 0x03)
+    {
+        return status::NO_NEW_MESSAGE;
+    }
+    if (st & 0x01)
+    {
+        RX_ID = 0x00;
+    }
+    if (st & 0x02)
+    {
+        RX_ID = 0x01;
+    }
     // check bits 0 or 1 based on RX_ID filter
     uint8_t pendingMask = (RX_ID == 0) ? 0x01 : 0x02;
-    if ((rxstat & pendingMask) == 0)
+    if ((st & pendingMask) == 0)
     {
         return status::STATUS_STALL;
     }
@@ -285,6 +301,13 @@ pico_canlib::status pico_canlib::receiveCAN(uint8_t rxstat, uint8_t RX_ID, uint8
         return status::RX_PAYLOAD_ERROR;
     }
     gpio_put(in_cs, 1);
+
+    // converts buffer id
+    uint32_t id = (buffer[0] << 3) | (buffer[1] >> 5);
+    buffer[0] = (id >> 24) & 0xff;
+    buffer[1] = (id >> 16) & 0xff;
+    buffer[2] = (id >> 8) & 0xff;
+    buffer[3] = (id) & 0xff;
 
     // clear interrupt CANINTF
     status c = modifiedBit(0, (uint8_t)XL2515::IN_ADDR::CANINTF, pendingMask);
