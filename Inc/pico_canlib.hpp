@@ -205,6 +205,8 @@ public:
 
     status checkRXStatus(uint8_t *status);
 
+    status filtersAndMasks(int length, XL2515::IN_ADDR addr);
+
 private:
     /// Idk LED indicator or smth, default LED pin is 25 on Pico 2. Thinking of implementing it but it won't fix my problem just excessive. Cool feature to have tho
     bool isLED;

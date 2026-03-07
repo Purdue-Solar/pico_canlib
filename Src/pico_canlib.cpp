@@ -24,6 +24,14 @@ pico_canlib::status pico_canlib::init(void)
         return status;
     }
 
+    // set rx to recieve all messages (no filtering) by setting masks to 0 and filters to 0
+    filtersAndMasks(14, (XL2515::IN_ADDR)0x00);
+    filtersAndMasks(14, (XL2515::IN_ADDR)0x10);
+    filtersAndMasks(10, (XL2515::IN_ADDR)0x20);
+    // set rxb0ctrl to receive all messages (no filtering)
+    setByte(0x64, (XL2515::IN_ADDR)0x60); // receive all valid messages with standard or extended identifiers
+    setByte(0x60, (XL2515::IN_ADDR)0x70);
+
     // Set Control Bits
     uint8_t mode;
 
@@ -72,6 +80,22 @@ pico_canlib::status pico_canlib::init(void)
         return status::INIT_ERROR;
     }
 
+    return status::SUCCESS;
+}
+
+pico_canlib::status pico_canlib::filtersAndMasks(int length, XL2515::IN_ADDR addr)
+{
+    uint8_t message[length] = {0};
+    message[0] = (uint8_t)XL2515::SPI_INSTR_XL::WRITE;
+    message[1] = (uint8_t)addr;
+
+    gpio_put(in_cs, 0);
+    if (spi_write_blocking(in_spi_hw, message, 14) != length)
+    {
+        gpio_put(in_cs, 1);
+        return status::WRITE_ERROR;
+    }
+    gpio_put(in_cs, 1);
     return status::SUCCESS;
 }
 
