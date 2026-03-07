@@ -4,9 +4,12 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define TX_OR_RX 1 // tx = 0, rx = 1
+#define TX 0
+#define RX 1
 
-#if TX_OR_RX == 0
+#define TX_OR_RX TX
+
+#if TX_OR_RX == TX
 int main(void)
 {
     stdio_init_all();
@@ -53,7 +56,7 @@ int main(void)
             // 8 = tx0, 32 = tx1, 128 = tx2
             fprintf(stdout, "Status Buffer: %d\n", status);
         }
-        sleep_ms(1);
+        // sleep_ms(1);
     }
 
     return 0;
@@ -93,7 +96,7 @@ int main(void)
         {
             printf("no new message\n");
         }
-        sleep_ms(1);
+        // sleep_ms(1);
     }
 }
 #endif
