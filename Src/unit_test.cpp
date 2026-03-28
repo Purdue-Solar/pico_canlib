@@ -22,7 +22,7 @@ int main(void)
         fprintf(stdout, "Failed Startup\n");
     }
     // message
-    uint8_t SOC[8] = {6, 7, 6, 7, 6, 8, 7, 6};
+    uint8_t SOC[8] = {0};
     uint8_t status;
     while (true)
     {
@@ -47,6 +47,7 @@ int main(void)
             fprintf(stdout, "Status Buffer: %d\n", status);
         }
         sleep_ms(1000);
+        SOC[7] = (SOC[7] + 1) % 256;
     }
 
     return 0;
