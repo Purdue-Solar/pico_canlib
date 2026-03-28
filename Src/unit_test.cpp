@@ -53,9 +53,11 @@ int main(void)
 }
 #else
 void CAN_isr();
-void CAN_irq();
+void CAN_irq_init();
+
 uint8_t buffer[13];
 bool data_available = false;
+
 pico_canlib can = pico_canlib();
 
 void CAN_isr()
@@ -64,7 +66,7 @@ void CAN_isr()
     data_available = true;
 }
 
-void CAN_irq()
+void CAN_irq_init()
 {
     // 8 is gpio int
     gpio_init(8);
@@ -78,16 +80,16 @@ int main(void)
 {
     stdio_init_all();
     sleep_ms(1000);
-    fprintf(stdout, "Start\n");
-    pico_canlib::status errorCode;
-    errorCode = can.init();
-    fprintf(stdout, "Init Code %d\n", errorCode);
-    if (errorCode != pico_canlib::status::SUCCESS)
-    {
-        fprintf(stdout, "Failed Startup\n");
-    }
+    // fprintf(stdout, "Start\n");
+    // pico_canlib::status errorCode;
+    // fprintf(stdout, "Init Code %d\n", errorCode);
+    // if (errorCode != pico_canlib::status::SUCCESS)
+    // {
+    //     fprintf(stdout, "Failed Startup\n");
+    // }
 
-    CAN_irq();
+    can.init();
+    CAN_irq_init();
 
     for (;;)
     {
@@ -105,6 +107,8 @@ int main(void)
         }
         sleep_ms(10);
     }
+
+    return 0;
 }
 
 #endif
