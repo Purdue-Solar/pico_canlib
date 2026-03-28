@@ -9,7 +9,7 @@
 
 #define TX_OR_RX TX
 
-#if TX_OR_RX == TX
+#if TX_OR_RX == RX
 int main(void)
 {
     stdio_init_all();
@@ -27,8 +27,7 @@ int main(void)
     }
 
     // message
-    uint8_t SOC[8] = {6, 7, 6, 7, 6, 8, 7, 6};
-    // status, 8 if tx0, 32 if tx1, 128 if tx2
+    uint8_t SOC[8] = {0};
     uint8_t status;
 
     // main loop
@@ -56,33 +55,60 @@ int main(void)
             // 8 = tx0, 32 = tx1, 128 = tx2
             fprintf(stdout, "Status Buffer: %d\n", status);
         }
-        // sleep_ms(1);
+        sleep_ms(1000);
+        SOC[7] = (SOC[7] + 1) % 256;
     }
 
     return 0;
 }
 #else
+void CAN_isr();
+void CAN_irq_init();
+
+volatile bool data_available = false;
+
+void CAN_isr()
+{
+    if (gpio_get_irq_event_mask(8) & GPIO_IRQ_EDGE_FALL)
+    {
+        gpio_acknowledge_irq(8, GPIO_IRQ_EDGE_FALL);
+        data_available = true;
+    }
+}
+
+void CAN_irq_init()
+{
+    // 8 is gpio int
+    gpio_init(8);
+    gpio_set_dir(8, false);
+    gpio_pull_up(8);
+    irq_set_exclusive_handler(IO_IRQ_BANK0, CAN_isr);
+    gpio_set_irq_enabled(8, GPIO_IRQ_EDGE_FALL, true);
+    irq_set_enabled(IO_IRQ_BANK0, true);
+}
+
 int main(void)
 {
+    uint8_t buffer[13];
+
     stdio_init_all();
-    sleep_ms(1000);
+    sleep_ms(2000);
     fprintf(stdout, "Start\n");
     pico_canlib can = pico_canlib();
-    pico_canlib::status errorCode;
-    errorCode = can.init();
-    fprintf(stdout, "Init Code %d\n", errorCode);
-    if (errorCode != pico_canlib::status::SUCCESS)
+    if (can.init() != pico_canlib::status::SUCCESS)
     {
-        fprintf(stdout, "Failed Startup\n");
+        printf("CAN Init Failed\n");
     }
 
-    uint8_t buffer[13];
-    uint32_t id;
-    uint8_t st;
-    while (true)
+    CAN_irq_init();
+    printf("irq set up\n");
+
+    for (;;)
     {
-        if (can.receiveCAN(buffer, 4, 8) == pico_canlib::status::SUCCESS)
+        if (data_available)
         {
+            data_available = false;
+            can.receiveCAN(buffer, 4, 8);
             printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
             printf("dlc: %d\n", buffer[4]);
             printf("data: ");
@@ -92,11 +118,10 @@ int main(void)
             }
             printf("\n");
         }
-        else
-        {
-            printf("no new message\n");
-        }
-        // sleep_ms(1);
+        sleep_ms(10);
     }
+
+    return 0;
 }
+
 #endif
