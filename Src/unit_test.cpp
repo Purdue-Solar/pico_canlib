@@ -81,15 +81,15 @@ int main(void)
 {
     stdio_init_all();
     sleep_ms(1000);
-    // fprintf(stdout, "Start\n");
-    // pico_canlib::status errorCode;
-    // fprintf(stdout, "Init Code %d\n", errorCode);
-    // if (errorCode != pico_canlib::status::SUCCESS)
-    // {
-    //     fprintf(stdout, "Failed Startup\n");
-    // }
+    fprintf(stdout, "Start\n");
+    pico_canlib::status errorCode;
+    errorCode = can.init();
+    fprintf(stdout, "Init Code %d\n", errorCode);
+    if (errorCode != pico_canlib::status::SUCCESS)
+    {
+        fprintf(stdout, "Failed Startup\n");
+    }
 
-    can.init();
     CAN_irq_init();
 
     for (;;)
