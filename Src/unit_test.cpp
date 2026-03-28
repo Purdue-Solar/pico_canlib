@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "hardware/gpio.h"
 
 #define TX_OR_RX 1 // tx = 0, rx = 1
 
@@ -51,12 +52,33 @@ int main(void)
     return 0;
 }
 #else
+void CAN_isr();
+void CAN_irq();
+uint8_t buffer[13];
+bool data_available = false;
+pico_canlib can = pico_canlib();
+
+void CAN_isr()
+{
+    can.receiveCAN(buffer, 4, 8);
+    data_available = true;
+}
+
+void CAN_irq()
+{
+    // 8 is gpio int
+    gpio_init(8);
+    gpio_set_dir(8, false);
+    irq_set_exclusive_handler(8, CAN_isr);
+    gpio_set_irq_enabled(8, GPIO_IRQ_EDGE_FALL, true);
+    irq_set_enabled(8, true);
+}
+
 int main(void)
 {
     stdio_init_all();
     sleep_ms(1000);
     fprintf(stdout, "Start\n");
-    pico_canlib can = pico_canlib();
     pico_canlib::status errorCode;
     errorCode = can.init();
     fprintf(stdout, "Init Code %d\n", errorCode);
@@ -65,58 +87,11 @@ int main(void)
         fprintf(stdout, "Failed Startup\n");
     }
 
-    uint8_t buffer[13];
-    uint32_t id;
-    uint8_t st;
-    while (true)
+    CAN_irq();
+
+    for (;;)
     {
-        /*
-        errorCode = can.checkStatus(&st);
-        printf("status: %d\n", st);
-        // if (errorCode & )
-        if (errorCode != pico_canlib::status::SUCCESS)
-        {
-            fprintf(stdout, "Failed to fetch status byte Error Code #%d\n", errorCode);
-        }
-        if (st & 0x01)
-        {
-            if (can.receiveCAN(st, 0x00, buffer, 4, 8) != pico_canlib::status::SUCCESS)
-            {
-                printf("failed receive rxb0\n");
-            }
-            else
-            {
-                // first 4 bytes are buffer, byte 0 & 1 are non-extended id, 2-3 are extended
-                printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
-                printf("dlc: %d\n", buffer[4]);
-                printf("data: ");
-                for (int i = 0; i < 8; i++)
-                {
-                    printf("%d ", buffer[5 + i]);
-                }
-                printf("\n");
-            }
-        }
-        if (st & 0x02)
-        {
-            if (can.receiveCAN(st, 0x01, buffer, 4, 8) != pico_canlib::status::SUCCESS)
-            {
-                printf("failed receive rxb1\n");
-            }
-            else
-            {
-                // first 4 bytes are buffer, byte 0 & 1 are non-extended id, 2-3 are extended
-                printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
-                printf("dlc: %d\n", buffer[4]);
-                printf("data: ");
-                for (int i = 0; i < 8; i++)
-                {
-                    printf("%d ", buffer[5 + i]);
-                }
-                printf("\n");
-            }
-        } */
-        if (can.receiveCAN(buffer, 4, 8) == pico_canlib::status::SUCCESS)
+        if (data_available)
         {
             printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
             printf("dlc: %d\n", buffer[4]);
@@ -126,12 +101,10 @@ int main(void)
                 printf("%d ", buffer[5 + i]);
             }
             printf("\n");
+            data_available = false;
         }
-        else
-        {
-            printf("no new message\n");
-        }
-        sleep_ms(1);
+        sleep_ms(10);
     }
 }
+
 #endif
