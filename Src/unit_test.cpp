@@ -55,10 +55,7 @@ int main(void)
 void CAN_isr();
 void CAN_irq_init();
 
-uint8_t buffer[13];
 volatile bool data_available = false;
-
-pico_canlib can = pico_canlib();
 
 void CAN_isr()
 {
@@ -82,9 +79,12 @@ void CAN_irq_init()
 
 int main(void)
 {
+    uint8_t buffer[13];
+
     stdio_init_all();
     sleep_ms(2000);
     fprintf(stdout, "Start\n");
+    pico_canlib can = pico_canlib();
     if (can.init() != pico_canlib::status::SUCCESS)
     {
         printf("CAN Init Failed\n");
