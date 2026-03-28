@@ -103,18 +103,6 @@ int main(void)
 
     for (;;)
     {
-        // if (can.receiveCAN(buffer, 4, 8) == pico_canlib::status::SUCCESS)
-        // {
-        //     printf("id: %d\n", buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3]);
-        //     printf("dlc: %d\n", buffer[4]);
-        //     printf("data: ");
-        //     for (int i = 0; i < 8; i++)
-        //     {
-        //         printf("%d ", buffer[5 + i]);
-        //     }
-        //     printf("\n");
-        //     data_available = false;
-        // }
         if (data_available)
         {
             data_available = false;
