@@ -52,7 +52,7 @@ public:
         READ = 0x03,
         READ_RX_BUFF = 0x90,
         WRITE = 0x02,
-        LOAD_TX_BUFF = 0x40,
+        LOAD_TX_BUFF = 0x40, // might need to change to 0x41, 0x41 sends to data buffer, not command buffer
         RTS = 0x80,
         READ_STATUS = 0xA0,
         RX_STATUS = 0xB0,
@@ -183,12 +183,11 @@ public:
     status transmitCAN(XL2515::TX_BUFFER_SEL TX_SEL, uint32_t can_id, bool isExtended, uint8_t *data_buffer, uint8_t data_length, XL2515::PRIORITY priority);
 
     /// @brief Send SPI request to recieve CAN messages
-    /// @param RX_ID RX Buffer select
-    /// @param buffer Bytes array to save payload
+    /// @param buffer 0-3 are id, 4 is data length, 5-12 are data
     /// @param idSize Length in bytes of id
     /// @param bufferSize Length in bytes of payload
     /// @return True if SPI request was successful sent
-    status receiveCAN(/*uint8_t rxstat, uint8_t RX_ID,*/ uint8_t *buffer, uint8_t idSize, uint8_t bufferSize);
+    status receiveCAN(uint8_t *buffer, uint8_t idSize, uint8_t bufferSize);
 
     /// @brief Check can status register (Tell setting of the tranciever)
     /// @param status Return status byte (XL2515 Specifics. Check datasheet)
@@ -200,12 +199,21 @@ public:
     /// @return
     status getByte(uint8_t *bytes, XL2515::IN_ADDR addr);
 
+    /// @brief
+    /// @param bytes
+    /// @param addr
+    /// @return
     status setByte(uint8_t bytes, XL2515::IN_ADDR addr);
 
+    /// @brief
+    /// @param addr
+    /// @return
     uint8_t getBit(uint8_t addr);
 
-    status checkRXStatus(uint8_t *status);
-
+    /// @brief sets filters and masks, don't need to use
+    /// @param length
+    /// @param addr
+    /// @return
     status filtersAndMasks(int length, XL2515::IN_ADDR addr);
 
 private:

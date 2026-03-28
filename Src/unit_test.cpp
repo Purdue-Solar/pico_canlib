@@ -7,12 +7,14 @@
 
 #define TX_OR_RX 1 // tx = 0, rx = 1
 
-#if TX_OR_RX == 0
+#if TX_OR_RX == TX
 int main(void)
 {
     stdio_init_all();
     sleep_ms(1000);
     fprintf(stdout, "Start\n");
+
+    // init canlib
     pico_canlib can = pico_canlib();
     pico_canlib::status errorCode;
     errorCode = can.init();
@@ -21,17 +23,22 @@ int main(void)
     {
         fprintf(stdout, "Failed Startup\n");
     }
+
     // message
     uint8_t SOC[8] = {0};
     uint8_t status;
+
+    // main loop
     while (true)
     {
         // transmits to tx buffer 2 in mcp2515
         errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX2, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
+        // error
         if (errorCode != pico_canlib::status::SUCCESS)
         {
             fprintf(stdout, "Failed to Transmit. Error Code #%d\n", errorCode);
         }
+        // success
         else
         {
             fprintf(stdout, "Successfully Transmitted. Code #%d\n", errorCode);
