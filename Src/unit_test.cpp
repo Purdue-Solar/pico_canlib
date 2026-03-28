@@ -62,6 +62,7 @@ pico_canlib can = pico_canlib();
 
 void CAN_isr()
 {
+    gpio_acknowledge_irq(8, GPIO_IRQ_EDGE_FALL);
     can.receiveCAN(buffer, 4, 8);
     data_available = true;
 }
