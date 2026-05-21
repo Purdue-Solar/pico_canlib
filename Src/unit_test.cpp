@@ -7,7 +7,7 @@
 #define TX 0
 #define RX 1
 
-#define TX_OR_RX TX
+#define TX_OR_RX RX
 
 #if TX_OR_RX == RX
 int main(void)
@@ -34,7 +34,7 @@ int main(void)
     while (true)
     {
         // transmits to tx buffer 2 in mcp2515
-        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX2, artemis_canid::tempAndSOC, false, SOC, 8, XL2515::PRIORITY::Highest);
+        errorCode = can.transmitCAN(XL2515::TX_BUFFER_SEL::TX2, canIDHelper(artemis_canid::tempAndSOC), false, SOC, 8, XL2515::PRIORITY::Highest);
         // error
         if (errorCode != pico_canlib::status::SUCCESS)
         {
