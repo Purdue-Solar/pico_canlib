@@ -1,6 +1,23 @@
 #pragma once
 #include "pico/stdlib.h"
 
+/*
+Example usage: 
+If I want to use can ID 0x402 (motor bus voltage/current) in a different repo, 
+I would do getMessage(MotorBusVoltageCurrent).id in my program. This way, my
+program doesn't need to know what the can ID actually is, and we have one
+source that is the gold standard. 
+
+If I want to know about all of the signals for 0x300 (power distro + display), 
+I would use getMessage(PowerDistroDisplay).signals. Then, if I wanted
+to know the bits in a particular signal, let's say distro_display_main_bits,
+I would do getSignal(distro_display_main_bits)
+Finally, if I wanted to use a specific bit, I would do 
+getSignal(distro_display_main_bits).bitindex[MainOverCurrentError].
+
+Everything in this file is evaluated at compile time
+*/
+
 template<typename T, size_t N>
 constexpr size_t array_size(const T (&)[N]) { return N; }
 
@@ -666,7 +683,7 @@ template<> struct MessageOf<ChargerSignal>         { static constexpr MessageID 
 
 // Returns the bit position (0–7) of a bit-field enum value within its byte.
 template<typename BitEnum>
-constexpr uint8_t getByte(BitEnum bit)
+constexpr uint8_t getBitPosition(BitEnum bit)
 {
     return static_cast<uint8_t>(bit);
 }
