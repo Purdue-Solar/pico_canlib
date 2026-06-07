@@ -695,7 +695,7 @@ constexpr const MessageDefinition& getMessageDefinition(MessageID id)
 }
 
 // Returns the can ID for a given MessageID.
-constexpr const MessageDefinition& getID(MessageID id)
+constexpr const uint8_t& getID(MessageID id)
 {
     return artemis_messages[static_cast<uint8_t>(id)].id;
 }
