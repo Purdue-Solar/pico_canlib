@@ -1,25 +1,6 @@
 #pragma once
 #include "pico/stdlib.h"
 
-enum class artemis_canid : uint32_t {
-    tempAndSOC = 0x200,
-    currentLimit = 0x201,
-    battDiagnostic = 0x202,
-    setMotorCurrent = 0x402,
-    motorVelocity = 0x403,
-    heatSinkTemp = 0x40B,
-    steeringWheel = 0x301,
-    motorCurrentCanID = 0x501u,
-    motorVelocityCanID = 0x502u,
-    powerDistroToSteering = 0x301u,
-    steeringToPowerDistro = 0x701u
-};
-
-constexpr uint32_t canIDHelper(artemis_canid c)
-{
-    return static_cast<uint32_t>(c);
-}
-
 enum class Endianness
 {
     Little,
@@ -494,8 +475,164 @@ static constexpr SignalDefinition charger_signals[] = {
     {"Charger Control",      24, 8,  Endianness::Big, nullptr, 0},
 };
 
+// ─── Message and Signal ID Enums ─────────────────────────────────────────────
+
+enum class MessageID : uint8_t
+{
+    BmsSafetyCritical           = 0,
+    BmsPackVoltageAndEnergy     = 1,
+    PowerDistroDisplay          = 2,
+    MotorControllerId           = 3,
+    MotorControllerErrors       = 4,
+    MotorBusVoltageCurrent      = 5,
+    MotorSpeed                  = 6,
+    MotorTemperature            = 7,
+    MotorCurrentVelocityControl = 8,
+    BusCurrentControl           = 9,
+    PeripheralControl           = 10,
+    BmsTemperatureCurrentPower  = 11,
+    BmsCellData                 = 12,
+    BmsThermistorBroadcast      = 13,
+    BmsCellDataBroadcast        = 14,
+    Charger1Communication       = 15,
+    Charger2Communication       = 16,
+    Charger3Communication       = 17,
+};
+
+enum class BmsSignal : uint8_t
+{
+    DtcFlags1        = 0,
+    DtcFlags21       = 1,
+    DtcFlags22       = 2,
+    RelayState1      = 3,
+    RelayState2      = 4,
+    FailsafeStatuses = 5,
+    PackSoc          = 6,
+    AdaptivePackSoc  = 7,
+};
+
+enum class BmsVoltageSignal : uint8_t
+{
+    PackAmphours     = 0,
+    AdaptiveAmphours = 1,
+    PackCurrent      = 2,
+    PackVoltage      = 3,
+};
+
+enum class DistroDisplaySignal : uint8_t
+{
+    DisplayFlagsPowerMonitor = 0,
+    DisplayFlagsMainBattery  = 1,
+    DisplayFlagsAuxBattery   = 2,
+};
+
+enum class McIdSignal : uint8_t
+{
+    ProhelionId  = 0,
+    SerialNumber = 1,
+};
+
+enum class McErrorSignal : uint8_t
+{
+    McLimitFlags     = 0,
+    Reserved         = 1,
+    McErrorFlags1    = 2,
+    McErrorFlags2    = 3,
+    ActiveMotorIndex = 4,
+    CanTxErrorCount  = 5,
+    CanRxErrorCount  = 6,
+};
+
+enum class McBusSignal : uint8_t
+{
+    BusVoltage = 0,
+    BusCurrent = 1,
+};
+
+enum class McSpeedSignal : uint8_t
+{
+    MotorVelocity   = 0,
+    VehicleVelocity = 1,
+};
+
+enum class McTempSignal : uint8_t
+{
+    MotorTemp    = 0,
+    HeatSinkTemp = 1,
+};
+
+enum class MotorControlSignal : uint8_t
+{
+    MotorVelocitySetpoint = 0,
+    MotorCurrentSetpoint  = 1,
+};
+
+enum class BusControlSignal : uint8_t
+{
+    Reserved            = 0,
+    BusCurrentSetpoint  = 1,
+};
+
+enum class DistroControlSignal : uint8_t
+{
+    DistroControl = 0,
+};
+
+enum class BmsPowerSignal : uint8_t
+{
+    PackDcl             = 0,
+    PackCcl             = 1,
+    LowTemperature      = 2,
+    HighTemperature     = 3,
+    CurrentLimitsStatus = 4,
+    PackKwPower         = 5,
+};
+
+enum class BmsCellSignal : uint8_t
+{
+    LowCellVoltage   = 0,
+    HighCellVoltage  = 1,
+    LowCellVoltageId = 2,
+    HighCellVoltageId = 3,
+    LowThermistorId  = 4,
+    HighThermistorId = 5,
+};
+
+enum class BmsThermistorSignal : uint8_t
+{
+    ThermistorData = 0,
+};
+
+enum class BmsCellBroadcastSignal : uint8_t
+{
+    CellId             = 0,
+    InstantVoltage     = 1,
+    InternalResistance = 2,
+    OpenVoltage        = 3,
+    Checksum           = 4,
+};
+
+enum class ChargerSignal : uint8_t
+{
+    MaximumPackVoltage = 0,
+    PackCcl            = 1,
+    ChargerControl     = 2,
+};
+
+template<typename T>
+constexpr uint8_t getByte(T id)
+{
+    return static_cast<uint8_t>(id);
+}
+
+constexpr MessageDefinition getID(MessageID id)
+{
+    return artemis_messages[static_cast<uint8_t>(id)];
+}
+
 // ─── Master Message Table ─────────────────────────────────────────────────────
 
+// Important - ensure that this message table always matches the message ID
 static constexpr MessageDefinition artemis_messages[] = {
     {"BMS Safety Critical",             0x200,       40,   bms_signals,                8},
     {"BMS Pack Voltage and Energy",     0x201,       80,   bms_voltage_signals,        4},
