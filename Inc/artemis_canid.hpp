@@ -4,12 +4,12 @@
 /*
 Example usage: 
 If I want to use can ID 0x402 (motor bus voltage/current) in a different repo, 
-I would do getMessage(MotorBusVoltageCurrent).id in my program. This way, my
+I would do getID(MotorBusVoltageCurrent) in my program. This way, my
 program doesn't need to know what the can ID actually is, and we have one
 source that is the gold standard. 
 
 If I want to know about all of the signals for 0x300 (power distro + display), 
-I would use getMessage(PowerDistroDisplay).signals. Then, if I wanted
+I would use getMessageDefinition(PowerDistroDisplay).signals. Then, if I wanted
 to know the bits in a particular signal, let's say distro_display_main_bits,
 I would do getSignal(distro_display_main_bits)
 Finally, if I wanted to use a specific bit, I would do 
@@ -689,9 +689,15 @@ constexpr uint8_t getBitPosition(BitEnum bit)
 }
 
 // Returns the MessageDefinition for a given MessageID.
-constexpr const MessageDefinition& getID(MessageID id)
+constexpr const MessageDefinition& getMessageDefinition(MessageID id)
 {
     return artemis_messages[static_cast<uint8_t>(id)];
+}
+
+// Returns the can ID for a given MessageID.
+constexpr const uint8_t& getID(MessageID id)
+{
+    return artemis_messages[static_cast<uint8_t>(id)].id;
 }
 
 // Returns the SignalDefinition for a signal enum value.
