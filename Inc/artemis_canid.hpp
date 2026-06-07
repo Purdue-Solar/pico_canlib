@@ -498,6 +498,7 @@ static constexpr SignalDefinition charger_signals[] = {
 
 static constexpr MessageDefinition artemis_messages[] = {
     {"BMS Safety Critical",             0x200,       40,   bms_signals,                8},
+    {"BMS Pack Voltage and Energy",     0x201,       80,   bms_voltage_signals,        4},
     {"Power Distro Display",            0x300,       0,    distro_display_signals,     3},
     {"Motor Controller ID",             0x400,       1000, mc_id_signals,              2},
     {"Motor Controller Errors",         0x401,       200,  mc_error_signals,           7},
@@ -508,10 +509,9 @@ static constexpr MessageDefinition artemis_messages[] = {
     {"Bus Current Control",             0x502,       100,  bus_control_signals,        2},
     {"Peripheral Control",              0x600,       0,    distro_control_signals,     1},
     {"BMS Temperature/Current/Power",   0x700,       80,   bms_power_signals,          6},
-    {"BMS Pack Voltage and Energy",     0x701,       80,   bms_voltage_signals,        4},
-    {"BMS Cell Data",                   0x702,       80,   bms_cell_signals,           6},
-    {"BMS Thermistor Broadcast",        0x703,       0,    bms_thermistor_signals,     1},
-    {"BMS Cell Data Broadcast",         0x704,       20,   bms_cell_broadcast_signals, 5},
+    {"BMS Cell Data",                   0x701,       80,   bms_cell_signals,           6},
+    {"BMS Thermistor Broadcast",        0x702,       0,    bms_thermistor_signals,     1},
+    {"BMS Cell Data Broadcast",         0x703,       20,   bms_cell_broadcast_signals, 5},
     {"Charger 1 Communication",         0x1806E5F4,  808,  charger_signals,            3},
     {"Charger 2 Communication",         0x1806E7F4,  808,  charger_signals,            3},
     {"Charger 3 Communication",         0x1806E9F4,  808,  charger_signals,            3},
