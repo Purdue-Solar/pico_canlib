@@ -1,16 +1,13 @@
 #pragma once
 #include "pico/stdlib.h"
 
+template<typename T, size_t N>
+constexpr size_t array_size(const T (&)[N]) { return N; }
+
 enum class Endianness
 {
     Little,
     Big
-};
-
-enum class CanType
-{
-    FD,
-    BX
 };
 
 struct BitDefinition
@@ -54,15 +51,15 @@ enum class BmsDtcFlags1 : uint8_t
     PackTooHotFault                 = 7,
 };
 
-static constexpr BitDefinition bms_dtc_flags1_bits[] = {
-    {"Discharge limit enforcement fault",   0},
-    {"Charger safety relay fault",          1},
-    {"Internal hardware fault",             2},
-    {"Internal heatsink thermistor fault",  3},
-    {"Internal software fault",             4},
-    {"Highest cell voltage too low fault",  5},
-    {"Lowest cell voltage too low fault",   6},
-    {"Pack too hot fault",                  7},
+inline constexpr BitDefinition bms_dtc_flags1_bits[] = {
+    {"Discharge limit enforcement fault",   static_cast<uint8_t>(BmsDtcFlags1::DischargeLimitEnforcementFault)},
+    {"Charger safety relay fault",          static_cast<uint8_t>(BmsDtcFlags1::ChargerSafetyRelayFault)},
+    {"Internal hardware fault",             static_cast<uint8_t>(BmsDtcFlags1::InternalHardwareFault)},
+    {"Internal heatsink thermistor fault",  static_cast<uint8_t>(BmsDtcFlags1::InternalHeatsinkThermistorFault)},
+    {"Internal software fault",             static_cast<uint8_t>(BmsDtcFlags1::InternalSoftwareFault)},
+    {"Highest cell voltage too low fault",  static_cast<uint8_t>(BmsDtcFlags1::HighestCellVoltageTooLowFault)},
+    {"Lowest cell voltage too low fault",   static_cast<uint8_t>(BmsDtcFlags1::LowestCellVoltageTooLowFault)},
+    {"Pack too hot fault",                  static_cast<uint8_t>(BmsDtcFlags1::PackTooHotFault)},
 };
 
 enum class BmsDtcFlags21 : uint8_t
@@ -77,15 +74,15 @@ enum class BmsDtcFlags21 : uint8_t
     CellAsicFault                  = 7,
 };
 
-static constexpr BitDefinition bms_dtc_flags2_1_bits[] = {
-    {"Internal communication fault",        0},
-    {"Cell balancing stuck off fault",      1},
-    {"Weak cell fault",                     2},
-    {"Low cell voltage fault",              3},
-    {"Open wiring fault",                   4},
-    {"Current sensor fault",                5},
-    {"Highest cell voltage above 5v fault", 6},
-    {"Cell ASIC Fault",                     7},
+inline constexpr BitDefinition bms_dtc_flags2_1_bits[] = {
+    {"Internal communication fault",        static_cast<uint8_t>(BmsDtcFlags21::InternalCommunicationFault)},
+    {"Cell balancing stuck off fault",      static_cast<uint8_t>(BmsDtcFlags21::CellBalancingStuckOffFault)},
+    {"Weak cell fault",                     static_cast<uint8_t>(BmsDtcFlags21::WeakCellFault)},
+    {"Low cell voltage fault",              static_cast<uint8_t>(BmsDtcFlags21::LowCellVoltageFault)},
+    {"Open wiring fault",                   static_cast<uint8_t>(BmsDtcFlags21::OpenWiringFault)},
+    {"Current sensor fault",                static_cast<uint8_t>(BmsDtcFlags21::CurrentSensorFault)},
+    {"Highest cell voltage above 5v fault", static_cast<uint8_t>(BmsDtcFlags21::HighestCellVoltageAbove5vFault)},
+    {"Cell ASIC Fault",                     static_cast<uint8_t>(BmsDtcFlags21::CellAsicFault)},
 };
 
 enum class BmsDtcFlags22 : uint8_t
@@ -100,15 +97,15 @@ enum class BmsDtcFlags22 : uint8_t
     ChargeLimitEnforcementFault = 7,
 };
 
-static constexpr BitDefinition bms_dtc_flags2_2_bits[] = {
-    {"Weak pack fault",                 0},
-    {"Fan monitor fault",               1},
-    {"Thermistor fault",                2},
-    {"External communication fault",    3},
-    {"Redundant power supply fault",    4},
-    {"High voltage isolation fault",    5},
-    {"Input power supply fault",        6},
-    {"Charge limit enforcement fault",  7},
+inline constexpr BitDefinition bms_dtc_flags2_2_bits[] = {
+    {"Weak pack fault",                 static_cast<uint8_t>(BmsDtcFlags22::WeakPackFault)},
+    {"Fan monitor fault",               static_cast<uint8_t>(BmsDtcFlags22::FanMonitorFault)},
+    {"Thermistor fault",                static_cast<uint8_t>(BmsDtcFlags22::ThermistorFault)},
+    {"External communication fault",    static_cast<uint8_t>(BmsDtcFlags22::ExternalCommunicationFault)},
+    {"Redundant power supply fault",    static_cast<uint8_t>(BmsDtcFlags22::RedundantPowerSupplyFault)},
+    {"High voltage isolation fault",    static_cast<uint8_t>(BmsDtcFlags22::HighVoltageIsolationFault)},
+    {"Input power supply fault",        static_cast<uint8_t>(BmsDtcFlags22::InputPowerSupplyFault)},
+    {"Charge limit enforcement fault",  static_cast<uint8_t>(BmsDtcFlags22::ChargeLimitEnforcementFault)},
 };
 
 enum class BmsRelayState1 : uint8_t
@@ -123,15 +120,15 @@ enum class BmsRelayState1 : uint8_t
     IsChargingStatus        = 7,
 };
 
-static constexpr BitDefinition bms_relay_state1_bits[] = {
-    {"Discharge relay enabled",     0},
-    {"Charge relay enabled",        1},
-    {"Charger safety enabled",      2},
-    {"DTC indicator active",        3},
-    {"Multi-Purpose input status",  4},
-    {"Always-on status",            5},
-    {"Is-ready status",             6},
-    {"Is-charging status",          7},
+inline constexpr BitDefinition bms_relay_state1_bits[] = {
+    {"Discharge relay enabled",     static_cast<uint8_t>(BmsRelayState1::DischargeRelayEnabled)},
+    {"Charge relay enabled",        static_cast<uint8_t>(BmsRelayState1::ChargeRelayEnabled)},
+    {"Charger safety enabled",      static_cast<uint8_t>(BmsRelayState1::ChargerSafetyEnabled)},
+    {"DTC indicator active",        static_cast<uint8_t>(BmsRelayState1::DtcIndicatorActive)},
+    {"Multi-Purpose input status",  static_cast<uint8_t>(BmsRelayState1::MultiPurposeInputStatus)},
+    {"Always-on status",            static_cast<uint8_t>(BmsRelayState1::AlwaysOnStatus)},
+    {"Is-ready status",             static_cast<uint8_t>(BmsRelayState1::IsReadyStatus)},
+    {"Is-charging status",          static_cast<uint8_t>(BmsRelayState1::IsChargingStatus)},
 };
 
 enum class BmsRelayState2 : uint8_t
@@ -146,15 +143,15 @@ enum class BmsRelayState2 : uint8_t
     MultiPurposeOutput1Status = 7,
 };
 
-static constexpr BitDefinition bms_relay_state2_bits[] = {
-    {"Multi-purpose input 2 status",    0},
-    {"Multi-purpose input 3 status",    1},
-    {"Reserved",                        2},
-    {"Multi-Purpose Output 2 status",   3},
-    {"Multi-Purpose Output 3 status",   4},
-    {"Multi-Purpose Output 4 status",   5},
-    {"Multi-Purpose enable status",     6},
-    {"Multi-Purpose Output 1 status",   7},
+inline constexpr BitDefinition bms_relay_state2_bits[] = {
+    {"Multi-purpose input 2 status",    static_cast<uint8_t>(BmsRelayState2::MultiPurposeInput2Status)},
+    {"Multi-purpose input 3 status",    static_cast<uint8_t>(BmsRelayState2::MultiPurposeInput3Status)},
+    {"Reserved",                        static_cast<uint8_t>(BmsRelayState2::Reserved)},
+    {"Multi-Purpose Output 2 status",   static_cast<uint8_t>(BmsRelayState2::MultiPurposeOutput2Status)},
+    {"Multi-Purpose Output 3 status",   static_cast<uint8_t>(BmsRelayState2::MultiPurposeOutput3Status)},
+    {"Multi-Purpose Output 4 status",   static_cast<uint8_t>(BmsRelayState2::MultiPurposeOutput4Status)},
+    {"Multi-Purpose enable status",     static_cast<uint8_t>(BmsRelayState2::MultiPurposeEnableStatus)},
+    {"Multi-Purpose Output 1 status",   static_cast<uint8_t>(BmsRelayState2::MultiPurposeOutput1Status)},
 };
 
 enum class BmsFailsafe : uint8_t
@@ -169,26 +166,26 @@ enum class BmsFailsafe : uint8_t
     Reserved                       = 7,
 };
 
-static constexpr BitDefinition bms_failsafe_bits[] = {
-    {"Voltage failsafe active",             0},
-    {"Current failsafe active",             1},
-    {"Relay failsafe active",               2},
-    {"Cell balancing active",               3},
-    {"Charge interlock failsafe active",    4},
-    {"Thermistor B-value table invalid",    5},
-    {"Input power supply failsafe active",  6},
-    {"Reserved",                            7},
+inline constexpr BitDefinition bms_failsafe_bits[] = {
+    {"Voltage failsafe active",             static_cast<uint8_t>(BmsFailsafe::VoltageFailsafeActive)},
+    {"Current failsafe active",             static_cast<uint8_t>(BmsFailsafe::CurrentFailsafeActive)},
+    {"Relay failsafe active",               static_cast<uint8_t>(BmsFailsafe::RelayFailsafeActive)},
+    {"Cell balancing active",               static_cast<uint8_t>(BmsFailsafe::CellBalancingActive)},
+    {"Charge interlock failsafe active",    static_cast<uint8_t>(BmsFailsafe::ChargeInterlockFailsafeActive)},
+    {"Thermistor B-value table invalid",    static_cast<uint8_t>(BmsFailsafe::ThermistorBValueTableInvalid)},
+    {"Input power supply failsafe active",  static_cast<uint8_t>(BmsFailsafe::InputPowerSupplyFailsafeActive)},
+    {"Reserved",                            static_cast<uint8_t>(BmsFailsafe::Reserved)},
 };
 
-static constexpr SignalDefinition bms_signals[] = {
-    {"DTC Flags 1",         0,  8, Endianness::Big, bms_dtc_flags1_bits,   8},
-    {"DTC Flags 2.1",       8,  8, Endianness::Big, bms_dtc_flags2_1_bits, 8},
-    {"DTC Flags 2.2",       16, 8, Endianness::Big, bms_dtc_flags2_2_bits, 8},
-    {"Relay State 1",       24, 8, Endianness::Big, bms_relay_state1_bits, 8},
-    {"Relay State 2",       32, 8, Endianness::Big, bms_relay_state2_bits, 8},
-    {"Failsafe Statuses",   40, 8, Endianness::Big, bms_failsafe_bits,     8},
-    {"Pack SOC",            48, 8, Endianness::Big, nullptr,               0},
-    {"Adaptive Pack SOC",   56, 8, Endianness::Big, nullptr,               0},
+inline constexpr SignalDefinition bms_signals[] = {
+    {"DTC Flags 1",       0,  8, Endianness::Big, bms_dtc_flags1_bits,   array_size(bms_dtc_flags1_bits)},
+    {"DTC Flags 2.1",     8,  8, Endianness::Big, bms_dtc_flags2_1_bits, array_size(bms_dtc_flags2_1_bits)},
+    {"DTC Flags 2.2",     16, 8, Endianness::Big, bms_dtc_flags2_2_bits, array_size(bms_dtc_flags2_2_bits)},
+    {"Relay State 1",     24, 8, Endianness::Big, bms_relay_state1_bits, array_size(bms_relay_state1_bits)},
+    {"Relay State 2",     32, 8, Endianness::Big, bms_relay_state2_bits, array_size(bms_relay_state2_bits)},
+    {"Failsafe Statuses", 40, 8, Endianness::Big, bms_failsafe_bits,     array_size(bms_failsafe_bits)},
+    {"Pack SOC",          48, 8, Endianness::Big, nullptr,               0},
+    {"Adaptive Pack SOC", 56, 8, Endianness::Big, nullptr,               0},
 };
 
 // ─── 0x300  Power Distro Display ─────────────────────────────────────────────
@@ -205,15 +202,15 @@ enum class DistroDisplayMisc : uint8_t
     Empty7                    = 7,
 };
 
-static constexpr BitDefinition distro_display_misc_bits[] = {
-    {"Main hardware detected fault",    0},
-    {"Aux hardware detected fault",     1},
-    {"Main Power monitor i2c error",    2},
-    {"Aux Power monitor i2c error",     3},
-    {"PowerDistroWatchdog",             4},
-    {"Empty",                           5},
-    {"Empty",                           6},
-    {"Empty",                           7},
+inline constexpr BitDefinition distro_display_misc_bits[] = {
+    {"Main hardware detected fault",    static_cast<uint8_t>(DistroDisplayMisc::MainHardwareDetectedFault)},
+    {"Aux hardware detected fault",     static_cast<uint8_t>(DistroDisplayMisc::AuxHardwareDetectedFault)},
+    {"Main Power monitor i2c error",    static_cast<uint8_t>(DistroDisplayMisc::MainPowerMonitorI2cError)},
+    {"Aux Power monitor i2c error",     static_cast<uint8_t>(DistroDisplayMisc::AuxPowerMonitorI2cError)},
+    {"PowerDistroWatchdog",             static_cast<uint8_t>(DistroDisplayMisc::PowerDistroWatchdog)},
+    {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty5)},
+    {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty6)},
+    {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty7)},
 };
 
 enum class DistroDisplayMain : uint8_t
@@ -228,15 +225,15 @@ enum class DistroDisplayMain : uint8_t
     MainUnderCurrentWarning = 7,
 };
 
-static constexpr BitDefinition distro_display_main_bits[] = {
-    {"Main over voltage error",     0},
-    {"Main under voltage error",    1},
-    {"Main over current error",     2},
-    {"Main under current error",    3},
-    {"Main over voltage warning",   4},
-    {"Main under voltage warning",  5},
-    {"Main over current warning",   6},
-    {"Main under current warning",  7},
+inline constexpr BitDefinition distro_display_main_bits[] = {
+    {"Main over voltage error",     static_cast<uint8_t>(DistroDisplayMain::MainOverVoltageError)},
+    {"Main under voltage error",    static_cast<uint8_t>(DistroDisplayMain::MainUnderVoltageError)},
+    {"Main over current error",     static_cast<uint8_t>(DistroDisplayMain::MainOverCurrentError)},
+    {"Main under current error",    static_cast<uint8_t>(DistroDisplayMain::MainUnderCurrentError)},
+    {"Main over voltage warning",   static_cast<uint8_t>(DistroDisplayMain::MainOverVoltageWarning)},
+    {"Main under voltage warning",  static_cast<uint8_t>(DistroDisplayMain::MainUnderVoltageWarning)},
+    {"Main over current warning",   static_cast<uint8_t>(DistroDisplayMain::MainOverCurrentWarning)},
+    {"Main under current warning",  static_cast<uint8_t>(DistroDisplayMain::MainUnderCurrentWarning)},
 };
 
 enum class DistroDisplayAux : uint8_t
@@ -251,28 +248,28 @@ enum class DistroDisplayAux : uint8_t
     AuxUnderCurrentWarning = 7,
 };
 
-static constexpr BitDefinition distro_display_aux_bits[] = {
-    {"Aux over voltage error",      0},
-    {"Aux under voltage error",     1},
-    {"Aux over current error",      2},
-    {"Aux under current error",     3},
-    {"Aux over voltage warning",    4},
-    {"Aux under voltage warning",   5},
-    {"Aux over current warning",    6},
-    {"Aux under current warning",   7},
+inline constexpr BitDefinition distro_display_aux_bits[] = {
+    {"Aux over voltage error",      static_cast<uint8_t>(DistroDisplayAux::AuxOverVoltageError)},
+    {"Aux under voltage error",     static_cast<uint8_t>(DistroDisplayAux::AuxUnderVoltageError)},
+    {"Aux over current error",      static_cast<uint8_t>(DistroDisplayAux::AuxOverCurrentError)},
+    {"Aux under current error",     static_cast<uint8_t>(DistroDisplayAux::AuxUnderCurrentError)},
+    {"Aux over voltage warning",    static_cast<uint8_t>(DistroDisplayAux::AuxOverVoltageWarning)},
+    {"Aux under voltage warning",   static_cast<uint8_t>(DistroDisplayAux::AuxUnderVoltageWarning)},
+    {"Aux over current warning",    static_cast<uint8_t>(DistroDisplayAux::AuxOverCurrentWarning)},
+    {"Aux under current warning",   static_cast<uint8_t>(DistroDisplayAux::AuxUnderCurrentWarning)},
 };
 
-static constexpr SignalDefinition distro_display_signals[] = {
-    {"Display Flags Power Monitor", 0,  8, Endianness::Big, distro_display_misc_bits, 8},
-    {"Display Flags Main Battery",  8,  8, Endianness::Big, distro_display_main_bits, 8},
-    {"Display Flags Aux Battery",   16, 8, Endianness::Big, distro_display_aux_bits,  8},
+inline constexpr SignalDefinition distro_display_signals[] = {
+    {"Display Flags Power Monitor", 0,  8, Endianness::Big, distro_display_misc_bits, array_size(distro_display_misc_bits)},
+    {"Display Flags Main Battery",  8,  8, Endianness::Big, distro_display_main_bits, array_size(distro_display_main_bits)},
+    {"Display Flags Aux Battery",   16, 8, Endianness::Big, distro_display_aux_bits,  array_size(distro_display_aux_bits)},
 };
 
 // ─── 0x400  Motor Controller ID ──────────────────────────────────────────────
 
-static constexpr SignalDefinition mc_id_signals[] = {
-    {"Prohelion ID",    0,  32, Endianness::Big, nullptr, 0},
-    {"Serial Number",   32, 32, Endianness::Big, nullptr, 0},
+inline constexpr SignalDefinition mc_id_signals[] = {
+    {"Prohelion ID",  0,  32, Endianness::Big, nullptr, 0},
+    {"Serial Number", 32, 32, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x401  Motor Controller Errors ──────────────────────────────────────────
@@ -289,15 +286,15 @@ enum class McLimitFlags : uint8_t
     Reserved             = 7,
 };
 
-static constexpr BitDefinition mc_limit_flags_bits[] = {
-    {"Output Voltage PWM",      0},
-    {"Motor Current",           1},
-    {"Velocity",                2},
-    {"Bus Current",             3},
-    {"Bus Voltage Upper Limit", 4},
-    {"Bus Voltage Lower Limit", 5},
-    {"IPM/Motor Temperature",   6},
-    {"Reserved",                7},
+inline constexpr BitDefinition mc_limit_flags_bits[] = {
+    {"Output Voltage PWM",      static_cast<uint8_t>(McLimitFlags::OutputVoltagePwm)},
+    {"Motor Current",           static_cast<uint8_t>(McLimitFlags::MotorCurrent)},
+    {"Velocity",                static_cast<uint8_t>(McLimitFlags::Velocity)},
+    {"Bus Current",             static_cast<uint8_t>(McLimitFlags::BusCurrent)},
+    {"Bus Voltage Upper Limit", static_cast<uint8_t>(McLimitFlags::BusVoltageUpperLimit)},
+    {"Bus Voltage Lower Limit", static_cast<uint8_t>(McLimitFlags::BusVoltageLowerLimit)},
+    {"IPM/Motor Temperature",   static_cast<uint8_t>(McLimitFlags::IpmMotorTemperature)},
+    {"Reserved",                static_cast<uint8_t>(McLimitFlags::Reserved)},
 };
 
 enum class McErrorFlags1 : uint8_t
@@ -312,15 +309,15 @@ enum class McErrorFlags1 : uint8_t
     DesaturationFault            = 7,
 };
 
-static constexpr BitDefinition mc_error_flags1_bits[] = {
-    {"Hardware over current",           0},
-    {"Software over current",           1},
-    {"DC Bus over voltage",             2},
-    {"Bad motor position hall sequence",3},
-    {"Watchdog caused last reset",      4},
-    {"Config read error",               5},
-    {"15V Rail under voltage lock out", 6},
-    {"Desaturation Fault",              7},
+inline constexpr BitDefinition mc_error_flags1_bits[] = {
+    {"Hardware over current",            static_cast<uint8_t>(McErrorFlags1::HardwareOverCurrent)},
+    {"Software over current",            static_cast<uint8_t>(McErrorFlags1::SoftwareOverCurrent)},
+    {"DC Bus over voltage",              static_cast<uint8_t>(McErrorFlags1::DcBusOverVoltage)},
+    {"Bad motor position hall sequence", static_cast<uint8_t>(McErrorFlags1::BadMotorPositionHallSequence)},
+    {"Watchdog caused last reset",       static_cast<uint8_t>(McErrorFlags1::WatchdogCausedLastReset)},
+    {"Config read error",                static_cast<uint8_t>(McErrorFlags1::ConfigReadError)},
+    {"15V Rail under voltage lock out",  static_cast<uint8_t>(McErrorFlags1::Rail15vUnderVoltageLockOut)},
+    {"Desaturation Fault",               static_cast<uint8_t>(McErrorFlags1::DesaturationFault)},
 };
 
 enum class McErrorFlags2 : uint8_t
@@ -335,58 +332,58 @@ enum class McErrorFlags2 : uint8_t
     Reserved7           = 7,
 };
 
-static constexpr BitDefinition mc_error_flags2_bits[] = {
-    {"Speed (115% max RPM)", 0},
-    {"Reserved",             1},
-    {"Reserved",             2},
-    {"Reserved",             3},
-    {"Reserved",             4},
-    {"Reserved",             5},
-    {"Reserved",             6},
-    {"Reserved",             7},
+inline constexpr BitDefinition mc_error_flags2_bits[] = {
+    {"Speed (115% max RPM)", static_cast<uint8_t>(McErrorFlags2::SpeedOver115Percent)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved1)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved2)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved3)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved4)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved5)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved6)},
+    {"Reserved",             static_cast<uint8_t>(McErrorFlags2::Reserved7)},
 };
 
-static constexpr SignalDefinition mc_error_signals[] = {
-    {"MC Limit Flags",      0,  8,  Endianness::Big, mc_limit_flags_bits,  8},
-    {"Reserved",            8,  8,  Endianness::Big, nullptr,              0},
-    {"MC Error Flags 1",    16, 8,  Endianness::Big, mc_error_flags1_bits, 8},
-    {"MC Error Flags 2",    24, 8,  Endianness::Big, mc_error_flags2_bits, 8},
-    {"Active Motor Index",  32, 16, Endianness::Big, nullptr,              0},
-    {"CAN TX Error Count",  48, 8,  Endianness::Big, nullptr,              0},
-    {"CAN RX Error Count",  56, 8,  Endianness::Big, nullptr,              0},
+inline constexpr SignalDefinition mc_error_signals[] = {
+    {"MC Limit Flags",     0,  8,  Endianness::Big, mc_limit_flags_bits,  array_size(mc_limit_flags_bits)},
+    {"Reserved",           8,  8,  Endianness::Big, nullptr,              0},
+    {"MC Error Flags 1",   16, 8,  Endianness::Big, mc_error_flags1_bits, array_size(mc_error_flags1_bits)},
+    {"MC Error Flags 2",   24, 8,  Endianness::Big, mc_error_flags2_bits, array_size(mc_error_flags2_bits)},
+    {"Active Motor Index", 32, 16, Endianness::Big, nullptr,              0},
+    {"CAN TX Error Count", 48, 8,  Endianness::Big, nullptr,              0},
+    {"CAN RX Error Count", 56, 8,  Endianness::Big, nullptr,              0},
 };
 
 // ─── 0x402  Motor Bus Voltage / Current ──────────────────────────────────────
 
-static constexpr SignalDefinition mc_bus_signals[] = {
+inline constexpr SignalDefinition mc_bus_signals[] = {
     {"Bus Voltage", 0,  32, Endianness::Big, nullptr, 0},
     {"Bus Current", 32, 32, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x403  Motor Speed ───────────────────────────────────────────────────────
 
-static constexpr SignalDefinition mc_speed_signals[] = {
+inline constexpr SignalDefinition mc_speed_signals[] = {
     {"Motor Velocity",   0,  32, Endianness::Big, nullptr, 0},
     {"Vehicle Velocity", 32, 32, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x40B  Motor Temperature ────────────────────────────────────────────────
 
-static constexpr SignalDefinition mc_temp_signals[] = {
+inline constexpr SignalDefinition mc_temp_signals[] = {
     {"Motor Temp",     0,  32, Endianness::Big, nullptr, 0},
     {"Heat Sink Temp", 32, 32, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x501  Motor Current / Velocity Control ─────────────────────────────────
 
-static constexpr SignalDefinition motor_control_signals[] = {
+inline constexpr SignalDefinition motor_control_signals[] = {
     {"Motor Velocity Setpoint", 0,  32, Endianness::Big, nullptr, 0},
     {"Motor Current Setpoint",  32, 32, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x502  Bus Current Control ──────────────────────────────────────────────
 
-static constexpr SignalDefinition bus_control_signals[] = {
+inline constexpr SignalDefinition bus_control_signals[] = {
     {"Reserved",             0,  32, Endianness::Big, nullptr, 0},
     {"Bus Current Setpoint", 32, 32, Endianness::Big, nullptr, 0},
 };
@@ -405,24 +402,24 @@ enum class DistroControl : uint8_t
     Empty7       = 7,
 };
 
-static constexpr BitDefinition distro_control_bits[] = {
-    {"Left Lights",   0},
-    {"Right Lights",  1},
-    {"Hazard Lights", 2},
-    {"Horn",          3},
-    {"Empty",         4},
-    {"Empty",         5},
-    {"Empty",         6},
-    {"Empty",         7},
+inline constexpr BitDefinition distro_control_bits[] = {
+    {"Left Lights",   static_cast<uint8_t>(DistroControl::LeftLights)},
+    {"Right Lights",  static_cast<uint8_t>(DistroControl::RightLights)},
+    {"Hazard Lights", static_cast<uint8_t>(DistroControl::HazardLights)},
+    {"Horn",          static_cast<uint8_t>(DistroControl::Horn)},
+    {"Empty",         static_cast<uint8_t>(DistroControl::Empty4)},
+    {"Empty",         static_cast<uint8_t>(DistroControl::Empty5)},
+    {"Empty",         static_cast<uint8_t>(DistroControl::Empty6)},
+    {"Empty",         static_cast<uint8_t>(DistroControl::Empty7)},
 };
 
-static constexpr SignalDefinition distro_control_signals[] = {
-    {"Distro Control", 0, 8, Endianness::Big, distro_control_bits, 8},
+inline constexpr SignalDefinition distro_control_signals[] = {
+    {"Distro Control", 0, 8, Endianness::Big, distro_control_bits, array_size(distro_control_bits)},
 };
 
 // ─── 0x700  BMS Temperature / Current Limits / Power ─────────────────────────
 
-static constexpr SignalDefinition bms_power_signals[] = {
+inline constexpr SignalDefinition bms_power_signals[] = {
     {"Pack DCL",             0,  8,  Endianness::Big, nullptr, 0},
     {"Pack CCL",             8,  8,  Endianness::Big, nullptr, 0},
     {"Low Temperature",      16, 8,  Endianness::Big, nullptr, 0},
@@ -433,7 +430,7 @@ static constexpr SignalDefinition bms_power_signals[] = {
 
 // ─── 0x701  BMS Pack Voltage and Energy ──────────────────────────────────────
 
-static constexpr SignalDefinition bms_voltage_signals[] = {
+inline constexpr SignalDefinition bms_voltage_signals[] = {
     {"Pack Amphours",     0,  16, Endianness::Big, nullptr, 0},
     {"Adaptive Amphours", 16, 16, Endianness::Big, nullptr, 0},
     {"Pack Current",      32, 16, Endianness::Big, nullptr, 0},
@@ -442,7 +439,7 @@ static constexpr SignalDefinition bms_voltage_signals[] = {
 
 // ─── 0x702  BMS Cell Data ────────────────────────────────────────────────────
 
-static constexpr SignalDefinition bms_cell_signals[] = {
+inline constexpr SignalDefinition bms_cell_signals[] = {
     {"Low Cell Voltage",     0,  16, Endianness::Big, nullptr, 0},
     {"High Cell Voltage",    16, 16, Endianness::Big, nullptr, 0},
     {"Low Cell Voltage ID",  32, 8,  Endianness::Big, nullptr, 0},
@@ -453,13 +450,13 @@ static constexpr SignalDefinition bms_cell_signals[] = {
 
 // ─── 0x703  BMS Thermistor Broadcast ─────────────────────────────────────────
 
-static constexpr SignalDefinition bms_thermistor_signals[] = {
+inline constexpr SignalDefinition bms_thermistor_signals[] = {
     {"Thermistor Data", 0, 64, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x704  BMS Cell Data Broadcast ──────────────────────────────────────────
 
-static constexpr SignalDefinition bms_cell_broadcast_signals[] = {
+inline constexpr SignalDefinition bms_cell_broadcast_signals[] = {
     {"Cell ID",             0,  8,  Endianness::Big, nullptr, 0},
     {"Instant Voltage",     8,  16, Endianness::Big, nullptr, 0},
     {"Internal Resistance", 24, 16, Endianness::Big, nullptr, 0},
@@ -469,7 +466,7 @@ static constexpr SignalDefinition bms_cell_broadcast_signals[] = {
 
 // ─── 0x1806E5F4 / 0x1806E7F4 / 0x1806E9F4  Charger Communication ─────────────
 
-static constexpr SignalDefinition charger_signals[] = {
+inline constexpr SignalDefinition charger_signals[] = {
     {"Maximum Pack Voltage", 48, 16, Endianness::Big, nullptr, 0},
     {"Pack CCL",             32, 16, Endianness::Big, nullptr, 0},
     {"Charger Control",      24, 8,  Endianness::Big, nullptr, 0},
@@ -569,8 +566,8 @@ enum class MotorControlSignal : uint8_t
 
 enum class BusControlSignal : uint8_t
 {
-    Reserved            = 0,
-    BusCurrentSetpoint  = 1,
+    Reserved           = 0,
+    BusCurrentSetpoint = 1,
 };
 
 enum class DistroControlSignal : uint8_t
@@ -590,12 +587,12 @@ enum class BmsPowerSignal : uint8_t
 
 enum class BmsCellSignal : uint8_t
 {
-    LowCellVoltage   = 0,
-    HighCellVoltage  = 1,
-    LowCellVoltageId = 2,
+    LowCellVoltage    = 0,
+    HighCellVoltage   = 1,
+    LowCellVoltageId  = 2,
     HighCellVoltageId = 3,
-    LowThermistorId  = 4,
-    HighThermistorId = 5,
+    LowThermistorId   = 4,
+    HighThermistorId  = 5,
 };
 
 enum class BmsThermistorSignal : uint8_t
@@ -619,37 +616,73 @@ enum class ChargerSignal : uint8_t
     ChargerControl     = 2,
 };
 
-template<typename T>
-constexpr uint8_t getByte(T id)
+// ─── Master Message Table ─────────────────────────────────────────────────────
+// Keep this table's row order in sync with the MessageID enum above.
+
+inline constexpr MessageDefinition artemis_messages[] = {
+    {"BMS Safety Critical",            0x200,      40,   bms_signals,                array_size(bms_signals)},
+    {"BMS Pack Voltage and Energy",    0x201,      80,   bms_voltage_signals,        array_size(bms_voltage_signals)},
+    {"Power Distro Display",           0x300,      0,    distro_display_signals,     array_size(distro_display_signals)},
+    {"Motor Controller ID",            0x400,      1000, mc_id_signals,              array_size(mc_id_signals)},
+    {"Motor Controller Errors",        0x401,      200,  mc_error_signals,           array_size(mc_error_signals)},
+    {"Motor Bus Voltage/Current",      0x402,      200,  mc_bus_signals,             array_size(mc_bus_signals)},
+    {"Motor Speed",                    0x403,      200,  mc_speed_signals,           array_size(mc_speed_signals)},
+    {"Motor Temperature",              0x40B,      1000, mc_temp_signals,            array_size(mc_temp_signals)},
+    {"Motor Current/Velocity Control", 0x501,      100,  motor_control_signals,      array_size(motor_control_signals)},
+    {"Bus Current Control",            0x502,      100,  bus_control_signals,        array_size(bus_control_signals)},
+    {"Peripheral Control",             0x600,      0,    distro_control_signals,     array_size(distro_control_signals)},
+    {"BMS Temperature/Current/Power",  0x700,      80,   bms_power_signals,          array_size(bms_power_signals)},
+    {"BMS Cell Data",                  0x701,      80,   bms_cell_signals,           array_size(bms_cell_signals)},
+    {"BMS Thermistor Broadcast",       0x702,      0,    bms_thermistor_signals,     array_size(bms_thermistor_signals)},
+    {"BMS Cell Data Broadcast",        0x703,      20,   bms_cell_broadcast_signals, array_size(bms_cell_broadcast_signals)},
+    {"Charger 1 Communication",        0x1806E5F4, 808,  charger_signals,            array_size(charger_signals)},
+    {"Charger 2 Communication",        0x1806E7F4, 808,  charger_signals,            array_size(charger_signals)},
+    {"Charger 3 Communication",        0x1806E9F4, 808,  charger_signals,            array_size(charger_signals)},
+};
+
+// ─── Message-Signal Associations ─────────────────────────────────────────────
+// Maps each signal enum to its owning message, enforcing correct pairing in getSignal().
+
+template<typename SignalEnum> struct MessageOf; // intentionally undefined — instantiating with an unknown type is an error
+
+template<> struct MessageOf<BmsSignal>             { static constexpr MessageID value = MessageID::BmsSafetyCritical; };
+template<> struct MessageOf<BmsVoltageSignal>      { static constexpr MessageID value = MessageID::BmsPackVoltageAndEnergy; };
+template<> struct MessageOf<DistroDisplaySignal>   { static constexpr MessageID value = MessageID::PowerDistroDisplay; };
+template<> struct MessageOf<McIdSignal>            { static constexpr MessageID value = MessageID::MotorControllerId; };
+template<> struct MessageOf<McErrorSignal>         { static constexpr MessageID value = MessageID::MotorControllerErrors; };
+template<> struct MessageOf<McBusSignal>           { static constexpr MessageID value = MessageID::MotorBusVoltageCurrent; };
+template<> struct MessageOf<McSpeedSignal>         { static constexpr MessageID value = MessageID::MotorSpeed; };
+template<> struct MessageOf<McTempSignal>          { static constexpr MessageID value = MessageID::MotorTemperature; };
+template<> struct MessageOf<MotorControlSignal>    { static constexpr MessageID value = MessageID::MotorCurrentVelocityControl; };
+template<> struct MessageOf<BusControlSignal>      { static constexpr MessageID value = MessageID::BusCurrentControl; };
+template<> struct MessageOf<DistroControlSignal>   { static constexpr MessageID value = MessageID::PeripheralControl; };
+template<> struct MessageOf<BmsPowerSignal>        { static constexpr MessageID value = MessageID::BmsTemperatureCurrentPower; };
+template<> struct MessageOf<BmsCellSignal>         { static constexpr MessageID value = MessageID::BmsCellData; };
+template<> struct MessageOf<BmsThermistorSignal>   { static constexpr MessageID value = MessageID::BmsThermistorBroadcast; };
+template<> struct MessageOf<BmsCellBroadcastSignal>{ static constexpr MessageID value = MessageID::BmsCellDataBroadcast; };
+template<> struct MessageOf<ChargerSignal>         { static constexpr MessageID value = MessageID::Charger1Communication; };
+
+// ─── Accessors ────────────────────────────────────────────────────────────────
+
+// Returns the bit position (0–7) of a bit-field enum value within its byte.
+template<typename BitEnum>
+constexpr uint8_t getByte(BitEnum bit)
 {
-    return static_cast<uint8_t>(id);
+    return static_cast<uint8_t>(bit);
 }
 
-constexpr MessageDefinition getID(MessageID id)
+// Returns the MessageDefinition for a given MessageID.
+constexpr const MessageDefinition& getID(MessageID id)
 {
     return artemis_messages[static_cast<uint8_t>(id)];
 }
 
-// ─── Master Message Table ─────────────────────────────────────────────────────
-
-// Important - ensure that this message table always matches the message ID
-static constexpr MessageDefinition artemis_messages[] = {
-    {"BMS Safety Critical",             0x200,       40,   bms_signals,                8},
-    {"BMS Pack Voltage and Energy",     0x201,       80,   bms_voltage_signals,        4},
-    {"Power Distro Display",            0x300,       0,    distro_display_signals,     3},
-    {"Motor Controller ID",             0x400,       1000, mc_id_signals,              2},
-    {"Motor Controller Errors",         0x401,       200,  mc_error_signals,           7},
-    {"Motor Bus Voltage/Current",       0x402,       200,  mc_bus_signals,             2},
-    {"Motor Speed",                     0x403,       200,  mc_speed_signals,           2},
-    {"Motor Temperature",               0x40B,       1000, mc_temp_signals,            2},
-    {"Motor Current/Velocity Control",  0x501,       100,  motor_control_signals,      2},
-    {"Bus Current Control",             0x502,       100,  bus_control_signals,        2},
-    {"Peripheral Control",              0x600,       0,    distro_control_signals,     1},
-    {"BMS Temperature/Current/Power",   0x700,       80,   bms_power_signals,          6},
-    {"BMS Cell Data",                   0x701,       80,   bms_cell_signals,           6},
-    {"BMS Thermistor Broadcast",        0x702,       0,    bms_thermistor_signals,     1},
-    {"BMS Cell Data Broadcast",         0x703,       20,   bms_cell_broadcast_signals, 5},
-    {"Charger 1 Communication",         0x1806E5F4,  808,  charger_signals,            3},
-    {"Charger 2 Communication",         0x1806E7F4,  808,  charger_signals,            3},
-    {"Charger 3 Communication",         0x1806E9F4,  808,  charger_signals,            3},
-};
+// Returns the SignalDefinition for a signal enum value.
+// The message is derived automatically from the signal's type — passing a signal
+// enum belonging to a different message is a compile-time error.
+template<typename SignalEnum>
+constexpr const SignalDefinition& getSignal(SignalEnum sig)
+{
+    return artemis_messages[static_cast<uint8_t>(MessageOf<SignalEnum>::value)]
+                            .signals[static_cast<uint8_t>(sig)];
+}
