@@ -1,5 +1,6 @@
 #pragma once
 #include "pico/stdlib.h"
+#include <algorithm>
 
 /*
 Example usage: 
@@ -695,7 +696,7 @@ constexpr const MessageDefinition& getMessageDefinition(MessageID id)
 }
 
 // Returns the can ID for a given MessageID.
-constexpr const uint8_t& getID(MessageID id)
+constexpr const uint32_t getID(MessageID id)
 {
     return artemis_messages[static_cast<uint8_t>(id)].id;
 }
@@ -708,4 +709,31 @@ constexpr const SignalDefinition& getSignal(SignalEnum sig)
 {
     return artemis_messages[static_cast<uint8_t>(MessageOf<SignalEnum>::value)]
                             .signals[static_cast<uint8_t>(sig)];
+}
+
+// Returns the can ID for a given MessageID.
+template<typename Byte>
+void dataEndian(Byte * buffer, MessageDefinition definition)
+{
+    for(int i = 0; i < definition.signalCount; i++)
+    {
+        SignalDefinition signal = definition.signals[i];
+        if (signal.endian == Endianness::Big)
+        {
+            std::reverse(buffer + signal.startBit * sizeof(buffer[0]), buffer + (signal.startBit + signal.length) * sizeof(buffer[0]));
+        }
+    }
+}
+
+uint8_t getCanMessageBytes(MessageID id)
+{
+    MessageDefinition message = getMessageDefinition(id);
+    lastSignal = artemis_messages[static_cast<uint8_t>(id)].signals[signalCount-1];
+    return artemis_messages[static_cast<uint8_t>(id)].signals[signalCount-1].startBit + 
+}
+
+template<typename Shift>
+inline uint8_t sbit(Shift s)
+{
+    return 1u << static_cast<uint8_t>(s);
 }
