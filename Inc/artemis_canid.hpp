@@ -1,6 +1,7 @@
 #pragma once
 #include "pico/stdlib.h"
 #include <algorithm>
+#include <cmath>
 
 /*
 Example usage: 
@@ -729,7 +730,7 @@ constexpr const uint8_t getNumCanBytesMessage(MessageID id)
 {
     MessageDefinition message = getMessageDefinition(id);
     SignalDefinition lastSignal = message.signals[message.signalCount-1];
-    return lastSignal.startBit + lastSignal.length;
+    return (lastSignal.startBit + lastSignal.length + 7) / 8; // ceil( (startBit + length) / 8)
 }
 
 template<typename Shift>
