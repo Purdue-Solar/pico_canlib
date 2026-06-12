@@ -725,11 +725,11 @@ void dataEndian(Byte * buffer, MessageDefinition definition)
     }
 }
 
-uint8_t getCanMessageBytes(MessageID id)
+constexpr const uint8_t getNumCanBytesMessage(MessageID id)
 {
     MessageDefinition message = getMessageDefinition(id);
-    lastSignal = artemis_messages[static_cast<uint8_t>(id)].signals[signalCount-1];
-    return artemis_messages[static_cast<uint8_t>(id)].signals[signalCount-1].startBit + 
+    SignalDefinition lastSignal = message.signals[message.signalCount-1];
+    return lastSignal.startBit + lastSignal.length;
 }
 
 template<typename Shift>
