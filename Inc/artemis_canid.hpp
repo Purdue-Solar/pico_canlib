@@ -444,14 +444,14 @@ inline constexpr SignalDefinition bms_power_signals[] = {
     {"Low Temperature",      16, 8,  Endianness::Big, nullptr, 0},
     {"High Temperature",     24, 8,  Endianness::Big, nullptr, 0},
     {"Current Limits Status",32, 16, Endianness::Big, nullptr, 0},
-    {"Pack kW Power",        48, 16, Endianness::Big, nullptr, 0},
+    {"Adaptive Amphours",    48, 16, Endianness::Big, nullptr, 0},
 };
 
-// ─── 0x701  BMS Pack Voltage and Energy ──────────────────────────────────────
+// ─── 0x201  BMS Pack Voltage and Energy ──────────────────────────────────────
 
 inline constexpr SignalDefinition bms_voltage_signals[] = {
-    {"Pack Amphours",     0,  16, Endianness::Big, nullptr, 0},
-    {"Adaptive Amphours", 16, 16, Endianness::Big, nullptr, 0},
+    {"Pack kW Power",     0, 16,  Endianness::Big, nullptr, 0},
+    {"Pack Amphours",     16, 16, Endianness::Big, nullptr, 0},
     {"Pack Current",      32, 16, Endianness::Big, nullptr, 0},
     {"Pack Voltage",      48, 16, Endianness::Big, nullptr, 0},
 };
@@ -529,8 +529,8 @@ enum class BmsSignal : uint8_t
 
 enum class BmsVoltageSignal : uint8_t
 {
-    PackAmphours     = 0,
-    AdaptiveAmphours = 1,
+    PackKwPower      = 0,
+    PackAmphours     = 1,
     PackCurrent      = 2,
     PackVoltage      = 3,
 };
@@ -601,7 +601,7 @@ enum class BmsPowerSignal : uint8_t
     LowTemperature      = 2,
     HighTemperature     = 3,
     CurrentLimitsStatus = 4,
-    PackKwPower         = 5,
+    AdaptiveAmphours    = 5,
 };
 
 enum class BmsCellSignal : uint8_t
