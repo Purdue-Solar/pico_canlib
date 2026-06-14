@@ -287,8 +287,8 @@ inline constexpr SignalDefinition distro_display_signals[] = {
 // ─── 0x400  Motor Controller ID ──────────────────────────────────────────────
 
 inline constexpr SignalDefinition mc_id_signals[] = {
-    {"Prohelion ID",  0,  32, Endianness::Big, nullptr, 0},
-    {"Serial Number", 32, 32, Endianness::Big, nullptr, 0},
+    {"Prohelion ID",  0,  32, Endianness::Little, nullptr, 0},
+    {"Serial Number", 32, 32, Endianness::Little, nullptr, 0},
 };
 
 // ─── 0x401  Motor Controller Errors ──────────────────────────────────────────
@@ -375,36 +375,36 @@ inline constexpr SignalDefinition mc_error_signals[] = {
 // ─── 0x402  Motor Bus Voltage / Current ──────────────────────────────────────
 
 inline constexpr SignalDefinition mc_bus_signals[] = {
-    {"Bus Voltage", 0,  32, Endianness::Big, nullptr, 0},
-    {"Bus Current", 32, 32, Endianness::Big, nullptr, 0},
+    {"Bus Voltage", 0,  32, Endianness::Little, nullptr, 0},
+    {"Bus Current", 32, 32, Endianness::Little, nullptr, 0},
 };
 
 // ─── 0x403  Motor Speed ───────────────────────────────────────────────────────
 
 inline constexpr SignalDefinition mc_speed_signals[] = {
-    {"Motor Velocity",   0,  32, Endianness::Big, nullptr, 0},
-    {"Vehicle Velocity", 32, 32, Endianness::Big, nullptr, 0},
+    {"Motor Velocity",   0,  32, Endianness::Little, nullptr, 0},
+    {"Vehicle Velocity", 32, 32, Endianness::Little, nullptr, 0},
 };
 
 // ─── 0x40B  Motor Temperature ────────────────────────────────────────────────
 
 inline constexpr SignalDefinition mc_temp_signals[] = {
-    {"Motor Temp",     0,  32, Endianness::Big, nullptr, 0},
-    {"Heat Sink Temp", 32, 32, Endianness::Big, nullptr, 0},
+    {"Motor Temp",     0,  32, Endianness::Little, nullptr, 0},
+    {"Heat Sink Temp", 32, 32, Endianness::Little, nullptr, 0},
 };
 
 // ─── 0x501  Motor Current / Velocity Control ─────────────────────────────────
 
 inline constexpr SignalDefinition motor_control_signals[] = {
-    {"Motor Velocity Setpoint", 0,  32, Endianness::Big, nullptr, 0},
-    {"Motor Current Setpoint",  32, 32, Endianness::Big, nullptr, 0},
+    {"Motor Velocity Setpoint", 0,  32, Endianness::Little, nullptr, 0},
+    {"Motor Current Setpoint",  32, 32, Endianness::Little, nullptr, 0},
 };
 
 // ─── 0x502  Bus Current Control ──────────────────────────────────────────────
 
 inline constexpr SignalDefinition bus_control_signals[] = {
-    {"Reserved",             0,  32, Endianness::Big, nullptr, 0},
-    {"Bus Current Setpoint", 32, 32, Endianness::Big, nullptr, 0},
+    {"Reserved",             0,  32, Endianness::Little, nullptr, 0},
+    {"Bus Current Setpoint", 32, 32, Endianness::Little, nullptr, 0},
 };
 
 // ─── 0x600  Peripheral Control ───────────────────────────────────────────────
@@ -436,7 +436,7 @@ inline constexpr SignalDefinition distro_control_signals[] = {
     {"Distro Control", 0, 8, Endianness::Big, distro_control_bits, array_size(distro_control_bits)},
 };
 
-// ─── 0x700  BMS Temperature / Current Limits / Power ─────────────────────────
+// ─── 0x202  BMS Temperature / Current Limits / Power ─────────────────────────
 
 inline constexpr SignalDefinition bms_power_signals[] = {
     {"Pack DCL",             0,  8,  Endianness::Big, nullptr, 0},
@@ -650,7 +650,7 @@ inline constexpr MessageDefinition artemis_messages[] = {
     {"Motor Current/Velocity Control", 0x501,      100,  motor_control_signals,      array_size(motor_control_signals)},
     {"Bus Current Control",            0x502,      100,  bus_control_signals,        array_size(bus_control_signals)},
     {"Peripheral Control",             0x600,      0,    distro_control_signals,     array_size(distro_control_signals)},
-    {"BMS Temperature/Current/Power",  0x700,      80,   bms_power_signals,          array_size(bms_power_signals)},
+    {"BMS Temperature/Current/Power",  0x202,      80,   bms_power_signals,          array_size(bms_power_signals)},
     {"BMS Cell Data",                  0x701,      80,   bms_cell_signals,           array_size(bms_cell_signals)},
     {"BMS Thermistor Broadcast",       0x702,      0,    bms_thermistor_signals,     array_size(bms_thermistor_signals)},
     {"BMS Cell Data Broadcast",        0x703,      20,   bms_cell_broadcast_signals, array_size(bms_cell_broadcast_signals)},
@@ -721,7 +721,9 @@ void dataEndian(Byte * buffer, MessageDefinition definition)
         SignalDefinition signal = definition.signals[i];
         if (signal.endian == Endianness::Big)
         {
-            std::reverse(buffer + signal.startBit * sizeof(buffer[0]), buffer + (signal.startBit + signal.length) * sizeof(buffer[0]));
+            auto elem_start = signal.startBit / (8u * sizeof(buffer[0]));
+            auto elem_end   = (signal.startBit + signal.length) / (8u * sizeof(buffer[0]));
+            std::reverse(buffer + elem_start, buffer + elem_end);
         }
     }
 }
