@@ -714,8 +714,9 @@ constexpr const SignalDefinition& getSignal(SignalEnum sig)
 
 // Returns the can ID for a given MessageID.
 template<typename Byte>
-void dataEndian(Byte * buffer, MessageDefinition definition)
+void dataEndian(Byte * buffer, MessageID id)
 {
+    MessageDefinition definition = getMessageDefinition(id);
     for(int i = 0; i < definition.signalCount; i++)
     {
         SignalDefinition signal = definition.signals[i];
