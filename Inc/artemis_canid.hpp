@@ -641,6 +641,7 @@ enum class ChargerSignal : uint8_t
 inline constexpr MessageDefinition artemis_messages[] = {
     {"BMS Safety Critical",            0x200,      40,   bms_signals,                array_size(bms_signals)},
     {"BMS Pack Voltage and Energy",    0x201,      80,   bms_voltage_signals,        array_size(bms_voltage_signals)},
+    {"BMS Temperature/Current/Power",  0x202,      80,   bms_power_signals,          array_size(bms_power_signals)},
     {"Power Distro Display",           0x300,      100,    distro_display_signals,     array_size(distro_display_signals)},
     {"Motor Controller ID",            0x400,      1000, mc_id_signals,              array_size(mc_id_signals)},
     {"Motor Controller Errors",        0x401,      200,  mc_error_signals,           array_size(mc_error_signals)},
@@ -650,7 +651,6 @@ inline constexpr MessageDefinition artemis_messages[] = {
     {"Motor Current/Velocity Control", 0x501,      100,  motor_control_signals,      array_size(motor_control_signals)},
     {"Bus Current Control",            0x502,      100,  bus_control_signals,        array_size(bus_control_signals)},
     {"Peripheral Control",             0x600,      100,  distro_control_signals,     array_size(distro_control_signals)},
-    {"BMS Temperature/Current/Power",  0x202,      80,   bms_power_signals,          array_size(bms_power_signals)},
     {"BMS Cell Data",                  0x701,      80,   bms_cell_signals,           array_size(bms_cell_signals)},
     {"BMS Thermistor Broadcast",       0x702,      0,    bms_thermistor_signals,     array_size(bms_thermistor_signals)},
     {"BMS Cell Data Broadcast",        0x703,      20,   bms_cell_broadcast_signals, array_size(bms_cell_broadcast_signals)},
