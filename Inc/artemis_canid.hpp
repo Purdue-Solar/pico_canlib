@@ -215,23 +215,23 @@ inline constexpr SignalDefinition bms_signals[] = {
 
 enum class DistroDisplayMisc : uint8_t
 {
-    MainHardwareDetectedFault = 0,
-    AuxHardwareDetectedFault  = 1,
-    MainPowerMonitorI2cError  = 2,
-    AuxPowerMonitorI2cError   = 3,
-    PowerDistroPrecharge      = 4,
-    Empty5                    = 5,
+    DistroBad                 = 0,
+    MainHardwareDetectedFault = 1,
+    AuxHardwareDetectedFault  = 2,
+    MainPowerMonitorI2cError  = 3,
+    AuxPowerMonitorI2cError   = 4,
+    PowerDistroPrecharge      = 5,
     Empty6                    = 6,
     Empty7                    = 7,
 };
 
 inline constexpr BitDefinition distro_display_misc_bits[] = {
+    {"Power distro error exists",       static_cast<uint8_t>(DistroDisplayMisc::DistroBad)},
     {"Main hardware detected fault",    static_cast<uint8_t>(DistroDisplayMisc::MainHardwareDetectedFault)},
     {"Aux hardware detected fault",     static_cast<uint8_t>(DistroDisplayMisc::AuxHardwareDetectedFault)},
     {"Main Power monitor i2c error",    static_cast<uint8_t>(DistroDisplayMisc::MainPowerMonitorI2cError)},
     {"Aux Power monitor i2c error",     static_cast<uint8_t>(DistroDisplayMisc::AuxPowerMonitorI2cError)},
     {"PowerDistro Precharge",           static_cast<uint8_t>(DistroDisplayMisc::PowerDistroPrecharge)},
-    {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty5)},
     {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty6)},
     {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty7)},
 };
