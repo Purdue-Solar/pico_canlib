@@ -221,7 +221,7 @@ enum class DistroDisplayMisc : uint8_t
     MainPowerMonitorI2cError  = 3,
     AuxPowerMonitorI2cError   = 4,
     PowerDistroPrecharge      = 5,
-    Empty6                    = 6,
+    ContactorFault            = 6,
     Empty7                    = 7,
 };
 
@@ -232,7 +232,7 @@ inline constexpr BitDefinition distro_display_misc_bits[] = {
     {"Main Power monitor i2c error",    static_cast<uint8_t>(DistroDisplayMisc::MainPowerMonitorI2cError)},
     {"Aux Power monitor i2c error",     static_cast<uint8_t>(DistroDisplayMisc::AuxPowerMonitorI2cError)},
     {"PowerDistro Precharge",           static_cast<uint8_t>(DistroDisplayMisc::PowerDistroPrecharge)},
-    {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty6)},
+    {"Contactor failed",                static_cast<uint8_t>(DistroDisplayMisc::ContactorFault)},
     {"Empty",                           static_cast<uint8_t>(DistroDisplayMisc::Empty7)},
 };
 
