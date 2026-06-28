@@ -1,5 +1,9 @@
 #pragma once
+#if defined(STM32_PROCESSOR)
+#include <cstdint>
+#else
 #include "pico/stdlib.h"
+#endif
 #include <algorithm>
 #include <cmath>
 
