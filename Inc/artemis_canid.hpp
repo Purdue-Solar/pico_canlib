@@ -1,5 +1,9 @@
 #pragma once
+#if defined(STM32_PROCESSOR)
+#include <cstdint>
+#else
 #include "pico/stdlib.h"
+#endif
 #include <algorithm>
 #include <cmath>
 
@@ -497,16 +501,16 @@ enum class MessageID : uint8_t
 {
     BmsSafetyCritical           = 0,
     BmsPackVoltageAndEnergy     = 1,
-    PowerDistroDisplay          = 2,
-    MotorControllerId           = 3,
-    MotorControllerErrors       = 4,
-    MotorBusVoltageCurrent      = 5,
-    MotorSpeed                  = 6,
-    MotorTemperature            = 7,
-    MotorCurrentVelocityControl = 8,
-    BusCurrentControl           = 9,
-    PeripheralControl           = 10,
-    BmsTemperatureCurrentPower  = 11,
+    BmsTemperatureCurrentPower  = 2,
+    PowerDistroDisplay          = 3,
+    MotorControllerId           = 4,
+    MotorControllerErrors       = 5,
+    MotorBusVoltageCurrent      = 6,
+    MotorSpeed                  = 7,
+    MotorTemperature            = 8,
+    MotorCurrentVelocityControl = 9,
+    BusCurrentControl           = 10,
+    PeripheralControl           = 11,
     BmsCellData                 = 12,
     BmsThermistorBroadcast      = 13,
     BmsCellDataBroadcast        = 14,
