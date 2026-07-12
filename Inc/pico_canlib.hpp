@@ -43,6 +43,7 @@ public:
         TXBxEID0 = 0x34,
         TXBxDLC = 0x35,
         CANINTF = 0x2C, // interrupt flag register (added for clearing RX flags)
+        CANSTAT = 0x0E, // status register; OPMOD (bits 7:5) reports actual mode
     };
 
     /// @brief XL2515 SPI Communication Protocol
@@ -205,16 +206,16 @@ public:
     /// @return
     status setByte(uint8_t bytes, XL2515::IN_ADDR addr);
 
-    /// @brief
-    /// @param addr
-    /// @return
-    uint8_t getBit(uint8_t addr);
-
     /// @brief sets filters and masks, don't need to use
     /// @param length
     /// @param addr
     /// @return
     status filtersAndMasks(int length, XL2515::IN_ADDR addr);
+
+    /// @brief Nonzero while an SPI transaction with the XL2515 may be in
+    /// flight. The keypad scan ISR checks this before borrowing the shared
+    /// SCK pad (matrix column on GPIO 10) and skips that column while set.
+    volatile uint8_t spi_depth = 0;
 
 private:
     /// Idk LED indicator or smth, default LED pin is 25 on Pico 2. Thinking of implementing it but it won't fix my problem just excessive. Cool feature to have tho
