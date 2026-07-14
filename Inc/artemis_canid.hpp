@@ -411,7 +411,7 @@ inline constexpr SignalDefinition bus_control_signals[] = {
     {"Bus Current Setpoint", 32, 32, Endianness::Little, nullptr, 0},
 };
 
-// ─── 0x600  Peripheral Control ───────────────────────────────────────────────
+// ─── 0x700  Peripheral Control ───────────────────────────────────────────────
 
 enum class DistroControl : uint8_t
 {
@@ -460,7 +460,7 @@ inline constexpr SignalDefinition bms_voltage_signals[] = {
     {"Pack Voltage",      48, 16, Endianness::Big, nullptr, 0},
 };
 
-// ─── 0x702  BMS Cell Data ────────────────────────────────────────────────────
+// ─── 0x602  BMS Cell Data ────────────────────────────────────────────────────
 
 inline constexpr SignalDefinition bms_cell_signals[] = {
     {"Low Cell Voltage",     0,  16, Endianness::Big, nullptr, 0},
@@ -471,13 +471,13 @@ inline constexpr SignalDefinition bms_cell_signals[] = {
     {"High Thermistor ID",   56, 8,  Endianness::Big, nullptr, 0},
 };
 
-// ─── 0x703  BMS Thermistor Broadcast ─────────────────────────────────────────
+// ─── 0x603  BMS Thermistor Broadcast ─────────────────────────────────────────
 
 inline constexpr SignalDefinition bms_thermistor_signals[] = {
     {"Thermistor Data", 0, 64, Endianness::Big, nullptr, 0},
 };
 
-// ─── 0x704  BMS Cell Data Broadcast ──────────────────────────────────────────
+// ─── 0x604  BMS Cell Data Broadcast ──────────────────────────────────────────
 
 inline constexpr SignalDefinition bms_cell_broadcast_signals[] = {
     {"Cell ID",             0,  8,  Endianness::Big, nullptr, 0},
@@ -510,10 +510,10 @@ enum class MessageID : uint8_t
     MotorTemperature            = 8,
     MotorCurrentVelocityControl = 9,
     BusCurrentControl           = 10,
-    PeripheralControl           = 11,
-    BmsCellData                 = 12,
-    BmsThermistorBroadcast      = 13,
-    BmsCellDataBroadcast        = 14,
+    BmsCellData                 = 11,
+    BmsThermistorBroadcast      = 12,
+    BmsCellDataBroadcast        = 13,
+    PeripheralControl           = 14,
     Charger1Communication       = 15,
     Charger2Communication       = 16,
     Charger3Communication       = 17,
@@ -654,10 +654,10 @@ inline constexpr MessageDefinition artemis_messages[] = {
     {"Motor Temperature",              0x40B,      1000, mc_temp_signals,            array_size(mc_temp_signals)},
     {"Motor Current/Velocity Control", 0x501,      100,  motor_control_signals,      array_size(motor_control_signals)},
     {"Bus Current Control",            0x502,      100,  bus_control_signals,        array_size(bus_control_signals)},
-    {"Peripheral Control",             0x600,      100,  distro_control_signals,     array_size(distro_control_signals)},
-    {"BMS Cell Data",                  0x701,      80,   bms_cell_signals,           array_size(bms_cell_signals)},
-    {"BMS Thermistor Broadcast",       0x702,      0,    bms_thermistor_signals,     array_size(bms_thermistor_signals)},
-    {"BMS Cell Data Broadcast",        0x703,      20,   bms_cell_broadcast_signals, array_size(bms_cell_broadcast_signals)},
+    {"BMS Cell Data",                  0x601,      80,   bms_cell_signals,           array_size(bms_cell_signals)},
+    {"BMS Thermistor Broadcast",       0x602,      0,    bms_thermistor_signals,     array_size(bms_thermistor_signals)},
+    {"BMS Cell Data Broadcast",        0x603,      20,   bms_cell_broadcast_signals, array_size(bms_cell_broadcast_signals)},
+    {"Peripheral Control",             0x700,      100,  distro_control_signals,     array_size(distro_control_signals)},
     {"Charger 1 Communication",        0x1806E5F4, 808,  charger_signals,            array_size(charger_signals)},
     {"Charger 2 Communication",        0x1806E7F4, 808,  charger_signals,            array_size(charger_signals)},
     {"Charger 3 Communication",        0x1806E9F4, 808,  charger_signals,            array_size(charger_signals)},
