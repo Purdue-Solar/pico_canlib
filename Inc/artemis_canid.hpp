@@ -741,7 +741,7 @@ constexpr const uint8_t getNumCanBytesMessage(MessageID id)
 }
 
 template<typename Shift>
-inline uint8_t sbit(Shift s)
+constexpr uint8_t sbit(Shift s)
 {
     return 1u << static_cast<uint8_t>(s);
 }
