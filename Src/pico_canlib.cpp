@@ -44,17 +44,59 @@ pico_canlib::status pico_canlib::init(void) {
   // Configuration mode, which is required for the CNF writes that follow.
   sleep_us(50);
 
-  // // set rx to recieve all messages (no filtering) by setting masks to 0 and
-  // filters to 0 filtersAndMasks(14, (XL2515::IN_ADDR)0x00);
-  // filtersAndMasks(14, (XL2515::IN_ADDR)0x10);
-  // filtersAndMasks(10, (XL2515::IN_ADDR)0x20);
-  // // set rxb0ctrl to receive all messages (no filtering)
-  // setByte(0x64, (XL2515::IN_ADDR)0x60); // receive all valid messages with
-  // standard or extended identifiers setByte(0x60, (XL2515::IN_ADDR)0x70);
-
-  // Set Control Bits
   uint8_t mode;
 
+  // RX acceptance config (finding M-10). POR leaves RXB0CTRL.BUKT=0 (no
+  // RXB0->RXB1 rollover, effective RX depth is ONE frame) and the filter/mask
+  // registers undefined, so acceptance is formally indeterminate until this
+  // runs. All writes below must happen in Configuration mode, before the
+  // Normal-mode transition further down.
+  //
+  // Zero every mask register: with RXM=00 ("use filters/masks", set below) a
+  // zero mask means "don't care" on every ID bit, so all valid frames are
+  // accepted without resorting to RXM=11, which the datasheet (S4.2.2) flags
+  // as debug-only. Filters are zeroed too even though a zero mask makes their
+  // value irrelevant -- POR filter contents are undefined, and this avoids
+  // the standard-frame data-byte filtering gotcha the datasheet calls out.
+  //
+  // Three separate auto-increment writes because the filter/mask blocks are
+  // split by the CANSTAT/CANCTRL mirror registers at 0x0C-0x0F.
+  {
+    static const uint8_t zeros12[12] = {0}; // RXF0-RXF2 / RXF3-RXF5
+    static const uint8_t zeros8[8] = {0};   // RXM0 / RXM1
+    if (filtersAndMasks(zeros12, sizeof(zeros12),
+                         XL2515::IN_ADDR::RXF0SIDH) != status::SUCCESS) {
+      return status::INIT_ERROR;
+    }
+    if (filtersAndMasks(zeros12, sizeof(zeros12),
+                         XL2515::IN_ADDR::RXF3SIDH) != status::SUCCESS) {
+      return status::INIT_ERROR;
+    }
+    if (filtersAndMasks(zeros8, sizeof(zeros8),
+                         XL2515::IN_ADDR::RXM0SIDH) != status::SUCCESS) {
+      return status::INIT_ERROR;
+    }
+  }
+
+  fprintf(stdout, "RXB0CTRL SET. Error Status: %d\n",
+          setByte(XL2515::RXB0CTRL_RXALL_BUKT, XL2515::IN_ADDR::RXB0CTRL));
+  getByte(&mode, XL2515::IN_ADDR::RXB0CTRL);
+  fprintf(stdout, "RXB0CTRL Bytes = %d\n", mode);
+
+  if (mode != XL2515::RXB0CTRL_RXALL_BUKT) {
+    return status::INIT_ERROR;
+  }
+
+  fprintf(stdout, "RXB1CTRL SET. Error Status: %d\n",
+          setByte(XL2515::RXB1CTRL_RXALL, XL2515::IN_ADDR::RXB1CTRL));
+  getByte(&mode, XL2515::IN_ADDR::RXB1CTRL);
+  fprintf(stdout, "RXB1CTRL Bytes = %d\n", mode);
+
+  if (mode != XL2515::RXB1CTRL_RXALL) {
+    return status::INIT_ERROR;
+  }
+
+  // Set Control Bits
   fprintf(stdout, "CNF1 SET. Error Status: %d\n",
           setByte(XL2515::NORMAL_CNF1, XL2515::IN_ADDR::CNF1));
   getByte(&mode, XL2515::IN_ADDR::CNF1);
@@ -120,20 +162,24 @@ pico_canlib::status pico_canlib::init(void) {
   return status::SUCCESS;
 }
 
-pico_canlib::status pico_canlib::filtersAndMasks(int length,
+pico_canlib::status pico_canlib::filtersAndMasks(const uint8_t *data,
+                                                 uint8_t length,
                                                  XL2515::IN_ADDR addr) {
+  // Rewrite of the old VLA-based version, which hardcoded a 14-byte SPI write
+  // regardless of `length`: for length < 14 that read past the end of the
+  // stack buffer and clocked out garbage into whatever registers followed
+  // (potentially CNF/CANINTE), and for length != 14 the return-value compare
+  // against `length` was always wrong. This version writes exactly `length`
+  // bytes from the caller-owned buffer -- no VLA, no size mismatch possible.
   SpiBusyGuard busy(spi_depth);
-  uint8_t message[length] = {0};
-  message[0] = (uint8_t)XL2515::SPI_INSTR_XL::WRITE;
-  message[1] = (uint8_t)addr;
+  uint8_t header[2] = {(uint8_t)XL2515::SPI_INSTR_XL::WRITE, (uint8_t)addr};
 
   gpio_put(in_cs, 0);
-  if (spi_write_blocking(in_spi_hw, message, 14) != length) {
-    gpio_put(in_cs, 1);
-    return status::WRITE_ERROR;
-  }
+  bool ok = spi_write_blocking(in_spi_hw, header, 2) == 2 &&
+            spi_write_blocking(in_spi_hw, data, length) == length;
   gpio_put(in_cs, 1);
-  return status::SUCCESS;
+
+  return ok ? status::SUCCESS : status::WRITE_ERROR;
 }
 
 pico_canlib::status pico_canlib::setByte(uint8_t bytes, XL2515::IN_ADDR addr) {
