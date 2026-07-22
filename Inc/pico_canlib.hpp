@@ -18,8 +18,8 @@ public:
     static const uint8_t LOOPBACK_MODE = 0x40;
     static const uint8_t INTE_EN = 0x03; // 0x03 for rxb0 and rxb1 interrupt enable
     static const uint8_t NORMAL_CNF1 = 0x00;
-    static const uint8_t NORMAL_CNF2 = 0x9E;
-    static const uint8_t NORMAL_CNF3 = 0x03;
+    static const uint8_t NORMAL_CNF2 = 0xBC;
+    static const uint8_t NORMAL_CNF3 = 0x01;
 
     enum class PRIORITY : uint8_t
     {
