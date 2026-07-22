@@ -31,11 +31,20 @@ public:
 
     enum class IN_ADDR : uint8_t
     {
+        // Filter/mask register blocks. Contiguous within each block, but the
+        // blocks themselves are split by the CANSTAT/CANCTRL mirror registers
+        // at 0x0C-0x0F (and 0x1C-0x1F) -- see filtersAndMasks() call sites in
+        // init(). Each filter/mask is 4 bytes (SIDH, SIDL, EID8, EID0).
+        RXF0SIDH = 0x00, // filters 0-2 (RXB0): 0x00-0x0B, 12 bytes
+        RXF3SIDH = 0x10, // filters 3-5 (RXB1): 0x10-0x1B, 12 bytes
+        RXM0SIDH = 0x20, // masks 0-1 (RXB0/RXB1): 0x20-0x27, 8 bytes
         CANINTE = 0x2B,
         CANCTRL = 0x0F,
         CNF1 = 0x2A,
         CNF2 = 0x29,
         CNF3 = 0x28,
+        RXB0CTRL = 0x60,
+        RXB1CTRL = 0x70,
         TXBxCTRL = 0x30,
         TXBxSIDH = 0x31,
         TXBxSIDL = 0x32,
@@ -43,7 +52,17 @@ public:
         TXBxEID0 = 0x34,
         TXBxDLC = 0x35,
         CANINTF = 0x2C, // interrupt flag register (added for clearing RX flags)
+        CANSTAT = 0x0E, // status register; OPMOD (bits 7:5) reports actual mode
     };
+
+    // RXB0CTRL: RXM<1:0> = 00 (bits 6:5) means "use filters/masks" -- with all
+    // masks zeroed below that accepts every valid frame without resorting to
+    // RXM=11, which the datasheet (S4.2.2) flags as debug-only. BUKT (bit 2)
+    // = 1 enables RXB0 -> RXB1 rollover so a full RXB0 doesn't drop the next
+    // frame (finding M-10; effective RX depth 1 -> 2).
+    static const uint8_t RXB0CTRL_RXALL_BUKT = 0x04;
+    // RXB1CTRL: RXM<1:0> = 00, same reasoning; RXB1 has no BUKT bit.
+    static const uint8_t RXB1CTRL_RXALL = 0x00;
 
     /// @brief XL2515 SPI Communication Protocol
     enum class SPI_INSTR_XL : uint8_t
@@ -205,16 +224,20 @@ public:
     /// @return
     status setByte(uint8_t bytes, XL2515::IN_ADDR addr);
 
-    /// @brief
-    /// @param addr
-    /// @return
-    uint8_t getBit(uint8_t addr);
+    /// @brief Writes a contiguous block of filter/mask registers, starting at
+    /// addr and auto-incrementing. Only writable in Configuration mode (call
+    /// before the Normal-mode transition in init()); caller is responsible for
+    /// not spanning a CANSTAT/CANCTRL mirror address (see IN_ADDR comments).
+    /// @param data bytes to write
+    /// @param length number of bytes in data
+    /// @param addr starting register address
+    /// @return status of the SPI write
+    status filtersAndMasks(const uint8_t *data, uint8_t length, XL2515::IN_ADDR addr);
 
-    /// @brief sets filters and masks, don't need to use
-    /// @param length
-    /// @param addr
-    /// @return
-    status filtersAndMasks(int length, XL2515::IN_ADDR addr);
+    /// @brief Nonzero while an SPI transaction with the XL2515 may be in
+    /// flight. The keypad scan ISR checks this before borrowing the shared
+    /// SCK pad (matrix column on GPIO 10) and skips that column while set.
+    volatile uint8_t spi_depth = 0;
 
 private:
     /// Idk LED indicator or smth, default LED pin is 25 on Pico 2. Thinking of implementing it but it won't fix my problem just excessive. Cool feature to have tho
