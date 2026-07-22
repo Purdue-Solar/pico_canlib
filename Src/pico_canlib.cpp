@@ -83,7 +83,12 @@ pico_canlib::status pico_canlib::init(void) {
   getByte(&mode, XL2515::IN_ADDR::RXB0CTRL);
   fprintf(stdout, "RXB0CTRL Bytes = %d\n", mode);
 
-  if (mode != XL2515::RXB0CTRL_RXALL_BUKT) {
+  // Compare only the writable bits, RXM<1:0> and BUKT (mask 0x6C): bit 1
+  // (BUKT1) is a read-only mirror of BUKT (datasheet Register 4-1), so with
+  // BUKT set the register reads back 0x06 and a full-byte compare against
+  // 0x04 fails on every boot, aborting init() with the chip still in
+  // Configuration mode. RXRTR/FILHIT0 are read-only status bits, ignored.
+  if ((mode & 0x6C) != XL2515::RXB0CTRL_RXALL_BUKT) {
     return status::INIT_ERROR;
   }
 
@@ -92,7 +97,9 @@ pico_canlib::status pico_canlib::init(void) {
   getByte(&mode, XL2515::IN_ADDR::RXB1CTRL);
   fprintf(stdout, "RXB1CTRL Bytes = %d\n", mode);
 
-  if (mode != XL2515::RXB1CTRL_RXALL) {
+  // Same masking discipline: only RXM<1:0> (mask 0x60) is writable here;
+  // RXRTR and FILHIT<2:0> are read-only status bits.
+  if ((mode & 0x60) != XL2515::RXB1CTRL_RXALL) {
     return status::INIT_ERROR;
   }
 
