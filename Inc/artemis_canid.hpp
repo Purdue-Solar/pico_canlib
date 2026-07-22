@@ -733,6 +733,29 @@ void dataEndian(Byte * buffer, MessageID id)
     }
 }
 
+// Diagnostic transform for TX (features.hpp CAN_TX_FLIP_ENDIAN): reverses the
+// bytes of EVERY signal in the frame regardless of the endianness its
+// SignalDefinition declares, producing the opposite wire byte order with
+// field positions unchanged. Contrast dataEndian above, which is the RX
+// normalization and only reverses declared-Big signals. Single-byte signals
+// are no-ops. The buffer must cover every tabled signal's bytes — the max of
+// (startBit+length)/8 across the table, which is NOT always
+// getNumCanBytesMessage: that sizes from the last table row and under-counts
+// the charger messages, whose rows are listed out of startBit order. Passing
+// the full 8-byte payload is always safe.
+template<typename Byte>
+void dataEndianFlip(Byte * buffer, MessageID id)
+{
+    MessageDefinition definition = getMessageDefinition(id);
+    for(int i = 0; i < definition.signalCount; i++)
+    {
+        SignalDefinition signal = definition.signals[i];
+        auto elem_start = signal.startBit / (8u * sizeof(buffer[0]));
+        auto elem_end   = (signal.startBit + signal.length) / (8u * sizeof(buffer[0]));
+        std::reverse(buffer + elem_start, buffer + elem_end);
+    }
+}
+
 constexpr const uint8_t getNumCanBytesMessage(MessageID id)
 {
     MessageDefinition message = getMessageDefinition(id);
