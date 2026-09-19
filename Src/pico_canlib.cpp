@@ -1,4 +1,5 @@
 #include "pico_canlib.hpp"
+#include <stdio.h>
 
 // Marks spi_depth nonzero for the duration of a public API call so the keypad
 // ISR never borrows the shared SCK pad (matrix column 2, GPIO 10) while a
@@ -31,7 +32,7 @@ pico_canlib::status pico_canlib::init(void) {
 
   // Reset XL2515 Configuration
   status status = reset();
-  fprintf(stdout, "Status Bytes = %d\n", status);
+  fprintf(stdout, "Status Bytes = %d\n", static_cast<int>(status));
   if (status != status::SUCCESS) {
     return status;
   }
@@ -79,7 +80,7 @@ pico_canlib::status pico_canlib::init(void) {
   }
 
   fprintf(stdout, "RXB0CTRL SET. Error Status: %d\n",
-          setByte(XL2515::RXB0CTRL_RXALL_BUKT, XL2515::IN_ADDR::RXB0CTRL));
+          static_cast<int>(setByte(XL2515::RXB0CTRL_RXALL_BUKT, XL2515::IN_ADDR::RXB0CTRL)));
   getByte(&mode, XL2515::IN_ADDR::RXB0CTRL);
   fprintf(stdout, "RXB0CTRL Bytes = %d\n", mode);
 
@@ -88,7 +89,7 @@ pico_canlib::status pico_canlib::init(void) {
   }
 
   fprintf(stdout, "RXB1CTRL SET. Error Status: %d\n",
-          setByte(XL2515::RXB1CTRL_RXALL, XL2515::IN_ADDR::RXB1CTRL));
+          static_cast<int>(setByte(XL2515::RXB1CTRL_RXALL, XL2515::IN_ADDR::RXB1CTRL)));
   getByte(&mode, XL2515::IN_ADDR::RXB1CTRL);
   fprintf(stdout, "RXB1CTRL Bytes = %d\n", mode);
 
@@ -98,7 +99,7 @@ pico_canlib::status pico_canlib::init(void) {
 
   // Set Control Bits
   fprintf(stdout, "CNF1 SET. Error Status: %d\n",
-          setByte(XL2515::NORMAL_CNF1, XL2515::IN_ADDR::CNF1));
+          static_cast<int>(setByte(XL2515::NORMAL_CNF1, XL2515::IN_ADDR::CNF1)));
   getByte(&mode, XL2515::IN_ADDR::CNF1);
   fprintf(stdout, "CANINTE Bytes = %d\n", mode);
 
@@ -107,7 +108,7 @@ pico_canlib::status pico_canlib::init(void) {
   }
 
   fprintf(stdout, "CNF1 SET. Error Status: %d\n",
-          setByte(XL2515::NORMAL_CNF2, XL2515::IN_ADDR::CNF2));
+          static_cast<int>(setByte(XL2515::NORMAL_CNF2, XL2515::IN_ADDR::CNF2)));
   getByte(&mode, XL2515::IN_ADDR::CNF2);
   fprintf(stdout, "CANINTE Bytes = %d\n", mode);
 
@@ -116,7 +117,7 @@ pico_canlib::status pico_canlib::init(void) {
   }
 
   fprintf(stdout, "CNF1 SET. Error Status: %d\n",
-          setByte(XL2515::NORMAL_CNF3, XL2515::IN_ADDR::CNF3));
+          static_cast<int>(setByte(XL2515::NORMAL_CNF3, XL2515::IN_ADDR::CNF3)));
   getByte(&mode, XL2515::IN_ADDR::CNF3);
   fprintf(stdout, "CANINTE Bytes = %d\n", mode);
 
@@ -125,7 +126,7 @@ pico_canlib::status pico_canlib::init(void) {
   }
 
   fprintf(stdout, "CANINTE SET. Error Status: %d\n",
-          setByte(XL2515::INTE_EN, XL2515::IN_ADDR::CANINTE));
+          static_cast<int>(setByte(XL2515::INTE_EN, XL2515::IN_ADDR::CANINTE)));
   getByte(&mode, XL2515::IN_ADDR::CANINTE);
   fprintf(stdout, "CANINTE Bytes = %d\n", mode);
 
@@ -134,7 +135,7 @@ pico_canlib::status pico_canlib::init(void) {
   }
 
   fprintf(stdout, "CANCTRL SET. Error Status: %d\n",
-          setByte(XL2515::NORMAL_MODE, XL2515::IN_ADDR::CANCTRL));
+          static_cast<int>(setByte(XL2515::NORMAL_MODE, XL2515::IN_ADDR::CANCTRL)));
   // Confirm the chip actually entered Normal mode by reading CANSTAT.OPMOD
   // (bits 7:5), NOT by reading back the CANCTRL request register. The old check
   // read CANCTRL and compared it to LOOPBACK_MODE (0x40); since we just wrote

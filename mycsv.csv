@@ -1,0 +1,25 @@
+  ,Source,Destination,"Interval, ms",Endianness,Can ID,Byte 7,Byte 6,Byte 5,Byte 4,Byte 3,Byte 2,Byte 1,Byte 0
+Safety critical information for power distro and BMS,BMS,"Safety board, Steering wheel",40,MSB first,0x001,Adaptive Pack SOC (0.5%),Pack SOC (0.5%),Failsafe statuses [see bits],Relay state 2 (see Bits),Relay state 1 (see Bits),DTC Flags 2.2  (see Bits),DTC Flags 2.1  (see Bits),DTC Flags 1  (see Bits)
+Pack voltage and energy data,BMS,"Safety board, Steering wheel",80,MSB first,0x002,Pack  voltage,,Pack current,,Pack CCL,Pack DCL,Pack kW power,
+"Temperature, current limit, and power",BMS,Steering wheel,80,MSB first,0x003,Adaptive Amphours,,Current limits status,,High temperature,Low temperature,Pack Amphours,
+Safety critical display information for the steering wheel,Safety board,Steering wheel,100,MSB first,0x200,Unused,,,,,Display flags Aux battery (see Bits),Display flags Main battery (see Bits),Display flags Power Monitor (see Bits)
+Motor controller info (cannot be disabled),Motor controller,None [cannot disable],1000,MSB first,0x300,Serial number,,,,Prohelion ID,,,
+Motor controller error flags,Motor controller,Steering wheel,200,MSB first,0x301,CAN rx error count (uint8),CAN tx error count (uint8),Active motor index (uint16),,MC Error Flags 2 (see Bits),MC Error Flags 1 (see Bits)        ,Reserved,MC Limit Flags (see Bits)        
+Motor bus voltage/current,Motor controller,Steering wheel,200,LSB first,0x302,"Bus current (float32, amps)",,,,"Bus voltage (float32, volts)",,,
+Motor speed,Motor controller,Steering wheel,200,LSB first,0x303,"Vehcile velocity (float32, m/s)",,,,"Motor velocity (float32, RPM)",,,
+Motor temperature,Motor controller,Steering wheel,1000,LSB first,0x30B,"Heat sink temp (float32, celsius)",,,,"Motor temp (float32, celcius)",,,
+Motor current / velocity control [must send at least every 250ms],Steering wheel,Motor controller,100,LSB first,0x401,"Motor Current (float32, %, 0.0-1.00)",,,,"Motor velocity (float32, RPM)",,,
+Bus current,Steering wheel,Motor controller,100,LSB first,0x402,"Bus current  (float32, %, 0.0-1.00)",,,,Reserved,,,
+Operating mode,Power distro ,Steering wheel,250,MSB first,0x500,Unused,,,,,,,Opmode (see Bits)
+Peripheral control,Steering wheel,Power distro,100,MSB first,0x600,Unused,,,,,,,Distro control (see Bits)
+Strobe,Safety board,Power distro,50,MSB first,0x601,Unused,,,,,,,Strobe bit
+Lidar sensor 1,Bluetooth receiver,Telemetry,100,MSB first,0x700,,,,,,,,
+Lidar sensor 2,Bluetooth receiver,Telemetry,100,MSB first,0x701,,,,,,,,
+Lidar sensor 3,Bluetooth receiver,Telemetry,100,MSB first,0x702,,,,,,,,
+IMU sensor 1,Bluetooth receiver,Telemetry,100,MSB first,0x703,,,,,,,,
+IMU sensor 2,Bluetooth receiver,Telemetry,100,MSB first,0x704,,,,,,,,
+IMU sensor 3,Bluetooth receiver,Telemetry,100,MSB first,0x705,,,,,,,,
+IMU sensor 4,Bluetooth receiver,Telemetry,100,MSB first,0x706,,,,,,,,
+Cell data,BMS,Telemetry,80,MSB first,0x707,High thermistor ID,Low thermistor ID,High cell voltage ID,Low cell voltage ID,High cell voltage [55c rated???],,Low cell voltage,
+"Thermistor broadcast, should only be on during testing",BMS,Telemetry,20,MSB first,0x708,"Thermistor data, unknown format",,,,,,,
+"Cell data broadcast, Should only be on during testing",BMS,Telemetry,20,MSB first,0x709,Checksum [see page 3],"16 bit Open Voltage, 0.1mv LSB",,"15 bit internal resistance, 10uohm LSB",,"16 bit instant voltage, 0.1mv LSB",,"Cell ID (8 bit, starting with zero)"

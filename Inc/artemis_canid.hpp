@@ -4,8 +4,8 @@
 #else
 #include "pico/stdlib.h"
 #endif
-#include <algorithm>
-#include <cmath>
+// #include <algorithm>
+// #include <cmath>
 
 /*
 Example usage: 
@@ -716,22 +716,9 @@ constexpr const SignalDefinition& getSignal(SignalEnum sig)
                             .signals[static_cast<uint8_t>(sig)];
 }
 
-// Returns the can ID for a given MessageID.
+// Enforces endianness for a buffer.
 template<typename Byte>
-void dataEndian(Byte * buffer, MessageID id)
-{
-    MessageDefinition definition = getMessageDefinition(id);
-    for(int i = 0; i < definition.signalCount; i++)
-    {
-        SignalDefinition signal = definition.signals[i];
-        if (signal.endian == Endianness::Big)
-        {
-            auto elem_start = signal.startBit / (8u * sizeof(buffer[0]));
-            auto elem_end   = (signal.startBit + signal.length) / (8u * sizeof(buffer[0]));
-            std::reverse(buffer + elem_start, buffer + elem_end);
-        }
-    }
-}
+void dataEndian(Byte * buffer, MessageID id);
 
 constexpr const uint8_t getNumCanBytesMessage(MessageID id)
 {
