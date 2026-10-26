@@ -200,6 +200,7 @@ inline constexpr BitDefinition bms_failsafe_bits[] = {
     {"Reserved",                            static_cast<uint8_t>(BmsFailsafe::Reserved)},
 };
 
+// 0x200 signals
 inline constexpr SignalDefinition bms_signals[] = {
     {"DTC Flags 1",       0,  8, Endianness::Big, bms_dtc_flags1_bits,   array_size(bms_dtc_flags1_bits)},
     {"DTC Flags 2.1",     8,  8, Endianness::Big, bms_dtc_flags2_1_bits, array_size(bms_dtc_flags2_1_bits)},
@@ -207,8 +208,8 @@ inline constexpr SignalDefinition bms_signals[] = {
     {"Relay State 1",     24, 8, Endianness::Big, bms_relay_state1_bits, array_size(bms_relay_state1_bits)},
     {"Relay State 2",     32, 8, Endianness::Big, bms_relay_state2_bits, array_size(bms_relay_state2_bits)},
     {"Failsafe Statuses", 40, 8, Endianness::Big, bms_failsafe_bits,     array_size(bms_failsafe_bits)},
-    {"Pack SOC",          48, 8, Endianness::Big, nullptr,               0},
-    {"Adaptive Pack SOC", 56, 8, Endianness::Big, nullptr,               0},
+    {"Pack SOC",          48, 8, Endianness::Little, nullptr,               0},
+    {"Adaptive Pack SOC", 56, 8, Endianness::Little, nullptr,               0},
 };
 
 // ─── 0x300  Power Distro Display ─────────────────────────────────────────────
@@ -440,24 +441,24 @@ inline constexpr SignalDefinition distro_control_signals[] = {
     {"Distro Control", 0, 8, Endianness::Big, distro_control_bits, array_size(distro_control_bits)},
 };
 
-// ─── 0x202  BMS Temperature / Current Limits / Power ─────────────────────────
-
-inline constexpr SignalDefinition bms_power_signals[] = {
-    {"Pack DCL",             0,  8,  Endianness::Big, nullptr, 0},
-    {"Pack CCL",             8,  8,  Endianness::Big, nullptr, 0},
-    {"Low Temperature",      16, 8,  Endianness::Big, nullptr, 0},
-    {"High Temperature",     24, 8,  Endianness::Big, nullptr, 0},
-    {"Current Limits Status",32, 16, Endianness::Big, nullptr, 0},
-    {"Adaptive Amphours",    48, 16, Endianness::Big, nullptr, 0},
-};
-
 // ─── 0x201  BMS Pack Voltage and Energy ──────────────────────────────────────
 
 inline constexpr SignalDefinition bms_voltage_signals[] = {
-    {"Pack kW Power",     0, 16,  Endianness::Big, nullptr, 0},
-    {"Pack Amphours",     16, 16, Endianness::Big, nullptr, 0},
-    {"Pack Current",      32, 16, Endianness::Big, nullptr, 0},
-    {"Pack Voltage",      48, 16, Endianness::Big, nullptr, 0},
+    {"Pack kW Power (0.1kW)",             0,  16,  Endianness::Big, nullptr, 0},
+    {"Maximum Pack DCL (Amps)",             16,  8,  Endianness::Big, nullptr, 0},
+    {"Maximum Pack CCL (Amps)",      24, 8,  Endianness::Big, nullptr, 0},
+    {"Pack Current (0.1 Amps)",     32, 16,  Endianness::Big, nullptr, 0},
+    {"Maximum Pack Voltage (0.1 volts)",    48, 16, Endianness::Big, nullptr, 0},
+};
+
+// ─── 0x202  BMS Temperature / Current Limits / Power ─────────────────────────
+
+inline constexpr SignalDefinition bms_power_signals[] = {
+    {"Pack Amphours (0.1 Amphours)",             0,  16,  Endianness::Big, nullptr, 0},
+    {"Low Temperature (Celsius)",             16,  8,  Endianness::Little, nullptr, 0},
+    {"High Temperature (Celsius)",      24, 8,  Endianness::Little, nullptr, 0},
+    {"Current Limits Status",     32, 16,  Endianness::Big, nullptr, 0},
+    {"Adaptive Amphours (0.1 Amphours)",    48, 16, Endianness::Big, nullptr, 0},
 };
 
 // ─── 0x602  BMS Cell Data ────────────────────────────────────────────────────
