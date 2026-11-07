@@ -550,7 +550,7 @@ status pico_canlib::receiveCAN(uint8_t *buffer, uint8_t idSize, uint8_t bufferSi
 {
     SpiBusyGuard busy(spi_depth);
 
-    if (!initialized || buffer == nullptr || idSize != 4 || bufferSize != 8)
+    if (!initialized || buffer == nullptr)
     {
         return status::RX_PAYLOAD_ERROR;
     }
