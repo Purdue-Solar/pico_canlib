@@ -1,3 +1,4 @@
+
 #include <Arduino.h>
 
 #include "teensy/teensy_canlib.h"
@@ -5,7 +6,8 @@
 static constexpr uint32_t CAN_ID = 0x125;
 static constexpr int CAN_BAUD = 500000;
 
-static teensy_canlib can(CAN_BAUD);
+static teensy_canlib teensycan1(CAN_BAUD);
+static canlib &can1 = teensycan1;
 
 static bool canReady = false;
 static uint32_t lastTxMs = 0;
@@ -17,7 +19,7 @@ static void processCAN()
 
     while (true)
     {
-        status result = can.receiveCAN(buffer, 4, 8);
+        status result = can1.receiveCAN(buffer, 4, 8);
 
         if (result == status::NO_NEW_MESSAGE)
         {
@@ -52,7 +54,7 @@ static void transmitCAN(uint32_t count)
         0x03,
         static_cast<uint8_t>(count)};
 
-    status result = can.transmitCAN(CAN_ID, payload, sizeof(payload));
+    status result = can1.transmitCAN(CAN_ID, payload, sizeof(payload));
 
     if (result == status::SUCCESS)
     {
@@ -76,7 +78,7 @@ void setup()
 
     Serial.println("Initializing Teensy CAN");
 
-    status result = can.init();
+    status result = can1.init();
 
     if (result != status::SUCCESS)
     {
@@ -84,7 +86,7 @@ void setup()
         return;
     }
 
-    result = can.init_irq();
+    result = can1.init_irq();
 
     if (result != status::SUCCESS)
     {
@@ -95,7 +97,7 @@ void setup()
     canReady = true;
     lastTxMs = millis();
 
-    Serial.printf("CAN initialized at %d baud\n", can.getBaud());
+    Serial.printf("CAN initialized at %d baud\n", can1.getBaud());
 }
 
 void loop()
@@ -106,7 +108,6 @@ void loop()
         return;
     }
 
-    // receiveCAN() dispatches pending FlexCAN_T4 events.
     processCAN();
 
     uint32_t now = millis();

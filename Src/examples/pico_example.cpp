@@ -16,7 +16,7 @@ static constexpr uint8_t CAN_MOSI_PIN = 11;
 static constexpr uint8_t CAN_CS_PIN = 9;
 static constexpr uint8_t CAN_SCK_PIN = 10;
 
-static pico_canlib can(
+static pico_canlib picocan1(
     CAN_INT_PIN,
     CAN_MISO_PIN,
     CAN_MOSI_PIN,
@@ -25,13 +25,15 @@ static pico_canlib can(
     spi1,
     CAN_BAUD);
 
+static canlib &can1 = picocan1;
+
 static void processCAN()
 {
     uint8_t buffer[13] = {};
 
     while (true)
     {
-        status result = can.receiveCAN(buffer, 4, 8);
+        status result = can1.receiveCAN(buffer, 4, 8);
 
         if (result == status::NO_NEW_MESSAGE)
         {
@@ -66,7 +68,7 @@ static void transmitCAN(uint32_t count)
         0x02,
         static_cast<uint8_t>(count)};
 
-    status result = can.transmitCAN(CAN_ID, payload, sizeof(payload));
+    status result = can1.transmitCAN(CAN_ID, payload, sizeof(payload));
 
     if (result == status::SUCCESS)
     {
@@ -82,12 +84,11 @@ int main()
 {
     stdio_init_all();
 
-    // Give USB serial a chance to connect.
     sleep_ms(2000);
 
     printf("Initializing RP2350 CAN\n");
 
-    status result = can.init();
+    status result = can1.init();
 
     if (result != status::SUCCESS)
     {
@@ -99,7 +100,7 @@ int main()
         }
     }
 
-    result = can.init_irq();
+    result = can1.init_irq();
 
     if (result != status::SUCCESS)
     {
@@ -111,14 +112,13 @@ int main()
         }
     }
 
-    printf("CAN initialized at %d baud\n", can.getBaud());
+    printf("CAN initialized at %d baud\n", can1.getBaud());
 
     absolute_time_t lastTx = get_absolute_time();
     uint32_t txCount = 0;
 
     while (true)
     {
-        // CAN frame reads happen here, not inside the GPIO ISR.
         processCAN();
 
         absolute_time_t now = get_absolute_time();

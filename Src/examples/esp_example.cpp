@@ -16,7 +16,8 @@ static constexpr int CAN_BAUD = 500000;
 static constexpr int CAN_TX_PIN = 27;
 static constexpr int CAN_RX_PIN = 33;
 
-static esp_canlib can(CAN_BAUD, CAN_TX_PIN, CAN_RX_PIN);
+static esp_canlib espcan1(CAN_BAUD, CAN_TX_PIN, CAN_RX_PIN);
+static canlib &can1 = espcan1;
 
 static void processCAN()
 {
@@ -24,7 +25,7 @@ static void processCAN()
 
     while (true)
     {
-        status result = can.receiveCAN(buffer, 4, 8);
+        status result = can1.receiveCAN(buffer, 4, 8);
 
         if (result == status::NO_NEW_MESSAGE)
         {
@@ -59,7 +60,7 @@ static void transmitCAN(uint32_t count)
         0x01,
         static_cast<uint8_t>(count)};
 
-    status result = can.transmitCAN(CAN_ID, payload, sizeof(payload));
+    status result = can1.transmitCAN(CAN_ID, payload, sizeof(payload));
 
     if (result == status::SUCCESS)
     {
@@ -75,7 +76,7 @@ extern "C" void app_main()
 {
     ESP_LOGI(TAG, "Initializing ESP32 CAN");
 
-    status result = can.init();
+    status result = can1.init();
 
     if (result != status::SUCCESS)
     {
@@ -83,7 +84,7 @@ extern "C" void app_main()
         return;
     }
 
-    result = can.init_irq();
+    result = can1.init_irq();
 
     if (result != status::SUCCESS)
     {
@@ -91,7 +92,7 @@ extern "C" void app_main()
         return;
     }
 
-    ESP_LOGI(TAG, "CAN initialized at %d baud", can.getBaud());
+    ESP_LOGI(TAG, "CAN initialized at %d baud", can1.getBaud());
 
     int64_t lastTxUs = esp_timer_get_time();
     uint32_t txCount = 0;
