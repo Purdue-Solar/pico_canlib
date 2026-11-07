@@ -1,19 +1,49 @@
 
 #include <Arduino.h>
+#include <cstdint>
 
+#include "artemis_canid.hpp"
 #include "teensy/teensy_canlib.h"
 
-static constexpr uint32_t CAN_ID = 0x125;
 static constexpr int CAN_BAUD = 500000;
+
+static constexpr MessageID TEST_MESSAGE = MessageID::MotorSpeed;
+static constexpr uint32_t CAN_ID = getID(TEST_MESSAGE);
+static constexpr uint8_t CAN_LENGTH = getNumCanBytesMessage(TEST_MESSAGE);
+static constexpr uint32_t CAN_PERIOD_MS = getMessageDefinition(TEST_MESSAGE).periodMs;
 
 static teensy_canlib teensycan1(CAN_BAUD);
 static canlib &can1 = teensycan1;
 
 static bool canReady = false;
-static uint32_t lastTxMs = 0;
-static uint32_t txCount = 0;
+static uint32_t lastTx = 0;
+static uint32_t counter = 0;
 
-static void processCAN()
+static void transmitTest(uint32_t count)
+{
+    uint8_t data[8] = {};
+
+    data[0] = static_cast<uint8_t>(count);
+    data[1] = static_cast<uint8_t>(count >> 8);
+    data[2] = static_cast<uint8_t>(count >> 16);
+    data[3] = static_cast<uint8_t>(count >> 24);
+
+    status result = can1.transmitCAN(CAN_ID, data, CAN_LENGTH);
+
+    if (result == status::SUCCESS)
+    {
+        Serial.printf("TX: %s, ID=0x%03lX, Counter=%lu\n",
+                      getMessageDefinition(TEST_MESSAGE).name,
+                      static_cast<unsigned long>(CAN_ID),
+                      static_cast<unsigned long>(count));
+    }
+    else
+    {
+        Serial.printf("TX failed: %u\n", static_cast<unsigned>(result));
+    }
+}
+
+static void receiveTest()
 {
     uint8_t buffer[13] = {};
 
@@ -28,7 +58,7 @@ static void processCAN()
 
         if (result != status::SUCCESS)
         {
-            Serial.printf("CAN RX error: %u\n", static_cast<unsigned>(result));
+            Serial.printf("RX failed: %u\n", static_cast<unsigned>(result));
             break;
         }
 
@@ -39,30 +69,24 @@ static void processCAN()
 
         uint8_t length = buffer[4];
 
-        Serial.printf("RX ID: 0x%03lX, Length: %u\n", static_cast<unsigned long>(id), length);
-
-        for (uint8_t i = 0; i < length; i++)
+        if (length > 8)
         {
-            Serial.printf("Data[%u]: 0x%02X\n", i, buffer[5 + i]);
+            Serial.printf("Invalid CAN length: %u\n", length);
+            continue;
         }
-    }
-}
 
-static void transmitCAN(uint32_t count)
-{
-    uint8_t payload[2] = {
-        0x03,
-        static_cast<uint8_t>(count)};
+        Serial.printf("RX ID=0x%03lX, DLC=%u\n",
+                      static_cast<unsigned long>(id), length);
 
-    status result = can1.transmitCAN(CAN_ID, payload, sizeof(payload));
+        if (id == CAN_ID && length == CAN_LENGTH)
+        {
+            Serial.printf("Received: %s\n", getMessageDefinition(TEST_MESSAGE).name);
 
-    if (result == status::SUCCESS)
-    {
-        Serial.printf("TX queued: 0x%03lX\n", static_cast<unsigned long>(CAN_ID));
-    }
-    else
-    {
-        Serial.printf("CAN TX error: %u\n", static_cast<unsigned>(result));
+            for (uint8_t i = 0; i < length; i++)
+            {
+                Serial.printf("Data[%u]=0x%02X\n", i, buffer[5 + i]);
+            }
+        }
     }
 }
 
@@ -70,13 +94,13 @@ void setup()
 {
     Serial.begin(115200);
 
-    uint32_t startMs = millis();
+    uint32_t start = millis();
 
-    while (!Serial && millis() - startMs < 2000)
+    while (!Serial && millis() - start < 2000)
     {
     }
 
-    Serial.println("Initializing Teensy CAN");
+    Serial.println("Starting Teensy CAN test");
 
     status result = can1.init();
 
@@ -95,9 +119,18 @@ void setup()
     }
 
     canReady = true;
-    lastTxMs = millis();
+    lastTx = millis();
 
     Serial.printf("CAN initialized at %d baud\n", can1.getBaud());
+
+    const SignalDefinition &motorVelocity = getSignal(McSpeedSignal::MotorVelocity);
+    const SignalDefinition &vehicleVelocity = getSignal(McSpeedSignal::VehicleVelocity);
+
+    Serial.printf("%s: startBit=%u, length=%u\n",
+                  motorVelocity.name, motorVelocity.startBit, motorVelocity.length);
+
+    Serial.printf("%s: startBit=%u, length=%u\n",
+                  vehicleVelocity.name, vehicleVelocity.startBit, vehicleVelocity.length);
 }
 
 void loop()
@@ -108,14 +141,14 @@ void loop()
         return;
     }
 
-    processCAN();
+    receiveTest();
 
     uint32_t now = millis();
 
-    if (now - lastTxMs >= 1000)
+    if (now - lastTx >= CAN_PERIOD_MS)
     {
-        lastTxMs = now;
-        transmitCAN(txCount++);
+        lastTx = now;
+        transmitTest(counter++);
     }
 
     delay(10);

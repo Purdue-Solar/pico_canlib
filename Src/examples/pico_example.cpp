@@ -5,29 +5,44 @@
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
 
+#include "artemis_canid.hpp"
 #include "rp2350/pico_canlib.h"
 
-static constexpr uint32_t CAN_ID = 0x124;
 static constexpr int CAN_BAUD = 500000;
 
-static constexpr uint8_t CAN_INT_PIN = 8;
-static constexpr uint8_t CAN_MISO_PIN = 12;
-static constexpr uint8_t CAN_MOSI_PIN = 11;
-static constexpr uint8_t CAN_CS_PIN = 9;
-static constexpr uint8_t CAN_SCK_PIN = 10;
+static constexpr MessageID TEST_MESSAGE = MessageID::MotorSpeed;
+static constexpr uint32_t CAN_ID = getID(TEST_MESSAGE);
+static constexpr uint8_t CAN_LENGTH = getNumCanBytesMessage(TEST_MESSAGE);
+static constexpr uint32_t CAN_PERIOD_MS = getMessageDefinition(TEST_MESSAGE).periodMs;
 
-static pico_canlib picocan1(
-    CAN_INT_PIN,
-    CAN_MISO_PIN,
-    CAN_MOSI_PIN,
-    CAN_CS_PIN,
-    CAN_SCK_PIN,
-    spi1,
-    CAN_BAUD);
-
+static pico_canlib picocan1(8, 12, 11, 9, 10, spi1, CAN_BAUD);
 static canlib &can1 = picocan1;
 
-static void processCAN()
+static void transmitTest(uint32_t counter)
+{
+    uint8_t data[8] = {};
+
+    data[0] = static_cast<uint8_t>(counter);
+    data[1] = static_cast<uint8_t>(counter >> 8);
+    data[2] = static_cast<uint8_t>(counter >> 16);
+    data[3] = static_cast<uint8_t>(counter >> 24);
+
+    status result = can1.transmitCAN(CAN_ID, data, CAN_LENGTH);
+
+    if (result == status::SUCCESS)
+    {
+        printf("TX: %s, ID=0x%03lX, Counter=%lu\n",
+               getMessageDefinition(TEST_MESSAGE).name,
+               static_cast<unsigned long>(CAN_ID),
+               static_cast<unsigned long>(counter));
+    }
+    else
+    {
+        printf("TX failed: %u\n", static_cast<unsigned>(result));
+    }
+}
+
+static void receiveTest()
 {
     uint8_t buffer[13] = {};
 
@@ -42,7 +57,7 @@ static void processCAN()
 
         if (result != status::SUCCESS)
         {
-            printf("CAN RX error: %u\n", static_cast<unsigned>(result));
+            printf("RX failed: %u\n", static_cast<unsigned>(result));
             break;
         }
 
@@ -53,40 +68,33 @@ static void processCAN()
 
         uint8_t length = buffer[4];
 
-        printf("RX ID: 0x%03lX, Length: %u\n", static_cast<unsigned long>(id), length);
-
-        for (uint8_t i = 0; i < length; i++)
+        if (length > 8)
         {
-            printf("Data[%u]: 0x%02X\n", i, buffer[5 + i]);
+            printf("Invalid CAN length: %u\n", length);
+            continue;
         }
-    }
-}
 
-static void transmitCAN(uint32_t count)
-{
-    uint8_t payload[2] = {
-        0x02,
-        static_cast<uint8_t>(count)};
+        printf("RX ID=0x%03lX, DLC=%u\n",
+               static_cast<unsigned long>(id), length);
 
-    status result = can1.transmitCAN(CAN_ID, payload, sizeof(payload));
+        if (id == CAN_ID && length == CAN_LENGTH)
+        {
+            printf("Received: %s\n", getMessageDefinition(TEST_MESSAGE).name);
 
-    if (result == status::SUCCESS)
-    {
-        printf("TX queued: 0x%03lX\n", static_cast<unsigned long>(CAN_ID));
-    }
-    else
-    {
-        printf("CAN TX error: %u\n", static_cast<unsigned>(result));
+            for (uint8_t i = 0; i < length; i++)
+            {
+                printf("Data[%u]=0x%02X\n", i, buffer[5 + i]);
+            }
+        }
     }
 }
 
 int main()
 {
     stdio_init_all();
-
     sleep_ms(2000);
 
-    printf("Initializing RP2350 CAN\n");
+    printf("Starting RP2350 CAN test\n");
 
     status result = can1.init();
 
@@ -114,23 +122,30 @@ int main()
 
     printf("CAN initialized at %d baud\n", can1.getBaud());
 
+    const SignalDefinition &motorVelocity = getSignal(McSpeedSignal::MotorVelocity);
+    const SignalDefinition &vehicleVelocity = getSignal(McSpeedSignal::VehicleVelocity);
+
+    printf("%s: startBit=%u, length=%u\n",
+           motorVelocity.name, motorVelocity.startBit, motorVelocity.length);
+
+    printf("%s: startBit=%u, length=%u\n",
+           vehicleVelocity.name, vehicleVelocity.startBit, vehicleVelocity.length);
+
     absolute_time_t lastTx = get_absolute_time();
-    uint32_t txCount = 0;
+    uint32_t counter = 0;
 
     while (true)
     {
-        processCAN();
+        receiveTest();
 
         absolute_time_t now = get_absolute_time();
 
-        if (absolute_time_diff_us(lastTx, now) >= 1000000)
+        if (absolute_time_diff_us(lastTx, now) >= static_cast<int64_t>(CAN_PERIOD_MS) * 1000)
         {
             lastTx = now;
-            transmitCAN(txCount++);
+            transmitTest(counter++);
         }
 
         sleep_ms(10);
     }
-
-    return 0;
 }
