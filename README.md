@@ -82,7 +82,7 @@ Alternatively, after publishing the library to GitHub, reference the repository 
 
 ```ini
 lib_deps =
-    https://github.com/YOUR_USERNAME/CANLib.git
+    lib_deps = https://github.com/Purdue-Solar/pico_canlib#general
 ```
 
 Replace the example URL with the actual repository URL.
