@@ -1,0 +1,11 @@
+idf_component_register(
+    SRCS
+        "examples/esp_example.cpp"
+        "canlib.cpp"
+        "esp32/esp_canlib.cpp"
+    INCLUDE_DIRS
+        "."
+    PRIV_REQUIRES
+        esp_timer
+        esp_driver_twai
+)

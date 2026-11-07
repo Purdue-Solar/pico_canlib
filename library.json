@@ -1,0 +1,22 @@
+{
+    "name": "CANLib",
+    "version": "1.0.0",
+    "description": "Cross-platform CAN 2.0 library for ESP32, RP2350, and Teensy",
+    "frameworks": [
+        "arduino"
+    ],
+    "platforms": [
+        "espressif32",
+        "raspberrypi",
+        "teensy"
+    ],
+    "headers": [
+        "CANDevice.h",
+        "canlib.h"
+    ],
+    "build": {
+        "srcDir": "src",
+        "includeDir": "src",
+        "extraScript": "select_platform.py"
+    }
+}
