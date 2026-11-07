@@ -35,7 +35,7 @@ class canlib
 public:
     canlib();
     canlib(int baud);
-    virtual ~canlib();
+    virtual ~canlib() = default;
 
     virtual status init() = 0;
 
