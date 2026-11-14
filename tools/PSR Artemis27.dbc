@@ -1,0 +1,936 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: WaveSculptor22 OrionBMS2 SteeringWheel PowerDistribution wsConfig OrionUtility ThirdPartyDevice
+VAL_TABLE_ XferOp 8 "SIZE" 7 "REQUEST" 6 "BAD_SEQ" 5 "RETX" 4 "BLOCK_ACK" 3 "PARAM_ACK" 2 "CLOSE" 1 "INIT" ;
+VAL_TABLE_ XferAddress 1024 "Reset" 515 "FlashAck" 514 "ConfigVersion" 513 "BlobSizes" 512 "Info" 258 "MotorBlob" 257 "PrivateBlob" 256 "PublicBlob" ;
+
+
+BO_ 512 BmsSafetyCritical: 8 Vector__XXX
+ SG_ Adaptive_Pack_SOC : 56|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_SOC : 48|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Failsafe_Statuses : 40|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ Relay_State_2 : 32|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ Relay_State_1 : 24|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ DTC_Flags_2_2 : 16|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ DTC_Flags_2_1 : 8|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ DTC_Flags_1 : 0|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 513 BmsPackVoltageAndEnergy: 8 Vector__XXX
+ SG_ Pack_Voltage : 48|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_Current : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_Amphours : 16|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_kW_Power : 0|16@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 514 BmsTemperatureCurrentPower: 8 Vector__XXX
+ SG_ Adaptive_Amphours : 48|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Current_Limits_Status : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ High_Temperature : 24|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Low_Temperature : 16|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_CCL : 8|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_DCL : 0|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 768 PowerDistroDisplay: 8 Vector__XXX
+ SG_ Display_Flags_Aux_Battery : 16|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ Display_Flags_Main_Battery : 8|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ Display_Flags_Power_Monitor : 0|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 1024 MotorControllerId: 8 Vector__XXX
+ SG_ Serial_Number : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Prohelion_ID : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1025 MotorControllerErrors: 8 Vector__XXX
+ SG_ CAN_RX_Error_Count : 56|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CAN_TX_Error_Count : 48|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Active_Motor_Index : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ MC_Error_Flags_2 : 24|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ MC_Error_Flags_1 : 16|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ Reserved : 8|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ MC_Limit_Flags : 0|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 1026 MotorBusVoltageCurrent: 8 Vector__XXX
+ SG_ Bus_Current : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Bus_Voltage : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1027 MotorSpeed: 8 Vector__XXX
+ SG_ Vehicle_Velocity : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Velocity : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1035 MotorTemperature: 8 Vector__XXX
+ SG_ Heat_Sink_Temp : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Temp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1281 MotorCurrentVelocityControl: 8 Vector__XXX
+ SG_ Motor_Current_Setpoint : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Velocity_Setpoint : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1282 BusCurrentControl: 8 Vector__XXX
+ SG_ Bus_Current_Setpoint : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Reserved : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1537 BmsCellData: 8 Vector__XXX
+ SG_ High_Thermistor_ID : 56|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Low_Thermistor_ID : 48|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ High_Cell_Voltage_ID : 40|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Low_Cell_Voltage_ID : 32|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ High_Cell_Voltage : 16|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Low_Cell_Voltage : 0|16@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1538 BmsThermistorBroadcast: 8 Vector__XXX
+ SG_ Thermistor_Data : 0|64@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1539 BmsCellDataBroadcast: 8 Vector__XXX
+ SG_ Checksum : 56|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Open_Voltage : 40|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Internal_Resistance : 24|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Instant_Voltage : 8|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Cell_ID : 0|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1792 PeripheralControl: 8 Vector__XXX
+ SG_ Distro_Control : 0|8@0+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 2550588916 Charger1Communication: 8 Vector__XXX
+ SG_ Maximum_Pack_Voltage : 48|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_CCL : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Charger_Control : 24|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2550589428 Charger2Communication: 8 Vector__XXX
+ SG_ Maximum_Pack_Voltage : 48|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_CCL : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Charger_Control : 24|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2550589940 Charger3Communication: 8 Vector__XXX
+ SG_ Maximum_Pack_Voltage : 48|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pack_CCL : 32|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Charger_Control : 24|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1028 PhaseCurrentMeasurement: 8 WaveSculptor22
+ SG_ PhaseCurrentC : 32|32@1- (1,0) [0|0] "A_rms" Vector__XXX
+ SG_ PhaseCurrentB : 0|32@1- (1,0) [0|0] "A_rms" Vector__XXX
+
+BO_ 1029 MotorVoltageVectorMeasurement: 8 WaveSculptor22
+ SG_ Vd : 32|32@1- (1,0) [0|0] "V" Vector__XXX
+ SG_ Vq : 0|32@1- (1,0) [0|0] "V" Vector__XXX
+
+BO_ 1030 MotorCurrentVectorMeasurement: 8 WaveSculptor22
+ SG_ Id : 32|32@1- (1,0) [0|0] "A" Vector__XXX
+ SG_ Iq : 0|32@1- (1,0) [0|0] "A" Vector__XXX
+
+BO_ 1031 BackEMFMeasurementPrediction: 8 WaveSculptor22
+ SG_ BEMFd : 32|32@1- (1,0) [0|0] "V" Vector__XXX
+ SG_ BEMFq : 0|32@1- (1,0) [0|0] "V" Vector__XXX
+
+BO_ 1032 VoltageRail15VMeasurement: 8 WaveSculptor22
+ SG_ Supply15V : 32|32@1- (1,0) [0|0] "V" Vector__XXX
+ SG_ ReservedSupply15V : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1033 VoltageRail3V31V9Measurement: 8 WaveSculptor22
+ SG_ Supply3V3 : 32|32@1- (1,0) [0|0] "V" Vector__XXX
+ SG_ Supply1V9 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
+
+BO_ 1034 Reserved0A: 8 WaveSculptor22
+ SG_ Reserved0A1 : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Reserved0A0 : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1036 DspBoardTempMeasurement: 8 WaveSculptor22
+ SG_ ReservedDspBoardTemp : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ DspBoardTemp : 0|32@1- (1,0) [0|0] "C" Vector__XXX
+
+BO_ 1037 Reserved0D: 8 WaveSculptor22
+ SG_ Reserved0D1 : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Reserved0D0 : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1038 OdometerBusAhMeasurement: 8 WaveSculptor22
+ SG_ DCBusAh : 32|32@1- (1,0) [0|0] "Ah" Vector__XXX
+ SG_ Odometer : 0|32@1- (1,0) [0|0] "m" Vector__XXX
+
+BO_ 1047 SlipSpeedMeasurement: 8 WaveSculptor22
+ SG_ ReservedSlipSpeed : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ SlipSpeed : 0|32@1- (1,0) [0|0] "Hz" Vector__XXX
+
+BO_ 1283 ResetCommand: 8 SteeringWheel
+ SG_ Unused : 0|64@1+ (1,0) [0|0] ""  WaveSculptor22
+
+BO_ 1039 WS22_ModeCommand: 8 wsConfig
+ SG_ Start : 48|16@1+ (1,0) [0|1] ""  WaveSculptor22,wsConfig
+ SG_ Mode : 32|16@1+ (1,0) [0|3] ""  WaveSculptor22,wsConfig
+ SG_ Reserved : 0|32@1+ (1,0) [0|0] ""  WaveSculptor22,wsConfig
+
+BO_ 1040 WS22_AcquisitionStatus: 8 WaveSculptor22
+ SG_ Word3 : 48|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+ SG_ Word2 : 32|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+ SG_ Word1 : 16|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+ SG_ Word0 : 0|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+
+BO_ 1041 WS22_AcquisitionSamples: 8 WaveSculptor22
+ SG_ Sample3 : 48|16@1- (1,0) [-32768|32767] ""  WaveSculptor22,wsConfig
+ SG_ Sample2 : 32|16@1- (1,0) [-32768|32767] ""  WaveSculptor22,wsConfig
+ SG_ Sample1 : 16|16@1- (1,0) [-32768|32767] ""  WaveSculptor22,wsConfig
+ SG_ Sample0 : 0|16@1- (1,0) [-32768|32767] ""  WaveSculptor22,wsConfig
+
+BO_ 1042 ConfigTransferControl: 8 wsConfig
+ SG_ Request_ResponderSends m7 : 56|8@1+ (1,0) [0|1] ""  WaveSculptor22,wsConfig
+ SG_ Init_Retries m1 : 48|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+ SG_ ParamAck_Retries m3 : 48|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+ SG_ Request_Stream m7 : 48|8@1+ (1,0) [0|1] ""  WaveSculptor22,wsConfig
+ SG_ ACTMOT_MotorIndex m17217 : 48|16@1+ (1,0) [0|9] ""  WaveSculptor22,wsConfig
+ SG_ BlockAck_Toggle m4 : 40|1@1+ (1,0) [0|1] ""  WaveSculptor22,wsConfig
+ SG_ Init_Timeout m1 : 32|16@1+ (1,0) [0|65535] "ms"  WaveSculptor22,wsConfig
+ SG_ ParamAck_Timeout m3 : 32|16@1+ (1,0) [0|65535] "ms"  WaveSculptor22,wsConfig
+ SG_ BadSeq_FramesPerBlock m6 : 32|16@1+ (1,0) [0|127] ""  WaveSculptor22,wsConfig
+ SG_ Request_Size m7 : 32|16@1+ (1,0) [0|65535] "byte"  WaveSculptor22,wsConfig
+ SG_ Init_BlockSize m1 : 16|16@1+ (1,0) [1|889] "byte"  WaveSculptor22,wsConfig
+ SG_ Close_Kind m2 : 16|16@1+ (1,0) [0|2] ""  WaveSculptor22,wsConfig
+ SG_ ParamAck_BlockSize m3 : 16|16@1+ (1,0) [1|889] "byte"  WaveSculptor22,wsConfig
+ SG_ BlockAck_Status m4 : 16|16@1+ (1,0) [0|1] ""  WaveSculptor22,wsConfig
+ SG_ BadSeq_FramesReceived m6 : 16|16@1+ (1,0) [0|127] ""  WaveSculptor22,wsConfig
+ SG_ Request_Address m7 : 16|16@1+ (1,0) [0|65535] ""  WaveSculptor22,wsConfig
+ SG_ Size_Bytes m8 : 16|16@1+ (1,0) [0|65535] "byte"  WaveSculptor22,wsConfig
+ SG_ ACTMOT_Tag m17217 : 16|32@1+ (1,0) [0|4294967295] ""  WaveSculptor22,wsConfig
+ SG_ Op M : 0|16@1+ (1,0) [1|17217] ""  WaveSculptor22,wsConfig
+
+BO_ 1044 ConfigTransferData: 8 wsConfig
+ SG_ Payload7 : 56|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Payload6 : 48|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Payload5 : 40|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Payload4 : 32|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Payload3 : 24|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Payload2 : 16|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Payload1 : 8|8@1+ (1,0) [0|255] ""  WaveSculptor22,wsConfig
+ SG_ Toggle : 7|1@1+ (1,0) [0|1] ""  WaveSculptor22,wsConfig
+ SG_ Sequence : 0|7@1+ (1,0) [0|127] ""  WaveSculptor22,wsConfig
+
+BO_ 2015 Orion_FunctionalRequest: 8 OrionUtility
+ SG_ SF_B7 m1 : 56|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_B7 m1 : 56|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_B6 m1 : 48|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_ReadChecksum m163 : 55|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ FF_B6 m1 : 48|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_B5 m1 : 40|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_B5 m1 : 40|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_WriteAddress m59 : 47|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ FF_ReadAddress m124 : 47|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ FF_Detail m127 : 40|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_B4 m1 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_ReadAddress m124 : 39|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ SF_Detail m127 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_B4 m1 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Key m39 : 39|32@0+ (1,0) [0|4294967295] ""  OrionBMS2,OrionUtility
+ SG_ FF_WriteLength m59 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_ReadLength m124 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Seed m103 : 39|32@0+ (1,0) [0|4294967295] ""  OrionBMS2,OrionUtility
+ SG_ FF_ResponseCode m127 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_B3 m1 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_Key m39 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ SF_WriteChecksum m59 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ SF_ReadLength m124 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_Seed m103 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ SF_ResponseCode m127 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Pid8 m1 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_B3 m3 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Pid16 m34 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ FF_InfoType m73 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_ResetType m81 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_LivePid8 m33 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Pid24 m99 : 31|24@0+ (1,0) [0|16777215] ""  OrionBMS2,OrionUtility
+ SG_ FF_SecurityLevel m103 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_WriteSub m59 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_ReadSub m124 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_RejectedMode m127 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Mode M : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FC_SeparationTime m48 : 16|8@1+ (1,0) [0|255] "ms"  OrionBMS2,OrionUtility
+ SG_ SF_Pid8 m1 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_B2 m3 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_Pid16 m34 : 23|16@0+ (1,0) [0|65535] ""  OrionBMS2,OrionUtility
+ SG_ SF_InfoType m73 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_ResetType m81 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_LivePid8 m33 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_Pid24 m99 : 23|24@0+ (1,0) [0|16777215] ""  OrionBMS2,OrionUtility
+ SG_ SF_SecurityLevel m103 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_WriteSub m59 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_ReadSub m124 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_RejectedMode m127 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ SF_Mode M : 8|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ FF_Length m16 : 8|8@1+ (1,0) [0|255] "byte"  OrionBMS2,OrionUtility
+ SG_ CF_Data m32 : 15|56@0+ (1,0) [0|0] ""  OrionBMS2,OrionUtility
+ SG_ FC_BlockSize m48 : 8|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+ SG_ PCI M : 0|8@1+ (1,0) [0|255] ""  OrionBMS2,OrionUtility
+
+BO_ 2019 Orion_DiagRequest: 8 OrionUtility
+ SG_ SF_B7 m1 : 56|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_B7 m1 : 56|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_B6 m1 : 48|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_ReadChecksum m163 : 55|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ FF_B6 m1 : 48|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_B5 m1 : 40|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_B5 m1 : 40|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_WriteAddress m59 : 47|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ FF_ReadAddress m124 : 47|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ FF_Detail m127 : 40|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_B4 m1 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_ReadAddress m124 : 39|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ SF_Detail m127 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_B4 m1 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Key m39 : 39|32@0+ (1,0) [0|4294967295] ""  OrionBMS2
+ SG_ FF_WriteLength m59 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_ReadLength m124 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Seed m103 : 39|32@0+ (1,0) [0|4294967295] ""  OrionBMS2
+ SG_ FF_ResponseCode m127 : 32|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_B3 m1 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_Key m39 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ SF_WriteChecksum m59 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ SF_ReadLength m124 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_Seed m103 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ SF_ResponseCode m127 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Pid8 m1 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_B3 m3 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Pid16 m34 : 31|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ FF_InfoType m73 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_ResetType m81 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_LivePid8 m33 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Pid24 m99 : 31|24@0+ (1,0) [0|16777215] ""  OrionBMS2
+ SG_ FF_SecurityLevel m103 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_WriteSub m59 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_ReadSub m124 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_RejectedMode m127 : 24|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Mode M : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FC_SeparationTime m48 : 16|8@1+ (1,0) [0|255] "ms"  OrionBMS2
+ SG_ SF_Pid8 m1 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_B2 m3 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_Pid16 m34 : 23|16@0+ (1,0) [0|65535] ""  OrionBMS2
+ SG_ SF_InfoType m73 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_ResetType m81 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_LivePid8 m33 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_Pid24 m99 : 23|24@0+ (1,0) [0|16777215] ""  OrionBMS2
+ SG_ SF_SecurityLevel m103 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_WriteSub m59 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_ReadSub m124 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_RejectedMode m127 : 16|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ SF_Mode M : 8|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ FF_Length m16 : 8|8@1+ (1,0) [0|255] "byte"  OrionBMS2
+ SG_ CF_Data m32 : 15|56@0+ (1,0) [0|0] ""  OrionBMS2
+ SG_ FC_BlockSize m48 : 8|8@1+ (1,0) [0|255] ""  OrionBMS2
+ SG_ PCI M : 0|8@1+ (1,0) [0|255] ""  OrionBMS2
+
+BO_ 2021 Orion_ThirdPartyRequest: 8 OrionUtility
+ SG_ Raw : 7|64@0+ (1,0) [0|0] ""  OrionBMS2,OrionUtility,ThirdPartyDevice
+
+BO_ 2027 Orion_DiagResponse: 8 OrionBMS2
+ SG_ SF_B7 m1 : 56|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_B7 m1 : 56|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_B6 m1 : 48|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_ReadChecksum m163 : 55|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ FF_B6 m1 : 48|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_B5 m1 : 40|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_B5 m1 : 40|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_WriteAddress m59 : 47|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ FF_ReadAddress m124 : 47|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ FF_Detail m127 : 40|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_B4 m1 : 32|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_ReadAddress m124 : 39|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ SF_Detail m127 : 32|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_B4 m1 : 32|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Key m39 : 39|32@0+ (1,0) [0|4294967295] ""  OrionUtility
+ SG_ FF_WriteLength m59 : 32|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_ReadLength m124 : 32|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Seed m103 : 39|32@0+ (1,0) [0|4294967295] ""  OrionUtility
+ SG_ FF_ResponseCode m127 : 32|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_B3 m1 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_Key m39 : 31|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ SF_WriteChecksum m59 : 31|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ SF_ReadLength m124 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_Seed m103 : 31|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ SF_ResponseCode m127 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Pid8 m1 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_B3 m3 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Pid16 m34 : 31|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ FF_InfoType m73 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_ResetType m81 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_LivePid8 m33 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Pid24 m99 : 31|24@0+ (1,0) [0|16777215] ""  OrionUtility
+ SG_ FF_SecurityLevel m103 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_WriteSub m59 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_ReadSub m124 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_RejectedMode m127 : 24|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Mode M : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FC_SeparationTime m48 : 16|8@1+ (1,0) [0|255] "ms"  OrionUtility
+ SG_ SF_Pid8 m1 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_B2 m3 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_Pid16 m34 : 23|16@0+ (1,0) [0|65535] ""  OrionUtility
+ SG_ SF_InfoType m73 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_ResetType m81 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_LivePid8 m33 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_Pid24 m99 : 23|24@0+ (1,0) [0|16777215] ""  OrionUtility
+ SG_ SF_SecurityLevel m103 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_WriteSub m59 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_ReadSub m124 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_RejectedMode m127 : 16|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ SF_Mode M : 8|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ FF_Length m16 : 8|8@1+ (1,0) [0|255] "byte"  OrionUtility
+ SG_ CF_Data m32 : 15|56@0+ (1,0) [0|0] ""  OrionUtility
+ SG_ FC_BlockSize m48 : 8|8@1+ (1,0) [0|255] ""  OrionUtility
+ SG_ PCI M : 0|8@1+ (1,0) [0|255] ""  OrionUtility
+
+BO_ 2029 Orion_ThirdPartyResponse: 8 ThirdPartyDevice
+ SG_ Raw : 7|64@0+ (1,0) [0|0] ""  OrionBMS2,OrionUtility,ThirdPartyDevice
+
+BO_TX_BU_ 1042 : wsConfig,WaveSculptor22;
+BO_TX_BU_ 1044 : wsConfig,WaveSculptor22;
+
+
+CM_ BU_ wsConfig "PC running wsConfig 2.07 through a Tritium-protocol CAN-Ethernet bridge (Profinity or psr_can_gateway).";
+CM_ BU_ OrionUtility "PC running the OrionBMS 2 Utility through a CANdapter (or psr_can_gateway).";
+CM_ BO_ 512 "BMS Safety Critical";
+CM_ SG_ 512 Adaptive_Pack_SOC "Adaptive Pack SOC";
+CM_ SG_ 512 Pack_SOC "Pack SOC";
+CM_ SG_ 512 Failsafe_Statuses "Failsafe Statuses";
+CM_ SG_ 512 Relay_State_2 "Relay State 2";
+CM_ SG_ 512 Relay_State_1 "Relay State 1";
+CM_ SG_ 512 DTC_Flags_2_2 "DTC Flags 2.2";
+CM_ SG_ 512 DTC_Flags_2_1 "DTC Flags 2.1";
+CM_ SG_ 512 DTC_Flags_1 "DTC Flags 1";
+CM_ BO_ 513 "BMS Pack Voltage and Energy";
+CM_ SG_ 513 Pack_Voltage "Pack Voltage";
+CM_ SG_ 513 Pack_Current "Pack Current";
+CM_ SG_ 513 Pack_Amphours "Pack Amphours";
+CM_ SG_ 513 Pack_kW_Power "Pack kW Power";
+CM_ BO_ 514 "BMS Temperature/Current/Power";
+CM_ SG_ 514 Adaptive_Amphours "Adaptive Amphours";
+CM_ SG_ 514 Current_Limits_Status "Current Limits Status";
+CM_ SG_ 514 High_Temperature "High Temperature";
+CM_ SG_ 514 Low_Temperature "Low Temperature";
+CM_ SG_ 514 Pack_CCL "Pack CCL";
+CM_ SG_ 514 Pack_DCL "Pack DCL";
+CM_ BO_ 768 "Power Distro Display";
+CM_ SG_ 768 Display_Flags_Aux_Battery "Display Flags Aux Battery";
+CM_ SG_ 768 Display_Flags_Main_Battery "Display Flags Main Battery";
+CM_ SG_ 768 Display_Flags_Power_Monitor "Display Flags Power Monitor";
+CM_ BO_ 1024 "Motor Controller ID";
+CM_ SG_ 1024 Serial_Number "Serial Number";
+CM_ SG_ 1024 Prohelion_ID "Prohelion ID";
+CM_ BO_ 1025 "Motor Controller Errors";
+CM_ SG_ 1025 CAN_RX_Error_Count "CAN RX Error Count";
+CM_ SG_ 1025 CAN_TX_Error_Count "CAN TX Error Count";
+CM_ SG_ 1025 Active_Motor_Index "Active Motor Index";
+CM_ SG_ 1025 MC_Error_Flags_2 "MC Error Flags 2";
+CM_ SG_ 1025 MC_Error_Flags_1 "MC Error Flags 1";
+CM_ SG_ 1025 Reserved "Reserved";
+CM_ SG_ 1025 MC_Limit_Flags "MC Limit Flags";
+CM_ BO_ 1026 "Motor Bus Voltage/Current";
+CM_ SG_ 1026 Bus_Current "Bus Current";
+CM_ SG_ 1026 Bus_Voltage "Bus Voltage";
+CM_ BO_ 1027 "Motor Speed";
+CM_ SG_ 1027 Vehicle_Velocity "Vehicle Velocity";
+CM_ SG_ 1027 Motor_Velocity "Motor Velocity";
+CM_ BO_ 1035 "Motor Temperature";
+CM_ SG_ 1035 Heat_Sink_Temp "Heat Sink Temp";
+CM_ SG_ 1035 Motor_Temp "Motor Temp";
+CM_ BO_ 1281 "Motor Current/Velocity Control";
+CM_ SG_ 1281 Motor_Current_Setpoint "Motor Current Setpoint";
+CM_ SG_ 1281 Motor_Velocity_Setpoint "Motor Velocity Setpoint";
+CM_ BO_ 1282 "Bus Current Control";
+CM_ SG_ 1282 Bus_Current_Setpoint "Bus Current Setpoint";
+CM_ SG_ 1282 Reserved "Reserved";
+CM_ BO_ 1537 "BMS Cell Data";
+CM_ SG_ 1537 High_Thermistor_ID "High Thermistor ID";
+CM_ SG_ 1537 Low_Thermistor_ID "Low Thermistor ID";
+CM_ SG_ 1537 High_Cell_Voltage_ID "High Cell Voltage ID";
+CM_ SG_ 1537 Low_Cell_Voltage_ID "Low Cell Voltage ID";
+CM_ SG_ 1537 High_Cell_Voltage "High Cell Voltage";
+CM_ SG_ 1537 Low_Cell_Voltage "Low Cell Voltage";
+CM_ BO_ 1538 "BMS Thermistor Broadcast";
+CM_ SG_ 1538 Thermistor_Data "Thermistor Data";
+CM_ BO_ 1539 "BMS Cell Data Broadcast";
+CM_ SG_ 1539 Checksum "Checksum";
+CM_ SG_ 1539 Open_Voltage "Open Voltage";
+CM_ SG_ 1539 Internal_Resistance "Internal Resistance";
+CM_ SG_ 1539 Instant_Voltage "Instant Voltage";
+CM_ SG_ 1539 Cell_ID "Cell ID";
+CM_ BO_ 1792 "Peripheral Control";
+CM_ SG_ 1792 Distro_Control "Distro Control";
+CM_ BO_ 2550588916 "Charger 1 Communication";
+CM_ SG_ 2550588916 Maximum_Pack_Voltage "Maximum Pack Voltage";
+CM_ SG_ 2550588916 Pack_CCL "Pack CCL";
+CM_ SG_ 2550588916 Charger_Control "Charger Control";
+CM_ BO_ 2550589428 "Charger 2 Communication";
+CM_ SG_ 2550589428 Maximum_Pack_Voltage "Maximum Pack Voltage";
+CM_ SG_ 2550589428 Pack_CCL "Pack CCL";
+CM_ SG_ 2550589428 Charger_Control "Charger Control";
+CM_ BO_ 2550589940 "Charger 3 Communication";
+CM_ SG_ 2550589940 Maximum_Pack_Voltage "Maximum Pack Voltage";
+CM_ SG_ 2550589940 Pack_CCL "Pack CCL";
+CM_ SG_ 2550589940 Charger_Control "Charger Control";
+CM_ SG_ 1028 PhaseCurrentC "RMS current in motor Phase C.";
+CM_ SG_ 1028 PhaseCurrentB "RMS current in motor Phase B.";
+CM_ SG_ 1029 Vd "Real component of the applied non-rotating voltage vector to the motor.";
+CM_ SG_ 1029 Vq "Imaginary component of the applied non-rotating voltage vector to the motor.";
+CM_ SG_ 1030 Id "Real component of the applied non-rotating current vector to the motor. This vector represents the field current of the motor.";
+CM_ SG_ 1030 Iq "Imaginary component of the applied non-rotating current vector to the motor. This current produces torque in the motor and should be in phase with the back-EMF of the motor";
+CM_ SG_ 1031 BEMFd "By definition this value is always 0V.";
+CM_ SG_ 1031 BEMFq "The peak of the phase to neutral motor voltage.";
+CM_ SG_ 1032 Supply15V "Actual voltage level of the 15V power rail.";
+CM_ SG_ 1033 Supply3V3 "Actual voltage level of the 3.3V power rail.";
+CM_ SG_ 1033 Supply1V9 "Actual voltage level of the 1.9V DSP power rail.";
+CM_ SG_ 1036 DspBoardTemp "Temperature of the DSP board.";
+CM_ SG_ 1038 DCBusAh "Charge flow into the controller DC bus from the time of reset.";
+CM_ SG_ 1038 Odometer "Distance the vehicle has travelled since reset.";
+CM_ SG_ 1047 SlipSpeed "Slip speed when driving an induction motor.";
+CM_ BO_ 1039 "Mode command, base+0x0F, PC to controller. Four u16 LE words [0, 0, mode, start]. Select a mode with start 0, then send [0,0,0,1] to start the acquisition. All zero = back to normal mode. PhasorSense and the extraction modes ENERGISE THE MOTOR PHASES. No handshake or unlock. Replies on 0x410/0x411. Not part of the config transfer.";
+CM_ SG_ 1039 Start "1 starts the acquisition for the mode selected by the previous frame.";
+CM_ SG_ 1039 Mode "0 normal, 1 PhasorSense, 2 parameter extraction, 3 induction motor extraction.";
+CM_ BO_ 1040 "Acquisition status, base+0x10, controller to PC, four u16 LE words. Meaning depends on the mode last selected on 0x40F, so it cannot be decoded per frame. Parameter extraction (2): [DIV, L_count, R_count, status 2|3]. PhasorSense (1): Word3 = phase 1/2/3, byte 4 = sensing mode, byte 5 = flag; phase 3 Words 0-2 = s16 x BaseVoltage/32768. Induction extraction (3): [count, ?, data_type, status 2|3].";
+CM_ BO_ 1041 "Acquisition samples, base+0x11, controller to PC, four s16 LE words. Parameter extraction: R_count/2 frames of (current Sample0, voltage Sample1, current Sample2, voltage Sample3), scaled x/32768 x BaseCurrent / BaseVoltage, then L_count/2 frames with time = s16/DIV in Sample1/Sample3. PhasorSense: 500 frames, Word0 & 7 = hall state, Sample1..3 = phases A, B, C raw ADC. Induction extraction: two f32 LE per frame (bytes 0-3, 4-7); this signal layout does not decode those.";
+CM_ BO_ 1042 "Transfer control, base+0x12, sent by both nodes. Four u16 LE words: Op, then three op-specific words. Read: REQUEST, INIT, PARAM_ACK, data on 0x414, BLOCK_ACK, (SIZE), CLOSE, CLOSE ack. Write: the same with the PC sending data, then a controller-initiated flash acknowledge on address 0x203. Op 0x4341 is not an op: it is the ACTMOT frame, ASCII 'ACTMOT' + motor index u16 LE, sent when the user selects a motor (effect on the controller unknown). Full description in ws22-config-transfer.dbc and wavesculptor22-config-protocol.md.";
+CM_ SG_ 1042 Request_ResponderSends "1 the responder sends the data (read), 0 the initiator sends it (write).";
+CM_ SG_ 1042 Init_Retries "Proposed retry limit. wsConfig 10; the controller 5 on the flash acknowledge.";
+CM_ SG_ 1042 ParamAck_Retries "Agreed retry limit: the larger proposal.";
+CM_ SG_ 1042 Request_Stream "1 stream (blob, ends with SIZE), 0 fixed size.";
+CM_ SG_ 1042 ACTMOT_MotorIndex "Motor index selected in wsConfig (0-9).";
+CM_ SG_ 1042 BlockAck_Toggle "Toggle bit of the block just accepted. A mismatching sender resends the block.";
+CM_ SG_ 1042 Init_Timeout "Proposed timeout. wsConfig 1000 ms; the controller uses 250 ms on the flash acknowledge.";
+CM_ SG_ 1042 ParamAck_Timeout "Agreed timeout: the larger proposal.";
+CM_ SG_ 1042 Request_Size "Bytes to transfer. For stream transfers this is the window size, not the blob size.";
+CM_ SG_ 1042 Init_BlockSize "Proposed block size. wsConfig uses 7 for fixed transfers and 140 for blobs.";
+CM_ SG_ 1042 Close_Kind "0 close, 1 abort (retries exhausted), 2 close acknowledge.";
+CM_ SG_ 1042 ParamAck_BlockSize "Agreed block size: the smaller proposal.";
+CM_ SG_ 1042 BlockAck_Status "0 block received, 1 transfer complete.";
+CM_ SG_ 1042 Request_Address "0x100-0x102 config blobs, 0x200-0x202 read-only info, 0x203 flash acknowledge (controller initiated), 0x400 reset.";
+CM_ SG_ 1042 Size_Bytes "Stream end: the data sender announces a short last window; the receiver acknowledges with 0.";
+CM_ SG_ 1042 ACTMOT_Tag "ASCII 'TMOT' (0x544F4D54 as u32 LE), the rest of the 'ACTMOT' tag.";
+CM_ SG_ 1042 Op "Transfer opcode, multiplexor. 17217 (0x4341, bytes 'AC') marks an ACTMOT frame.";
+CM_ BO_ 1044 "Transfer data, base+0x14, sent by both nodes. Byte 0: bit 7 toggle, bits 0-6 sequence in the block. Bytes 1-7 payload; frames per block = ceil(block/7), last frame zero padded. The payload meaning depends on the address in the preceding REQUEST. Blobs start with 'TRITIUM CONFIGURATION FILE'.";
+CM_ SG_ 1044 Toggle "Starts at 0 and flips for each accepted block.";
+CM_ SG_ 1044 Sequence "Frame index within the current block, from 0.";
+CM_ BO_ 2015 "OBD-II functional broadcast. The utility sends 09 0B (identify) here for discovery. When the profile's ECU ID is 0x7F7 (AUTO), the reply to the profile commit arrives on 0x7D7+8 = 0x7DF, so a response-mode frame (mode >= 0x40) can also appear on this ID.";
+CM_ SG_ 2015 SF_ReadChecksum "u16 BE: mode + sum(4 PID bytes).";
+CM_ SG_ 2015 FF_WriteAddress "Profile offset, u16 BE (profile is 3474 bytes).";
+CM_ SG_ 2015 FF_ReadAddress "Profile offset of this 7C reply, u16 BE. Reply checksum = sum(4 PID bytes) + sum(data), mode excluded.";
+CM_ SG_ 2015 SF_ReadAddress "Profile offset, u16 BE.";
+CM_ SG_ 2015 SF_Detail "Commit failure code when ResponseCode = 0x40; the meanings are not in the utility.";
+CM_ SG_ 2015 FF_Key "Upper 4 bytes of the 8-byte tier 2 key (BE); the lower 4 are in the next consecutive frame.";
+CM_ SG_ 2015 FF_WriteLength "Chunk length (56, the last chunk shorter).";
+CM_ SG_ 2015 FF_Seed "Upper 4 bytes of the 8-byte tier 2 seed (BE); the lower 4 are in the next consecutive frame.";
+CM_ SG_ 2015 SF_Key "Security key, u16 BE. Tier 1 key = seed XOR 0x1234. The tier 2 key (8 bytes) is multi-frame.";
+CM_ SG_ 2015 SF_WriteChecksum "u16 BE: mode + sub + sum(data bytes).";
+CM_ SG_ 2015 SF_ReadLength "Bytes requested (56, the last chunk shorter).";
+CM_ SG_ 2015 SF_Seed "Security seed, u16 BE. 0 = already unlocked.";
+CM_ SG_ 2015 SF_ResponseCode "72 accepted, 75 resend chunk, 77 bad checksum, 40 invalid (commit: SF_Detail = failure code), 21 busy, 33 access denied, 35 wrong key, 11 invalid mode, 22 (after 20 00) also counts as locked.";
+CM_ SG_ 2015 FF_Pid16 "Live-data PID (mode 22/62). Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2015 FF_SecurityLevel "5/6: tier 2 (password) seed/key; the 8-byte value follows. password = seed XOR key.";
+CM_ SG_ 2015 FF_WriteSub "00 = 56-byte profile chunk: 3B 00 LL AAAA <LL bytes> <u16 checksum>.";
+CM_ SG_ 2015 FF_Mode "Service mode of the multi-frame message.";
+CM_ SG_ 2015 SF_Pid8 "One-byte PID / sub-function of the mode. For 03/07/0A replies the DTC count.";
+CM_ SG_ 2015 SF_Pid16 "Live-data PID (mode 22/62) or mode 05/17 PID. Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2015 SF_InfoType "Mode 09 info type. 0B identify (also sent to 0x7DF), 04 firmware, 06 profile CRC, 0A serial, 0C loaded chips, 12 nickname, 13 hardware revision.";
+CM_ SG_ 2015 SF_LivePid8 "Mode 21/61 live-data PID. Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2015 SF_SecurityLevel "1/2 tier 1 seed/key, 5/6 tier 2 (password) seed/key.";
+CM_ SG_ 2015 SF_WriteSub "Write target. 03 commit (reply comes from the ECU ID in the NEW profile).";
+CM_ SG_ 2015 SF_ReadSub "Always 00.";
+CM_ SG_ 2015 SF_RejectedMode "Mode this negative response / acknowledge refers to.";
+CM_ SG_ 2015 SF_Mode "Service mode. Requests use the OBD-style modes; a positive response is mode + 0x40; 0x7F is a negative response or (for writes) an acknowledge.";
+CM_ SG_ 2015 FF_Length "Total bytes of the multi-frame message after this byte (mode + PID + data).";
+CM_ SG_ 2015 CF_Data "7 continuation bytes, big-endian so the hex reads in wire order.";
+CM_ SG_ 2015 FC_BlockSize "The utility sends 30 07 00 ...; the sender then streams the rest with an 8 ms gap.";
+CM_ SG_ 2015 PCI "Frame type. 1-7: single frame, value = 1 + PID length + data length. 0x10: first frame of a multi-frame message. 0x21-0x2F (wrapping to 0x20): consecutive frames, 7 data bytes each. 0x30: flow control, sent by the receiver on the opposite ID.";
+CM_ BO_ 2019 "Requests to the BMS (profile ECU ID, default 0x7E3). OBD-II-like, not ISO-TP: single frame LL MM PID DATA (LL = 1 + PID len + data len, padded with 00); multi-frame 10 LL MM ..., then 21.. 2F (7 bytes each) after the BMS sends flow control 30 on 0x7EB. PID length depends on the mode (0: 03/04/07/0A, 2: 05/17/22, 3: 23, 4: 3C/A3, else 1). Configuration = the 3474-byte profile moved in 56-byte chunks: read with 3C, write with 3B 00 after 20 00, B2 03, tier 2 / tier 1 unlock (27), then commit 3B 03. Also carries the utility's live-data polling (22 F0xx, 21 xx, 01 01, B2 06 ...). The utility treats all IDs 0x700-0x7FF as diagnostic.";
+CM_ SG_ 2019 SF_ReadChecksum "u16 BE: mode + sum(4 PID bytes).";
+CM_ SG_ 2019 FF_WriteAddress "Profile offset, u16 BE (profile is 3474 bytes).";
+CM_ SG_ 2019 FF_ReadAddress "Profile offset of this 7C reply, u16 BE. Reply checksum = sum(4 PID bytes) + sum(data), mode excluded.";
+CM_ SG_ 2019 SF_ReadAddress "Profile offset, u16 BE.";
+CM_ SG_ 2019 SF_Detail "Commit failure code when ResponseCode = 0x40; the meanings are not in the utility.";
+CM_ SG_ 2019 FF_Key "Upper 4 bytes of the 8-byte tier 2 key (BE); the lower 4 are in the next consecutive frame.";
+CM_ SG_ 2019 FF_WriteLength "Chunk length (56, the last chunk shorter).";
+CM_ SG_ 2019 FF_Seed "Upper 4 bytes of the 8-byte tier 2 seed (BE); the lower 4 are in the next consecutive frame.";
+CM_ SG_ 2019 SF_Key "Security key, u16 BE. Tier 1 key = seed XOR 0x1234. The tier 2 key (8 bytes) is multi-frame.";
+CM_ SG_ 2019 SF_WriteChecksum "u16 BE: mode + sub + sum(data bytes).";
+CM_ SG_ 2019 SF_ReadLength "Bytes requested (56, the last chunk shorter).";
+CM_ SG_ 2019 SF_Seed "Security seed, u16 BE. 0 = already unlocked.";
+CM_ SG_ 2019 SF_ResponseCode "72 accepted, 75 resend chunk, 77 bad checksum, 40 invalid (commit: SF_Detail = failure code), 21 busy, 33 access denied, 35 wrong key, 11 invalid mode, 22 (after 20 00) also counts as locked.";
+CM_ SG_ 2019 FF_Pid16 "Live-data PID (mode 22/62). Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2019 FF_SecurityLevel "5/6: tier 2 (password) seed/key; the 8-byte value follows. password = seed XOR key.";
+CM_ SG_ 2019 FF_WriteSub "00 = 56-byte profile chunk: 3B 00 LL AAAA <LL bytes> <u16 checksum>.";
+CM_ SG_ 2019 FF_Mode "Service mode of the multi-frame message.";
+CM_ SG_ 2019 SF_Pid8 "One-byte PID / sub-function of the mode. For 03/07/0A replies the DTC count.";
+CM_ SG_ 2019 SF_Pid16 "Live-data PID (mode 22/62) or mode 05/17 PID. Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2019 SF_InfoType "Mode 09 info type. 0B identify (also sent to 0x7DF), 04 firmware, 06 profile CRC, 0A serial, 0C loaded chips, 12 nickname, 13 hardware revision.";
+CM_ SG_ 2019 SF_LivePid8 "Mode 21/61 live-data PID. Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2019 SF_SecurityLevel "1/2 tier 1 seed/key, 5/6 tier 2 (password) seed/key.";
+CM_ SG_ 2019 SF_WriteSub "Write target. 03 commit (reply comes from the ECU ID in the NEW profile).";
+CM_ SG_ 2019 SF_ReadSub "Always 00.";
+CM_ SG_ 2019 SF_RejectedMode "Mode this negative response / acknowledge refers to.";
+CM_ SG_ 2019 SF_Mode "Service mode. Requests use the OBD-style modes; a positive response is mode + 0x40; 0x7F is a negative response or (for writes) an acknowledge.";
+CM_ SG_ 2019 FF_Length "Total bytes of the multi-frame message after this byte (mode + PID + data).";
+CM_ SG_ 2019 CF_Data "7 continuation bytes, big-endian so the hex reads in wire order.";
+CM_ SG_ 2019 FC_BlockSize "The utility sends 30 07 00 ...; the sender then streams the rest with an 8 ms gap.";
+CM_ SG_ 2019 PCI "Frame type. 1-7: single frame, value = 1 + PID length + data length. 0x10: first frame of a multi-frame message. 0x21-0x2F (wrapping to 0x20): consecutive frames, 7 data bytes each. 0x30: flow control, sent by the receiver on the opposite ID.";
+CM_ BO_ 2021 "Third-party device configuration tunnelled by the OrionBMS 2 Utility (ScannerThirdPartySettingTxMode, fixed magic frames). Not analysed; raw bytes, big-endian so the hex reads in wire order. Not needed for BMS configuration.";
+CM_ BO_ 2027 "Responses from the BMS (ECU ID + 8, default 0x7EB). Positive reply mode = request mode + 0x40; 7F xx yy = negative reply, or for writes the acknowledge (7F 3B 72 = chunk accepted). The utility sends flow control 30 07 00 .. on 0x7E3 after a first frame from here.";
+CM_ SG_ 2027 SF_ReadChecksum "u16 BE: mode + sum(4 PID bytes).";
+CM_ SG_ 2027 FF_WriteAddress "Profile offset, u16 BE (profile is 3474 bytes).";
+CM_ SG_ 2027 FF_ReadAddress "Profile offset of this 7C reply, u16 BE. Reply checksum = sum(4 PID bytes) + sum(data), mode excluded.";
+CM_ SG_ 2027 SF_ReadAddress "Profile offset, u16 BE.";
+CM_ SG_ 2027 SF_Detail "Commit failure code when ResponseCode = 0x40; the meanings are not in the utility.";
+CM_ SG_ 2027 FF_Key "Upper 4 bytes of the 8-byte tier 2 key (BE); the lower 4 are in the next consecutive frame.";
+CM_ SG_ 2027 FF_WriteLength "Chunk length (56, the last chunk shorter).";
+CM_ SG_ 2027 FF_Seed "Upper 4 bytes of the 8-byte tier 2 seed (BE); the lower 4 are in the next consecutive frame.";
+CM_ SG_ 2027 SF_Key "Security key, u16 BE. Tier 1 key = seed XOR 0x1234. The tier 2 key (8 bytes) is multi-frame.";
+CM_ SG_ 2027 SF_WriteChecksum "u16 BE: mode + sub + sum(data bytes).";
+CM_ SG_ 2027 SF_ReadLength "Bytes requested (56, the last chunk shorter).";
+CM_ SG_ 2027 SF_Seed "Security seed, u16 BE. 0 = already unlocked.";
+CM_ SG_ 2027 SF_ResponseCode "72 accepted, 75 resend chunk, 77 bad checksum, 40 invalid (commit: SF_Detail = failure code), 21 busy, 33 access denied, 35 wrong key, 11 invalid mode, 22 (after 20 00) also counts as locked.";
+CM_ SG_ 2027 FF_Pid16 "Live-data PID (mode 22/62). Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2027 FF_SecurityLevel "5/6: tier 2 (password) seed/key; the 8-byte value follows. password = seed XOR key.";
+CM_ SG_ 2027 FF_WriteSub "00 = 56-byte profile chunk: 3B 00 LL AAAA <LL bytes> <u16 checksum>.";
+CM_ SG_ 2027 FF_Mode "Service mode of the multi-frame message.";
+CM_ SG_ 2027 SF_Pid8 "One-byte PID / sub-function of the mode. For 03/07/0A replies the DTC count.";
+CM_ SG_ 2027 SF_Pid16 "Live-data PID (mode 22/62) or mode 05/17 PID. Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2027 SF_InfoType "Mode 09 info type. 0B identify (also sent to 0x7DF), 04 firmware, 06 profile CRC, 0A serial, 0C loaded chips, 12 nickname, 13 hardware revision.";
+CM_ SG_ 2027 SF_LivePid8 "Mode 21/61 live-data PID. Value names from parameters.xml in BMSApp.jar.";
+CM_ SG_ 2027 SF_SecurityLevel "1/2 tier 1 seed/key, 5/6 tier 2 (password) seed/key.";
+CM_ SG_ 2027 SF_WriteSub "Write target. 03 commit (reply comes from the ECU ID in the NEW profile).";
+CM_ SG_ 2027 SF_ReadSub "Always 00.";
+CM_ SG_ 2027 SF_RejectedMode "Mode this negative response / acknowledge refers to.";
+CM_ SG_ 2027 SF_Mode "Service mode. Requests use the OBD-style modes; a positive response is mode + 0x40; 0x7F is a negative response or (for writes) an acknowledge.";
+CM_ SG_ 2027 FF_Length "Total bytes of the multi-frame message after this byte (mode + PID + data).";
+CM_ SG_ 2027 CF_Data "7 continuation bytes, big-endian so the hex reads in wire order.";
+CM_ SG_ 2027 FC_BlockSize "The utility sends 30 07 00 ...; the sender then streams the rest with an 8 ms gap.";
+CM_ SG_ 2027 PCI "Frame type. 1-7: single frame, value = 1 + PID length + data length. 0x10: first frame of a multi-frame message. 0x21-0x2F (wrapping to 0x20): consecutive frames, 7 data bytes each. 0x30: flow control, sent by the receiver on the opposite ID.";
+CM_ BO_ 2029 "Third-party device configuration tunnelled by the OrionBMS 2 Utility (ScannerThirdPartySettingTxMode, fixed magic frames). Not analysed; raw bytes, big-endian so the hex reads in wire order. Not needed for BMS configuration.";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 50000;
+BA_DEF_ BU_  "GenNodAutoGenSnd" ENUM  "No","Yes";
+BA_DEF_ BU_  "GenNodAutoGenDsp" ENUM  "No","Yes";
+BA_DEF_  "GenEnvVarEndingDsp" STRING ;
+BA_DEF_  "GenEnvVarEndingSnd" STRING ;
+BA_DEF_  "GenEnvVarPrefix" STRING ;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenNodAutoGenSnd" "Yes";
+BA_DEF_DEF_  "GenNodAutoGenDsp" "Yes";
+BA_DEF_DEF_  "GenEnvVarEndingDsp" "Dsp";
+BA_DEF_DEF_  "GenEnvVarEndingSnd" "Snd";
+BA_DEF_DEF_  "GenEnvVarPrefix" "Env";
+BA_ "GenMsgCycleTime" BO_ 512 40;
+BA_ "GenMsgCycleTime" BO_ 513 80;
+BA_ "GenMsgCycleTime" BO_ 514 80;
+BA_ "GenMsgCycleTime" BO_ 768 100;
+BA_ "GenMsgCycleTime" BO_ 1024 1000;
+BA_ "GenMsgCycleTime" BO_ 1025 200;
+BA_ "GenMsgCycleTime" BO_ 1026 200;
+BA_ "GenMsgCycleTime" BO_ 1027 200;
+BA_ "GenMsgCycleTime" BO_ 1035 1000;
+BA_ "GenMsgCycleTime" BO_ 1281 100;
+BA_ "GenMsgCycleTime" BO_ 1282 100;
+BA_ "GenMsgCycleTime" BO_ 1537 80;
+BA_ "GenMsgCycleTime" BO_ 1539 20;
+BA_ "GenMsgCycleTime" BO_ 1792 100;
+BA_ "GenMsgCycleTime" BO_ 2550588916 808;
+BA_ "GenMsgCycleTime" BO_ 2550589428 808;
+BA_ "GenMsgCycleTime" BO_ 2550589940 808;
+BA_ "GenMsgCycleTime" BO_ 1028 200;
+BA_ "GenMsgCycleTime" BO_ 1029 200;
+BA_ "GenMsgCycleTime" BO_ 1030 200;
+BA_ "GenMsgCycleTime" BO_ 1031 200;
+BA_ "GenMsgCycleTime" BO_ 1032 1000;
+BA_ "GenMsgCycleTime" BO_ 1033 1000;
+BA_ "GenMsgCycleTime" BO_ 1036 1000;
+BA_ "GenMsgCycleTime" BO_ 1037 1000;
+BA_ "GenMsgCycleTime" BO_ 1038 1000;
+BA_ "GenMsgCycleTime" BO_ 1047 200;
+VAL_ 512 Failsafe_Statuses 0 "VoltageFailsafeActive" 1 "CurrentFailsafeActive" 2 "RelayFailsafeActive" 3 "CellBalancingActive" 4 "ChargeInterlockFailsafeActive" 5 "ThermistorBValueTableInvalid" 6 "InputPowerSupplyFailsafeActive" 7 "Reserved" ;
+VAL_ 512 Relay_State_2 0 "MultiPurposeInput2Status" 1 "MultiPurposeInput3Status" 2 "Reserved" 3 "MultiPurposeOutput2Status" 4 "MultiPurposeOutput3Status" 5 "MultiPurposeOutput4Status" 6 "MultiPurposeEnableStatus" 7 "MultiPurposeOutput1Status" ;
+VAL_ 512 Relay_State_1 0 "DischargeRelayEnabled" 1 "ChargeRelayEnabled" 2 "ChargerSafetyEnabled" 3 "DtcIndicatorActive" 4 "MultiPurposeInputStatus" 5 "AlwaysOnStatus" 6 "IsReadyStatus" 7 "IsChargingStatus" ;
+VAL_ 512 DTC_Flags_2_2 0 "WeakPackFault" 1 "FanMonitorFault" 2 "ThermistorFault" 3 "ExternalCommunicationFault" 4 "RedundantPowerSupplyFault" 5 "HighVoltageIsolationFault" 6 "InputPowerSupplyFault" 7 "ChargeLimitEnforcementFault" ;
+VAL_ 512 DTC_Flags_2_1 0 "InternalCommunicationFault" 1 "CellBalancingStuckOffFault" 2 "WeakCellFault" 3 "LowCellVoltageFault" 4 "OpenWiringFault" 5 "CurrentSensorFault" 6 "HighestCellVoltageAbove5vFault" 7 "CellAsicFault" ;
+VAL_ 512 DTC_Flags_1 0 "DischargeLimitEnforcementFault" 1 "ChargerSafetyRelayFault" 2 "InternalHardwareFault" 3 "InternalHeatsinkThermistorFault" 4 "InternalSoftwareFault" 5 "HighestCellVoltageTooLowFault" 6 "LowestCellVoltageTooLowFault" 7 "PackTooHotFault" ;
+VAL_ 768 Display_Flags_Aux_Battery 0 "AuxOverVoltageError" 1 "AuxUnderVoltageError" 2 "AuxOverCurrentError" 3 "AuxUnderCurrentError" 4 "AuxOverVoltageWarning" 5 "AuxUnderVoltageWarning" 6 "AuxOverCurrentWarning" 7 "AuxUnderCurrentWarning" ;
+VAL_ 768 Display_Flags_Main_Battery 0 "MainOverVoltageError" 1 "MainUnderVoltageError" 2 "MainOverCurrentError" 3 "MainUnderCurrentError" 4 "MainOverVoltageWarning" 5 "MainUnderVoltageWarning" 6 "MainOverCurrentWarning" 7 "MainUnderCurrentWarning" ;
+VAL_ 768 Display_Flags_Power_Monitor 0 "DistroBad" 1 "MainHardwareDetectedFault" 2 "AuxHardwareDetectedFault" 3 "MainPowerMonitorI2cError" 4 "AuxPowerMonitorI2cError" 5 "PowerDistroPrecharge" 6 "ContactorFault" 7 "Empty7" ;
+VAL_ 1025 MC_Error_Flags_2 0 "SpeedOver115Percent" 1 "Reserved1" 2 "Reserved2" 3 "Reserved3" 4 "Reserved4" 5 "Reserved5" 6 "Reserved6" 7 "Reserved7" ;
+VAL_ 1025 MC_Error_Flags_1 0 "HardwareOverCurrent" 1 "SoftwareOverCurrent" 2 "DcBusOverVoltage" 3 "BadMotorPositionHallSequence" 4 "WatchdogCausedLastReset" 5 "ConfigReadError" 6 "Rail15vUnderVoltageLockOut" 7 "DesaturationFault" ;
+VAL_ 1025 MC_Limit_Flags 0 "OutputVoltagePwm" 1 "MotorCurrent" 2 "Velocity" 3 "BusCurrent" 4 "BusVoltageUpperLimit" 5 "BusVoltageLowerLimit" 6 "IpmMotorTemperature" 7 "Reserved" ;
+VAL_ 1792 Distro_Control 0 "LeftLights" 1 "RightLights" 2 "HazardLights" 3 "Horn" 4 "Brake" 5 "Empty5" 6 "Empty6" 7 "Empty7" ;
+VAL_ 1039 Start 0 "Select" 1 "Start" ;
+VAL_ 1039 Mode 0 "Normal" 1 "PhasorSense" 2 "ParameterExtraction" 3 "InductionMotorExtraction" ;
+VAL_ 1042 Request_ResponderSends 0 "Write" 1 "Read" ;
+VAL_ 1042 Request_Stream 0 "Fixed" 1 "Stream" ;
+VAL_ 1042 Close_Kind 0 "Close" 1 "Abort" 2 "CloseAck" ;
+VAL_ 1042 BlockAck_Status 0 "BlockOk" 1 "Complete" ;
+VAL_ 1042 Request_Address 256 "PublicBlob" 257 "PrivateBlob" 258 "MotorBlob" 512 "Info" 513 "BlobSizes" 514 "ConfigVersion" 515 "FlashAck" 1024 "Reset" ;
+VAL_ 1042 Op 1 "INIT" 2 "CLOSE" 3 "PARAM_ACK" 4 "BLOCK_ACK" 5 "RETX" 6 "BAD_SEQ" 7 "REQUEST" 8 "SIZE" 17217 "ACTMOT" ;
+VAL_ 2015 SF_ResponseCode 17 "InvalidMode" 33 "Busy" 34 "ConditionsNotCorrect" 51 "AccessDenied" 53 "InvalidKey" 64 "Invalid" 114 "Accepted" 117 "Resend" 119 "BadChecksum" ;
+VAL_ 2015 FF_Pid16 61444 "RELAYS" 61446 "MAX_CELL_NUM" 61450 "PACK_CCL" 61451 "PACK_DCL" 61452 "PACK_CURR" 61453 "PACK_VOLT" 61454 "PACK_OPENVOLT" 61455 "PACK_SOC" 61456 "PACK_AMPHOURS" 61457 "PACK_RESIST" 61458 "PACK_DOD" 61459 "PACK_SOH" 61460 "PACK_SUMMED_VOLT" 61464 "PACK_CYCLES" 61465 "LIMITS_STATUS" 61466 "PACK_CCL_KW" 61467 "PACK_DCL_KW" 61468 "MAX_PACK_DCL" 61469 "MAX_PACK_CCL" 61470 "SIM_SOC" 61471 "BATTERY_MODE" 61472 "SIM_REQ_MODE" 61473 "DTC_HIGH" 61474 "DTC_LOW" 61477 "HISTORICAL_RUNTIME_HIGH" 61478 "HISTORICAL_RUNTIME_LOW" 61479 "AVG_PACK_CURR" 61480 "HIGH_TEMP" 61481 "LOW_TEMP" 61482 "AVG_TEMP" 61483 "ACT_FANSPEED" 61484 "REQ_FANSPEED" 61485 "INT_THERM" 61486 "HIGH_THERM" 61487 "LOW_THERM" 61488 "J1772_PLUG_STATE" 61489 "J1772_AC_LIMIT" 61490 "LOW_CELL_VOLT" 61491 "HIGH_CELL_VOLT" 61492 "AVG_CELL_VOLT" 61493 "LOW_OPENCELL_VOLT" 61494 "HIGH_OPENCELL_VOLT" 61495 "AVG_OPENCELL_VOLT" 61496 "LOW_CELL_RESIST" 61497 "HIGH_CELL_RESIST" 61498 "AVG_CELL_RESIST" 61501 "HIGH_CELL_VOLTAGE_ID" 61502 "LOW_CELL_VOLTAGE_ID" 61503 "HIGH_CELL_OPENVOLT_ID" 61504 "LOW_CELL_OPENVOLT_ID" 61505 "HIGH_CELL_INTERNALRES_ID" 61506 "LOW_CELL_INTERNALRES_ID" 61507 "OBSERVED_AMPHOURS" 61508 "OBSERVED_CAPACITY" 61509 "OBSERVED_SOC" 61510 "12V_VOLTAGE" 61511 "CURRENT_ADC1" 61512 "CURRENT_ADC2" 61513 "FAN_VOLTAGE" 61514 "SHORTEST_WAVE" 61515 "AVERAGE_WAVE" 61518 "CAN1_STATUS" 61519 "CAN2_STATUS" 61520 "RAIL1_VOLTAGES" 61521 "RAIL2_VOLTAGES" 61522 "J1772_AC_KW_LIMIT" 61523 "J1772_AC_VOLTAGE" 61524 "OBSERVED_PREV_CAPACITY" 61525 "CELL_COMM_FAULTS" 61526 "J1772_PROX_VOLTAGE" 61529 "VEHICLE_SPEED" 61530 "PARALLEL_RELAYS" 61531 "PARALLEL_PACK_SOC" 61532 "PARALLEL_PACK_DCL" 61533 "PARALLEL_PACK_CCL" 61534 "PARALLEL_PACK_CURR" 61535 "PARALLEL_PACK_INST_VOLT" 61536 "PARALLEL_TARG_MAX_VOLT" 61537 "PARALLEL_TARG_MIN_VOLT" 61538 "PARALLEL_LOW_TEMP" 61539 "PARALLEL_HIGH_TEMP" 61540 "PARALLEL_ACTIVE_STRINGS" 61541 "PARALLEL_UNIT_TYPE" 61542 "PARALLEL_HIGH_CELLV1" 61543 "PARALLEL_LOW_CELLV1" 61550 "SWDT_FAULTS" 61555 "CURRENT_OFFSET1" 61556 "CURRENT_OFFSET2" 61557 "BALANCING_STATUS" 61558 "FLOAT_VOLTAGE" 61559 "PRECHARGE_STATE" 61568 "APPLICATION_DC_BUS_VOLT1" 61570 "PACK_KW" 61692 "REMOTE_VOLTAGES_MXL" 61693 "INT_THERMISTORS" 61694 "TEM_DATA" 61695 "THERMISTORS" 61696 "CELLBANK0" 61697 "CELLBANK1" 61698 "CELLBANK2" 61699 "CELLBANK3" 61700 "CELLBANK4" 61701 "CELLBANK5" 61702 "CELLBANK6" 61703 "CELLBANK7" 61704 "CELLBANK8" 61705 "CELLBANK9" 61706 "CELLBANK10" 61707 "CELLBANK11" 61708 "CELLBANK12" 61709 "CELLBANK13" 61710 "CELLBANK14" 61711 "CELLBANK15" 61712 "CELLBANK16" 61713 "CELLBANK17" 61714 "CELLBANK18" 61715 "CELLBANK19" 61716 "CELLBANK20" 61717 "CELLBANK21" 61718 "CELLBANK22" 61719 "CELLBANK23" 61720 "CELLBANK24" 61721 "CELLBANK25" 61722 "CELLBANK26" 61952 "INTRESBANK0" 61953 "INTRESBANK1" 61954 "INTRESBANK2" 61955 "INTRESBANK3" 61956 "INTRESBANK4" 61957 "INTRESBANK5" 61958 "INTRESBANK6" 61959 "INTRESBANK7" 61960 "INTRESBANK8" 61961 "INTRESBANK9" 61962 "INTRESBANK10" 61963 "INTRESBANK11" 61964 "INTRESBANK12" 61965 "INTRESBANK13" 61966 "INTRESBANK14" 61967 "INTRESBANK15" 61968 "INTRESBANK16" 61969 "INTRESBANK17" 61970 "INTRESBANK18" 61971 "INTRESBANK19" 61972 "INTRESBANK20" 61973 "INTRESBANK21" 61974 "INTRESBANK22" 61975 "INTRESBANK23" 61976 "INTRESBANK24" 61977 "INTRESBANK25" 61978 "INTRESBANK26" 62208 "OPENCELLBANK0" 62209 "OPENCELLBANK1" 62210 "OPENCELLBANK2" 62211 "OPENCELLBANK3" 62212 "OPENCELLBANK4" 62213 "OPENCELLBANK5" 62214 "OPENCELLBANK6" 62215 "OPENCELLBANK7" 62216 "OPENCELLBANK8" 62217 "OPENCELLBANK9" 62218 "OPENCELLBANK10" 62219 "OPENCELLBANK11" 62220 "OPENCELLBANK12" 62221 "OPENCELLBANK13" 62222 "OPENCELLBANK14" 62223 "OPENCELLBANK15" 62224 "OPENCELLBANK16" 62225 "OPENCELLBANK17" 62226 "OPENCELLBANK18" 62227 "OPENCELLBANK19" 62228 "OPENCELLBANK20" 62229 "OPENCELLBANK21" 62230 "OPENCELLBANK22" 62231 "OPENCELLBANK23" 62232 "OPENCELLBANK24" 62233 "OPENCELLBANK25" 62234 "OPENCELLBANK26" ;
+VAL_ 2015 FF_InfoType 4 "FirmwareVersion" 6 "ProfileCRC" 10 "Serial" 11 "Identify" 12 "LoadedChips" 18 "Nickname" 19 "HardwareRevision" ;
+VAL_ 2015 FF_ResetType 1 "Restart" 10 "ClearCycleCount" 11 "ClearLearnedSOC" 12 "ClearContactorCount" ;
+VAL_ 2015 FF_SecurityLevel 1 "Tier1_SeedRequest" 2 "Tier1_Key" 5 "Tier2_SeedRequest" 6 "Tier2_Key" ;
+VAL_ 2015 FF_WriteSub 0 "ProfileChunk" 2 "HistoricalData" 3 "Commit" 4 "SetRTC" 6 "SetPassword" 8 "SetNickname" ;
+VAL_ 2015 FF_Mode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 65 "CurrentData_Reply" 66 "FreezeFrame_Reply" 67 "StoredDTCs_Reply" 68 "ClearDTCs_Reply" 69 "Mode05_Reply" 71 "PendingDTCs_Reply" 73 "VehicleInfo_Reply" 74 "PermanentDTCs_Reply" 81 "Reset_Reply" 87 "Mode17_Reply" 96 "Lock_Reply" 97 "ReadPID8_Reply" 98 "ReadPID16_Reply" 99 "ReadPID24_Reply" 103 "SecurityAccess_Reply" 123 "Write_Reply" 124 "ProfileRead_Reply" 127 "NegativeOrAck" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" 227 "ModeA3_Reply" 240 "ModeB0_Reply" 241 "Calibrate_Reply" 242 "LinkStatus_Reply" 243 "NvramLog_Reply" 245 "Watchdog_Reply" ;
+VAL_ 2015 SF_Pid16 61444 "RELAYS" 61446 "MAX_CELL_NUM" 61450 "PACK_CCL" 61451 "PACK_DCL" 61452 "PACK_CURR" 61453 "PACK_VOLT" 61454 "PACK_OPENVOLT" 61455 "PACK_SOC" 61456 "PACK_AMPHOURS" 61457 "PACK_RESIST" 61458 "PACK_DOD" 61459 "PACK_SOH" 61460 "PACK_SUMMED_VOLT" 61464 "PACK_CYCLES" 61465 "LIMITS_STATUS" 61466 "PACK_CCL_KW" 61467 "PACK_DCL_KW" 61468 "MAX_PACK_DCL" 61469 "MAX_PACK_CCL" 61470 "SIM_SOC" 61471 "BATTERY_MODE" 61472 "SIM_REQ_MODE" 61473 "DTC_HIGH" 61474 "DTC_LOW" 61477 "HISTORICAL_RUNTIME_HIGH" 61478 "HISTORICAL_RUNTIME_LOW" 61479 "AVG_PACK_CURR" 61480 "HIGH_TEMP" 61481 "LOW_TEMP" 61482 "AVG_TEMP" 61483 "ACT_FANSPEED" 61484 "REQ_FANSPEED" 61485 "INT_THERM" 61486 "HIGH_THERM" 61487 "LOW_THERM" 61488 "J1772_PLUG_STATE" 61489 "J1772_AC_LIMIT" 61490 "LOW_CELL_VOLT" 61491 "HIGH_CELL_VOLT" 61492 "AVG_CELL_VOLT" 61493 "LOW_OPENCELL_VOLT" 61494 "HIGH_OPENCELL_VOLT" 61495 "AVG_OPENCELL_VOLT" 61496 "LOW_CELL_RESIST" 61497 "HIGH_CELL_RESIST" 61498 "AVG_CELL_RESIST" 61501 "HIGH_CELL_VOLTAGE_ID" 61502 "LOW_CELL_VOLTAGE_ID" 61503 "HIGH_CELL_OPENVOLT_ID" 61504 "LOW_CELL_OPENVOLT_ID" 61505 "HIGH_CELL_INTERNALRES_ID" 61506 "LOW_CELL_INTERNALRES_ID" 61507 "OBSERVED_AMPHOURS" 61508 "OBSERVED_CAPACITY" 61509 "OBSERVED_SOC" 61510 "12V_VOLTAGE" 61511 "CURRENT_ADC1" 61512 "CURRENT_ADC2" 61513 "FAN_VOLTAGE" 61514 "SHORTEST_WAVE" 61515 "AVERAGE_WAVE" 61518 "CAN1_STATUS" 61519 "CAN2_STATUS" 61520 "RAIL1_VOLTAGES" 61521 "RAIL2_VOLTAGES" 61522 "J1772_AC_KW_LIMIT" 61523 "J1772_AC_VOLTAGE" 61524 "OBSERVED_PREV_CAPACITY" 61525 "CELL_COMM_FAULTS" 61526 "J1772_PROX_VOLTAGE" 61529 "VEHICLE_SPEED" 61530 "PARALLEL_RELAYS" 61531 "PARALLEL_PACK_SOC" 61532 "PARALLEL_PACK_DCL" 61533 "PARALLEL_PACK_CCL" 61534 "PARALLEL_PACK_CURR" 61535 "PARALLEL_PACK_INST_VOLT" 61536 "PARALLEL_TARG_MAX_VOLT" 61537 "PARALLEL_TARG_MIN_VOLT" 61538 "PARALLEL_LOW_TEMP" 61539 "PARALLEL_HIGH_TEMP" 61540 "PARALLEL_ACTIVE_STRINGS" 61541 "PARALLEL_UNIT_TYPE" 61542 "PARALLEL_HIGH_CELLV1" 61543 "PARALLEL_LOW_CELLV1" 61550 "SWDT_FAULTS" 61555 "CURRENT_OFFSET1" 61556 "CURRENT_OFFSET2" 61557 "BALANCING_STATUS" 61558 "FLOAT_VOLTAGE" 61559 "PRECHARGE_STATE" 61568 "APPLICATION_DC_BUS_VOLT1" 61570 "PACK_KW" 61692 "REMOTE_VOLTAGES_MXL" 61693 "INT_THERMISTORS" 61694 "TEM_DATA" 61695 "THERMISTORS" 61696 "CELLBANK0" 61697 "CELLBANK1" 61698 "CELLBANK2" 61699 "CELLBANK3" 61700 "CELLBANK4" 61701 "CELLBANK5" 61702 "CELLBANK6" 61703 "CELLBANK7" 61704 "CELLBANK8" 61705 "CELLBANK9" 61706 "CELLBANK10" 61707 "CELLBANK11" 61708 "CELLBANK12" 61709 "CELLBANK13" 61710 "CELLBANK14" 61711 "CELLBANK15" 61712 "CELLBANK16" 61713 "CELLBANK17" 61714 "CELLBANK18" 61715 "CELLBANK19" 61716 "CELLBANK20" 61717 "CELLBANK21" 61718 "CELLBANK22" 61719 "CELLBANK23" 61720 "CELLBANK24" 61721 "CELLBANK25" 61722 "CELLBANK26" 61952 "INTRESBANK0" 61953 "INTRESBANK1" 61954 "INTRESBANK2" 61955 "INTRESBANK3" 61956 "INTRESBANK4" 61957 "INTRESBANK5" 61958 "INTRESBANK6" 61959 "INTRESBANK7" 61960 "INTRESBANK8" 61961 "INTRESBANK9" 61962 "INTRESBANK10" 61963 "INTRESBANK11" 61964 "INTRESBANK12" 61965 "INTRESBANK13" 61966 "INTRESBANK14" 61967 "INTRESBANK15" 61968 "INTRESBANK16" 61969 "INTRESBANK17" 61970 "INTRESBANK18" 61971 "INTRESBANK19" 61972 "INTRESBANK20" 61973 "INTRESBANK21" 61974 "INTRESBANK22" 61975 "INTRESBANK23" 61976 "INTRESBANK24" 61977 "INTRESBANK25" 61978 "INTRESBANK26" 62208 "OPENCELLBANK0" 62209 "OPENCELLBANK1" 62210 "OPENCELLBANK2" 62211 "OPENCELLBANK3" 62212 "OPENCELLBANK4" 62213 "OPENCELLBANK5" 62214 "OPENCELLBANK6" 62215 "OPENCELLBANK7" 62216 "OPENCELLBANK8" 62217 "OPENCELLBANK9" 62218 "OPENCELLBANK10" 62219 "OPENCELLBANK11" 62220 "OPENCELLBANK12" 62221 "OPENCELLBANK13" 62222 "OPENCELLBANK14" 62223 "OPENCELLBANK15" 62224 "OPENCELLBANK16" 62225 "OPENCELLBANK17" 62226 "OPENCELLBANK18" 62227 "OPENCELLBANK19" 62228 "OPENCELLBANK20" 62229 "OPENCELLBANK21" 62230 "OPENCELLBANK22" 62231 "OPENCELLBANK23" 62232 "OPENCELLBANK24" 62233 "OPENCELLBANK25" 62234 "OPENCELLBANK26" ;
+VAL_ 2015 SF_InfoType 4 "FirmwareVersion" 6 "ProfileCRC" 10 "Serial" 11 "Identify" 12 "LoadedChips" 18 "Nickname" 19 "HardwareRevision" ;
+VAL_ 2015 SF_ResetType 1 "Restart" 10 "ClearCycleCount" 11 "ClearLearnedSOC" 12 "ClearContactorCount" ;
+VAL_ 2015 SF_LivePid8 31 "RUNTIME" 77 "DTC_ACTIVE_TIME" 78 "DTC_CLEAR_TIME" ;
+VAL_ 2015 SF_SecurityLevel 1 "Tier1_SeedRequest" 2 "Tier1_Key" 5 "Tier2_SeedRequest" 6 "Tier2_Key" ;
+VAL_ 2015 SF_WriteSub 0 "ProfileChunk" 2 "HistoricalData" 3 "Commit" 4 "SetRTC" 6 "SetPassword" 8 "SetNickname" ;
+VAL_ 2015 SF_RejectedMode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" ;
+VAL_ 2015 SF_Mode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 65 "CurrentData_Reply" 66 "FreezeFrame_Reply" 67 "StoredDTCs_Reply" 68 "ClearDTCs_Reply" 69 "Mode05_Reply" 71 "PendingDTCs_Reply" 73 "VehicleInfo_Reply" 74 "PermanentDTCs_Reply" 81 "Reset_Reply" 87 "Mode17_Reply" 96 "Lock_Reply" 97 "ReadPID8_Reply" 98 "ReadPID16_Reply" 99 "ReadPID24_Reply" 103 "SecurityAccess_Reply" 123 "Write_Reply" 124 "ProfileRead_Reply" 127 "NegativeOrAck" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" 227 "ModeA3_Reply" 240 "ModeB0_Reply" 241 "Calibrate_Reply" 242 "LinkStatus_Reply" 243 "NvramLog_Reply" 245 "Watchdog_Reply" ;
+VAL_ 2015 PCI 1 "SingleFrame_1" 2 "SingleFrame_2" 3 "SingleFrame_3" 4 "SingleFrame_4" 5 "SingleFrame_5" 6 "SingleFrame_6" 7 "SingleFrame_7" 16 "FirstFrame" 32 "Consecutive_0" 33 "Consecutive_1" 34 "Consecutive_2" 35 "Consecutive_3" 36 "Consecutive_4" 37 "Consecutive_5" 38 "Consecutive_6" 39 "Consecutive_7" 40 "Consecutive_8" 41 "Consecutive_9" 42 "Consecutive_10" 43 "Consecutive_11" 44 "Consecutive_12" 45 "Consecutive_13" 46 "Consecutive_14" 47 "Consecutive_15" 48 "FlowControl" ;
+VAL_ 2019 SF_ResponseCode 17 "InvalidMode" 33 "Busy" 34 "ConditionsNotCorrect" 51 "AccessDenied" 53 "InvalidKey" 64 "Invalid" 114 "Accepted" 117 "Resend" 119 "BadChecksum" ;
+VAL_ 2019 FF_Pid16 61444 "RELAYS" 61446 "MAX_CELL_NUM" 61450 "PACK_CCL" 61451 "PACK_DCL" 61452 "PACK_CURR" 61453 "PACK_VOLT" 61454 "PACK_OPENVOLT" 61455 "PACK_SOC" 61456 "PACK_AMPHOURS" 61457 "PACK_RESIST" 61458 "PACK_DOD" 61459 "PACK_SOH" 61460 "PACK_SUMMED_VOLT" 61464 "PACK_CYCLES" 61465 "LIMITS_STATUS" 61466 "PACK_CCL_KW" 61467 "PACK_DCL_KW" 61468 "MAX_PACK_DCL" 61469 "MAX_PACK_CCL" 61470 "SIM_SOC" 61471 "BATTERY_MODE" 61472 "SIM_REQ_MODE" 61473 "DTC_HIGH" 61474 "DTC_LOW" 61477 "HISTORICAL_RUNTIME_HIGH" 61478 "HISTORICAL_RUNTIME_LOW" 61479 "AVG_PACK_CURR" 61480 "HIGH_TEMP" 61481 "LOW_TEMP" 61482 "AVG_TEMP" 61483 "ACT_FANSPEED" 61484 "REQ_FANSPEED" 61485 "INT_THERM" 61486 "HIGH_THERM" 61487 "LOW_THERM" 61488 "J1772_PLUG_STATE" 61489 "J1772_AC_LIMIT" 61490 "LOW_CELL_VOLT" 61491 "HIGH_CELL_VOLT" 61492 "AVG_CELL_VOLT" 61493 "LOW_OPENCELL_VOLT" 61494 "HIGH_OPENCELL_VOLT" 61495 "AVG_OPENCELL_VOLT" 61496 "LOW_CELL_RESIST" 61497 "HIGH_CELL_RESIST" 61498 "AVG_CELL_RESIST" 61501 "HIGH_CELL_VOLTAGE_ID" 61502 "LOW_CELL_VOLTAGE_ID" 61503 "HIGH_CELL_OPENVOLT_ID" 61504 "LOW_CELL_OPENVOLT_ID" 61505 "HIGH_CELL_INTERNALRES_ID" 61506 "LOW_CELL_INTERNALRES_ID" 61507 "OBSERVED_AMPHOURS" 61508 "OBSERVED_CAPACITY" 61509 "OBSERVED_SOC" 61510 "12V_VOLTAGE" 61511 "CURRENT_ADC1" 61512 "CURRENT_ADC2" 61513 "FAN_VOLTAGE" 61514 "SHORTEST_WAVE" 61515 "AVERAGE_WAVE" 61518 "CAN1_STATUS" 61519 "CAN2_STATUS" 61520 "RAIL1_VOLTAGES" 61521 "RAIL2_VOLTAGES" 61522 "J1772_AC_KW_LIMIT" 61523 "J1772_AC_VOLTAGE" 61524 "OBSERVED_PREV_CAPACITY" 61525 "CELL_COMM_FAULTS" 61526 "J1772_PROX_VOLTAGE" 61529 "VEHICLE_SPEED" 61530 "PARALLEL_RELAYS" 61531 "PARALLEL_PACK_SOC" 61532 "PARALLEL_PACK_DCL" 61533 "PARALLEL_PACK_CCL" 61534 "PARALLEL_PACK_CURR" 61535 "PARALLEL_PACK_INST_VOLT" 61536 "PARALLEL_TARG_MAX_VOLT" 61537 "PARALLEL_TARG_MIN_VOLT" 61538 "PARALLEL_LOW_TEMP" 61539 "PARALLEL_HIGH_TEMP" 61540 "PARALLEL_ACTIVE_STRINGS" 61541 "PARALLEL_UNIT_TYPE" 61542 "PARALLEL_HIGH_CELLV1" 61543 "PARALLEL_LOW_CELLV1" 61550 "SWDT_FAULTS" 61555 "CURRENT_OFFSET1" 61556 "CURRENT_OFFSET2" 61557 "BALANCING_STATUS" 61558 "FLOAT_VOLTAGE" 61559 "PRECHARGE_STATE" 61568 "APPLICATION_DC_BUS_VOLT1" 61570 "PACK_KW" 61692 "REMOTE_VOLTAGES_MXL" 61693 "INT_THERMISTORS" 61694 "TEM_DATA" 61695 "THERMISTORS" 61696 "CELLBANK0" 61697 "CELLBANK1" 61698 "CELLBANK2" 61699 "CELLBANK3" 61700 "CELLBANK4" 61701 "CELLBANK5" 61702 "CELLBANK6" 61703 "CELLBANK7" 61704 "CELLBANK8" 61705 "CELLBANK9" 61706 "CELLBANK10" 61707 "CELLBANK11" 61708 "CELLBANK12" 61709 "CELLBANK13" 61710 "CELLBANK14" 61711 "CELLBANK15" 61712 "CELLBANK16" 61713 "CELLBANK17" 61714 "CELLBANK18" 61715 "CELLBANK19" 61716 "CELLBANK20" 61717 "CELLBANK21" 61718 "CELLBANK22" 61719 "CELLBANK23" 61720 "CELLBANK24" 61721 "CELLBANK25" 61722 "CELLBANK26" 61952 "INTRESBANK0" 61953 "INTRESBANK1" 61954 "INTRESBANK2" 61955 "INTRESBANK3" 61956 "INTRESBANK4" 61957 "INTRESBANK5" 61958 "INTRESBANK6" 61959 "INTRESBANK7" 61960 "INTRESBANK8" 61961 "INTRESBANK9" 61962 "INTRESBANK10" 61963 "INTRESBANK11" 61964 "INTRESBANK12" 61965 "INTRESBANK13" 61966 "INTRESBANK14" 61967 "INTRESBANK15" 61968 "INTRESBANK16" 61969 "INTRESBANK17" 61970 "INTRESBANK18" 61971 "INTRESBANK19" 61972 "INTRESBANK20" 61973 "INTRESBANK21" 61974 "INTRESBANK22" 61975 "INTRESBANK23" 61976 "INTRESBANK24" 61977 "INTRESBANK25" 61978 "INTRESBANK26" 62208 "OPENCELLBANK0" 62209 "OPENCELLBANK1" 62210 "OPENCELLBANK2" 62211 "OPENCELLBANK3" 62212 "OPENCELLBANK4" 62213 "OPENCELLBANK5" 62214 "OPENCELLBANK6" 62215 "OPENCELLBANK7" 62216 "OPENCELLBANK8" 62217 "OPENCELLBANK9" 62218 "OPENCELLBANK10" 62219 "OPENCELLBANK11" 62220 "OPENCELLBANK12" 62221 "OPENCELLBANK13" 62222 "OPENCELLBANK14" 62223 "OPENCELLBANK15" 62224 "OPENCELLBANK16" 62225 "OPENCELLBANK17" 62226 "OPENCELLBANK18" 62227 "OPENCELLBANK19" 62228 "OPENCELLBANK20" 62229 "OPENCELLBANK21" 62230 "OPENCELLBANK22" 62231 "OPENCELLBANK23" 62232 "OPENCELLBANK24" 62233 "OPENCELLBANK25" 62234 "OPENCELLBANK26" ;
+VAL_ 2019 FF_InfoType 4 "FirmwareVersion" 6 "ProfileCRC" 10 "Serial" 11 "Identify" 12 "LoadedChips" 18 "Nickname" 19 "HardwareRevision" ;
+VAL_ 2019 FF_ResetType 1 "Restart" 10 "ClearCycleCount" 11 "ClearLearnedSOC" 12 "ClearContactorCount" ;
+VAL_ 2019 FF_SecurityLevel 1 "Tier1_SeedRequest" 2 "Tier1_Key" 5 "Tier2_SeedRequest" 6 "Tier2_Key" ;
+VAL_ 2019 FF_WriteSub 0 "ProfileChunk" 2 "HistoricalData" 3 "Commit" 4 "SetRTC" 6 "SetPassword" 8 "SetNickname" ;
+VAL_ 2019 FF_Mode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 65 "CurrentData_Reply" 66 "FreezeFrame_Reply" 67 "StoredDTCs_Reply" 68 "ClearDTCs_Reply" 69 "Mode05_Reply" 71 "PendingDTCs_Reply" 73 "VehicleInfo_Reply" 74 "PermanentDTCs_Reply" 81 "Reset_Reply" 87 "Mode17_Reply" 96 "Lock_Reply" 97 "ReadPID8_Reply" 98 "ReadPID16_Reply" 99 "ReadPID24_Reply" 103 "SecurityAccess_Reply" 123 "Write_Reply" 124 "ProfileRead_Reply" 127 "NegativeOrAck" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" 227 "ModeA3_Reply" 240 "ModeB0_Reply" 241 "Calibrate_Reply" 242 "LinkStatus_Reply" 243 "NvramLog_Reply" 245 "Watchdog_Reply" ;
+VAL_ 2019 SF_Pid16 61444 "RELAYS" 61446 "MAX_CELL_NUM" 61450 "PACK_CCL" 61451 "PACK_DCL" 61452 "PACK_CURR" 61453 "PACK_VOLT" 61454 "PACK_OPENVOLT" 61455 "PACK_SOC" 61456 "PACK_AMPHOURS" 61457 "PACK_RESIST" 61458 "PACK_DOD" 61459 "PACK_SOH" 61460 "PACK_SUMMED_VOLT" 61464 "PACK_CYCLES" 61465 "LIMITS_STATUS" 61466 "PACK_CCL_KW" 61467 "PACK_DCL_KW" 61468 "MAX_PACK_DCL" 61469 "MAX_PACK_CCL" 61470 "SIM_SOC" 61471 "BATTERY_MODE" 61472 "SIM_REQ_MODE" 61473 "DTC_HIGH" 61474 "DTC_LOW" 61477 "HISTORICAL_RUNTIME_HIGH" 61478 "HISTORICAL_RUNTIME_LOW" 61479 "AVG_PACK_CURR" 61480 "HIGH_TEMP" 61481 "LOW_TEMP" 61482 "AVG_TEMP" 61483 "ACT_FANSPEED" 61484 "REQ_FANSPEED" 61485 "INT_THERM" 61486 "HIGH_THERM" 61487 "LOW_THERM" 61488 "J1772_PLUG_STATE" 61489 "J1772_AC_LIMIT" 61490 "LOW_CELL_VOLT" 61491 "HIGH_CELL_VOLT" 61492 "AVG_CELL_VOLT" 61493 "LOW_OPENCELL_VOLT" 61494 "HIGH_OPENCELL_VOLT" 61495 "AVG_OPENCELL_VOLT" 61496 "LOW_CELL_RESIST" 61497 "HIGH_CELL_RESIST" 61498 "AVG_CELL_RESIST" 61501 "HIGH_CELL_VOLTAGE_ID" 61502 "LOW_CELL_VOLTAGE_ID" 61503 "HIGH_CELL_OPENVOLT_ID" 61504 "LOW_CELL_OPENVOLT_ID" 61505 "HIGH_CELL_INTERNALRES_ID" 61506 "LOW_CELL_INTERNALRES_ID" 61507 "OBSERVED_AMPHOURS" 61508 "OBSERVED_CAPACITY" 61509 "OBSERVED_SOC" 61510 "12V_VOLTAGE" 61511 "CURRENT_ADC1" 61512 "CURRENT_ADC2" 61513 "FAN_VOLTAGE" 61514 "SHORTEST_WAVE" 61515 "AVERAGE_WAVE" 61518 "CAN1_STATUS" 61519 "CAN2_STATUS" 61520 "RAIL1_VOLTAGES" 61521 "RAIL2_VOLTAGES" 61522 "J1772_AC_KW_LIMIT" 61523 "J1772_AC_VOLTAGE" 61524 "OBSERVED_PREV_CAPACITY" 61525 "CELL_COMM_FAULTS" 61526 "J1772_PROX_VOLTAGE" 61529 "VEHICLE_SPEED" 61530 "PARALLEL_RELAYS" 61531 "PARALLEL_PACK_SOC" 61532 "PARALLEL_PACK_DCL" 61533 "PARALLEL_PACK_CCL" 61534 "PARALLEL_PACK_CURR" 61535 "PARALLEL_PACK_INST_VOLT" 61536 "PARALLEL_TARG_MAX_VOLT" 61537 "PARALLEL_TARG_MIN_VOLT" 61538 "PARALLEL_LOW_TEMP" 61539 "PARALLEL_HIGH_TEMP" 61540 "PARALLEL_ACTIVE_STRINGS" 61541 "PARALLEL_UNIT_TYPE" 61542 "PARALLEL_HIGH_CELLV1" 61543 "PARALLEL_LOW_CELLV1" 61550 "SWDT_FAULTS" 61555 "CURRENT_OFFSET1" 61556 "CURRENT_OFFSET2" 61557 "BALANCING_STATUS" 61558 "FLOAT_VOLTAGE" 61559 "PRECHARGE_STATE" 61568 "APPLICATION_DC_BUS_VOLT1" 61570 "PACK_KW" 61692 "REMOTE_VOLTAGES_MXL" 61693 "INT_THERMISTORS" 61694 "TEM_DATA" 61695 "THERMISTORS" 61696 "CELLBANK0" 61697 "CELLBANK1" 61698 "CELLBANK2" 61699 "CELLBANK3" 61700 "CELLBANK4" 61701 "CELLBANK5" 61702 "CELLBANK6" 61703 "CELLBANK7" 61704 "CELLBANK8" 61705 "CELLBANK9" 61706 "CELLBANK10" 61707 "CELLBANK11" 61708 "CELLBANK12" 61709 "CELLBANK13" 61710 "CELLBANK14" 61711 "CELLBANK15" 61712 "CELLBANK16" 61713 "CELLBANK17" 61714 "CELLBANK18" 61715 "CELLBANK19" 61716 "CELLBANK20" 61717 "CELLBANK21" 61718 "CELLBANK22" 61719 "CELLBANK23" 61720 "CELLBANK24" 61721 "CELLBANK25" 61722 "CELLBANK26" 61952 "INTRESBANK0" 61953 "INTRESBANK1" 61954 "INTRESBANK2" 61955 "INTRESBANK3" 61956 "INTRESBANK4" 61957 "INTRESBANK5" 61958 "INTRESBANK6" 61959 "INTRESBANK7" 61960 "INTRESBANK8" 61961 "INTRESBANK9" 61962 "INTRESBANK10" 61963 "INTRESBANK11" 61964 "INTRESBANK12" 61965 "INTRESBANK13" 61966 "INTRESBANK14" 61967 "INTRESBANK15" 61968 "INTRESBANK16" 61969 "INTRESBANK17" 61970 "INTRESBANK18" 61971 "INTRESBANK19" 61972 "INTRESBANK20" 61973 "INTRESBANK21" 61974 "INTRESBANK22" 61975 "INTRESBANK23" 61976 "INTRESBANK24" 61977 "INTRESBANK25" 61978 "INTRESBANK26" 62208 "OPENCELLBANK0" 62209 "OPENCELLBANK1" 62210 "OPENCELLBANK2" 62211 "OPENCELLBANK3" 62212 "OPENCELLBANK4" 62213 "OPENCELLBANK5" 62214 "OPENCELLBANK6" 62215 "OPENCELLBANK7" 62216 "OPENCELLBANK8" 62217 "OPENCELLBANK9" 62218 "OPENCELLBANK10" 62219 "OPENCELLBANK11" 62220 "OPENCELLBANK12" 62221 "OPENCELLBANK13" 62222 "OPENCELLBANK14" 62223 "OPENCELLBANK15" 62224 "OPENCELLBANK16" 62225 "OPENCELLBANK17" 62226 "OPENCELLBANK18" 62227 "OPENCELLBANK19" 62228 "OPENCELLBANK20" 62229 "OPENCELLBANK21" 62230 "OPENCELLBANK22" 62231 "OPENCELLBANK23" 62232 "OPENCELLBANK24" 62233 "OPENCELLBANK25" 62234 "OPENCELLBANK26" ;
+VAL_ 2019 SF_InfoType 4 "FirmwareVersion" 6 "ProfileCRC" 10 "Serial" 11 "Identify" 12 "LoadedChips" 18 "Nickname" 19 "HardwareRevision" ;
+VAL_ 2019 SF_ResetType 1 "Restart" 10 "ClearCycleCount" 11 "ClearLearnedSOC" 12 "ClearContactorCount" ;
+VAL_ 2019 SF_LivePid8 31 "RUNTIME" 77 "DTC_ACTIVE_TIME" 78 "DTC_CLEAR_TIME" ;
+VAL_ 2019 SF_SecurityLevel 1 "Tier1_SeedRequest" 2 "Tier1_Key" 5 "Tier2_SeedRequest" 6 "Tier2_Key" ;
+VAL_ 2019 SF_WriteSub 0 "ProfileChunk" 2 "HistoricalData" 3 "Commit" 4 "SetRTC" 6 "SetPassword" 8 "SetNickname" ;
+VAL_ 2019 SF_RejectedMode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" ;
+VAL_ 2019 SF_Mode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 65 "CurrentData_Reply" 66 "FreezeFrame_Reply" 67 "StoredDTCs_Reply" 68 "ClearDTCs_Reply" 69 "Mode05_Reply" 71 "PendingDTCs_Reply" 73 "VehicleInfo_Reply" 74 "PermanentDTCs_Reply" 81 "Reset_Reply" 87 "Mode17_Reply" 96 "Lock_Reply" 97 "ReadPID8_Reply" 98 "ReadPID16_Reply" 99 "ReadPID24_Reply" 103 "SecurityAccess_Reply" 123 "Write_Reply" 124 "ProfileRead_Reply" 127 "NegativeOrAck" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" 227 "ModeA3_Reply" 240 "ModeB0_Reply" 241 "Calibrate_Reply" 242 "LinkStatus_Reply" 243 "NvramLog_Reply" 245 "Watchdog_Reply" ;
+VAL_ 2019 PCI 1 "SingleFrame_1" 2 "SingleFrame_2" 3 "SingleFrame_3" 4 "SingleFrame_4" 5 "SingleFrame_5" 6 "SingleFrame_6" 7 "SingleFrame_7" 16 "FirstFrame" 32 "Consecutive_0" 33 "Consecutive_1" 34 "Consecutive_2" 35 "Consecutive_3" 36 "Consecutive_4" 37 "Consecutive_5" 38 "Consecutive_6" 39 "Consecutive_7" 40 "Consecutive_8" 41 "Consecutive_9" 42 "Consecutive_10" 43 "Consecutive_11" 44 "Consecutive_12" 45 "Consecutive_13" 46 "Consecutive_14" 47 "Consecutive_15" 48 "FlowControl" ;
+VAL_ 2027 SF_ResponseCode 17 "InvalidMode" 33 "Busy" 34 "ConditionsNotCorrect" 51 "AccessDenied" 53 "InvalidKey" 64 "Invalid" 114 "Accepted" 117 "Resend" 119 "BadChecksum" ;
+VAL_ 2027 FF_Pid16 61444 "RELAYS" 61446 "MAX_CELL_NUM" 61450 "PACK_CCL" 61451 "PACK_DCL" 61452 "PACK_CURR" 61453 "PACK_VOLT" 61454 "PACK_OPENVOLT" 61455 "PACK_SOC" 61456 "PACK_AMPHOURS" 61457 "PACK_RESIST" 61458 "PACK_DOD" 61459 "PACK_SOH" 61460 "PACK_SUMMED_VOLT" 61464 "PACK_CYCLES" 61465 "LIMITS_STATUS" 61466 "PACK_CCL_KW" 61467 "PACK_DCL_KW" 61468 "MAX_PACK_DCL" 61469 "MAX_PACK_CCL" 61470 "SIM_SOC" 61471 "BATTERY_MODE" 61472 "SIM_REQ_MODE" 61473 "DTC_HIGH" 61474 "DTC_LOW" 61477 "HISTORICAL_RUNTIME_HIGH" 61478 "HISTORICAL_RUNTIME_LOW" 61479 "AVG_PACK_CURR" 61480 "HIGH_TEMP" 61481 "LOW_TEMP" 61482 "AVG_TEMP" 61483 "ACT_FANSPEED" 61484 "REQ_FANSPEED" 61485 "INT_THERM" 61486 "HIGH_THERM" 61487 "LOW_THERM" 61488 "J1772_PLUG_STATE" 61489 "J1772_AC_LIMIT" 61490 "LOW_CELL_VOLT" 61491 "HIGH_CELL_VOLT" 61492 "AVG_CELL_VOLT" 61493 "LOW_OPENCELL_VOLT" 61494 "HIGH_OPENCELL_VOLT" 61495 "AVG_OPENCELL_VOLT" 61496 "LOW_CELL_RESIST" 61497 "HIGH_CELL_RESIST" 61498 "AVG_CELL_RESIST" 61501 "HIGH_CELL_VOLTAGE_ID" 61502 "LOW_CELL_VOLTAGE_ID" 61503 "HIGH_CELL_OPENVOLT_ID" 61504 "LOW_CELL_OPENVOLT_ID" 61505 "HIGH_CELL_INTERNALRES_ID" 61506 "LOW_CELL_INTERNALRES_ID" 61507 "OBSERVED_AMPHOURS" 61508 "OBSERVED_CAPACITY" 61509 "OBSERVED_SOC" 61510 "12V_VOLTAGE" 61511 "CURRENT_ADC1" 61512 "CURRENT_ADC2" 61513 "FAN_VOLTAGE" 61514 "SHORTEST_WAVE" 61515 "AVERAGE_WAVE" 61518 "CAN1_STATUS" 61519 "CAN2_STATUS" 61520 "RAIL1_VOLTAGES" 61521 "RAIL2_VOLTAGES" 61522 "J1772_AC_KW_LIMIT" 61523 "J1772_AC_VOLTAGE" 61524 "OBSERVED_PREV_CAPACITY" 61525 "CELL_COMM_FAULTS" 61526 "J1772_PROX_VOLTAGE" 61529 "VEHICLE_SPEED" 61530 "PARALLEL_RELAYS" 61531 "PARALLEL_PACK_SOC" 61532 "PARALLEL_PACK_DCL" 61533 "PARALLEL_PACK_CCL" 61534 "PARALLEL_PACK_CURR" 61535 "PARALLEL_PACK_INST_VOLT" 61536 "PARALLEL_TARG_MAX_VOLT" 61537 "PARALLEL_TARG_MIN_VOLT" 61538 "PARALLEL_LOW_TEMP" 61539 "PARALLEL_HIGH_TEMP" 61540 "PARALLEL_ACTIVE_STRINGS" 61541 "PARALLEL_UNIT_TYPE" 61542 "PARALLEL_HIGH_CELLV1" 61543 "PARALLEL_LOW_CELLV1" 61550 "SWDT_FAULTS" 61555 "CURRENT_OFFSET1" 61556 "CURRENT_OFFSET2" 61557 "BALANCING_STATUS" 61558 "FLOAT_VOLTAGE" 61559 "PRECHARGE_STATE" 61568 "APPLICATION_DC_BUS_VOLT1" 61570 "PACK_KW" 61692 "REMOTE_VOLTAGES_MXL" 61693 "INT_THERMISTORS" 61694 "TEM_DATA" 61695 "THERMISTORS" 61696 "CELLBANK0" 61697 "CELLBANK1" 61698 "CELLBANK2" 61699 "CELLBANK3" 61700 "CELLBANK4" 61701 "CELLBANK5" 61702 "CELLBANK6" 61703 "CELLBANK7" 61704 "CELLBANK8" 61705 "CELLBANK9" 61706 "CELLBANK10" 61707 "CELLBANK11" 61708 "CELLBANK12" 61709 "CELLBANK13" 61710 "CELLBANK14" 61711 "CELLBANK15" 61712 "CELLBANK16" 61713 "CELLBANK17" 61714 "CELLBANK18" 61715 "CELLBANK19" 61716 "CELLBANK20" 61717 "CELLBANK21" 61718 "CELLBANK22" 61719 "CELLBANK23" 61720 "CELLBANK24" 61721 "CELLBANK25" 61722 "CELLBANK26" 61952 "INTRESBANK0" 61953 "INTRESBANK1" 61954 "INTRESBANK2" 61955 "INTRESBANK3" 61956 "INTRESBANK4" 61957 "INTRESBANK5" 61958 "INTRESBANK6" 61959 "INTRESBANK7" 61960 "INTRESBANK8" 61961 "INTRESBANK9" 61962 "INTRESBANK10" 61963 "INTRESBANK11" 61964 "INTRESBANK12" 61965 "INTRESBANK13" 61966 "INTRESBANK14" 61967 "INTRESBANK15" 61968 "INTRESBANK16" 61969 "INTRESBANK17" 61970 "INTRESBANK18" 61971 "INTRESBANK19" 61972 "INTRESBANK20" 61973 "INTRESBANK21" 61974 "INTRESBANK22" 61975 "INTRESBANK23" 61976 "INTRESBANK24" 61977 "INTRESBANK25" 61978 "INTRESBANK26" 62208 "OPENCELLBANK0" 62209 "OPENCELLBANK1" 62210 "OPENCELLBANK2" 62211 "OPENCELLBANK3" 62212 "OPENCELLBANK4" 62213 "OPENCELLBANK5" 62214 "OPENCELLBANK6" 62215 "OPENCELLBANK7" 62216 "OPENCELLBANK8" 62217 "OPENCELLBANK9" 62218 "OPENCELLBANK10" 62219 "OPENCELLBANK11" 62220 "OPENCELLBANK12" 62221 "OPENCELLBANK13" 62222 "OPENCELLBANK14" 62223 "OPENCELLBANK15" 62224 "OPENCELLBANK16" 62225 "OPENCELLBANK17" 62226 "OPENCELLBANK18" 62227 "OPENCELLBANK19" 62228 "OPENCELLBANK20" 62229 "OPENCELLBANK21" 62230 "OPENCELLBANK22" 62231 "OPENCELLBANK23" 62232 "OPENCELLBANK24" 62233 "OPENCELLBANK25" 62234 "OPENCELLBANK26" ;
+VAL_ 2027 FF_InfoType 4 "FirmwareVersion" 6 "ProfileCRC" 10 "Serial" 11 "Identify" 12 "LoadedChips" 18 "Nickname" 19 "HardwareRevision" ;
+VAL_ 2027 FF_ResetType 1 "Restart" 10 "ClearCycleCount" 11 "ClearLearnedSOC" 12 "ClearContactorCount" ;
+VAL_ 2027 FF_SecurityLevel 1 "Tier1_SeedRequest" 2 "Tier1_Key" 5 "Tier2_SeedRequest" 6 "Tier2_Key" ;
+VAL_ 2027 FF_WriteSub 0 "ProfileChunk" 2 "HistoricalData" 3 "Commit" 4 "SetRTC" 6 "SetPassword" 8 "SetNickname" ;
+VAL_ 2027 FF_Mode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 65 "CurrentData_Reply" 66 "FreezeFrame_Reply" 67 "StoredDTCs_Reply" 68 "ClearDTCs_Reply" 69 "Mode05_Reply" 71 "PendingDTCs_Reply" 73 "VehicleInfo_Reply" 74 "PermanentDTCs_Reply" 81 "Reset_Reply" 87 "Mode17_Reply" 96 "Lock_Reply" 97 "ReadPID8_Reply" 98 "ReadPID16_Reply" 99 "ReadPID24_Reply" 103 "SecurityAccess_Reply" 123 "Write_Reply" 124 "ProfileRead_Reply" 127 "NegativeOrAck" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" 227 "ModeA3_Reply" 240 "ModeB0_Reply" 241 "Calibrate_Reply" 242 "LinkStatus_Reply" 243 "NvramLog_Reply" 245 "Watchdog_Reply" ;
+VAL_ 2027 SF_Pid16 61444 "RELAYS" 61446 "MAX_CELL_NUM" 61450 "PACK_CCL" 61451 "PACK_DCL" 61452 "PACK_CURR" 61453 "PACK_VOLT" 61454 "PACK_OPENVOLT" 61455 "PACK_SOC" 61456 "PACK_AMPHOURS" 61457 "PACK_RESIST" 61458 "PACK_DOD" 61459 "PACK_SOH" 61460 "PACK_SUMMED_VOLT" 61464 "PACK_CYCLES" 61465 "LIMITS_STATUS" 61466 "PACK_CCL_KW" 61467 "PACK_DCL_KW" 61468 "MAX_PACK_DCL" 61469 "MAX_PACK_CCL" 61470 "SIM_SOC" 61471 "BATTERY_MODE" 61472 "SIM_REQ_MODE" 61473 "DTC_HIGH" 61474 "DTC_LOW" 61477 "HISTORICAL_RUNTIME_HIGH" 61478 "HISTORICAL_RUNTIME_LOW" 61479 "AVG_PACK_CURR" 61480 "HIGH_TEMP" 61481 "LOW_TEMP" 61482 "AVG_TEMP" 61483 "ACT_FANSPEED" 61484 "REQ_FANSPEED" 61485 "INT_THERM" 61486 "HIGH_THERM" 61487 "LOW_THERM" 61488 "J1772_PLUG_STATE" 61489 "J1772_AC_LIMIT" 61490 "LOW_CELL_VOLT" 61491 "HIGH_CELL_VOLT" 61492 "AVG_CELL_VOLT" 61493 "LOW_OPENCELL_VOLT" 61494 "HIGH_OPENCELL_VOLT" 61495 "AVG_OPENCELL_VOLT" 61496 "LOW_CELL_RESIST" 61497 "HIGH_CELL_RESIST" 61498 "AVG_CELL_RESIST" 61501 "HIGH_CELL_VOLTAGE_ID" 61502 "LOW_CELL_VOLTAGE_ID" 61503 "HIGH_CELL_OPENVOLT_ID" 61504 "LOW_CELL_OPENVOLT_ID" 61505 "HIGH_CELL_INTERNALRES_ID" 61506 "LOW_CELL_INTERNALRES_ID" 61507 "OBSERVED_AMPHOURS" 61508 "OBSERVED_CAPACITY" 61509 "OBSERVED_SOC" 61510 "12V_VOLTAGE" 61511 "CURRENT_ADC1" 61512 "CURRENT_ADC2" 61513 "FAN_VOLTAGE" 61514 "SHORTEST_WAVE" 61515 "AVERAGE_WAVE" 61518 "CAN1_STATUS" 61519 "CAN2_STATUS" 61520 "RAIL1_VOLTAGES" 61521 "RAIL2_VOLTAGES" 61522 "J1772_AC_KW_LIMIT" 61523 "J1772_AC_VOLTAGE" 61524 "OBSERVED_PREV_CAPACITY" 61525 "CELL_COMM_FAULTS" 61526 "J1772_PROX_VOLTAGE" 61529 "VEHICLE_SPEED" 61530 "PARALLEL_RELAYS" 61531 "PARALLEL_PACK_SOC" 61532 "PARALLEL_PACK_DCL" 61533 "PARALLEL_PACK_CCL" 61534 "PARALLEL_PACK_CURR" 61535 "PARALLEL_PACK_INST_VOLT" 61536 "PARALLEL_TARG_MAX_VOLT" 61537 "PARALLEL_TARG_MIN_VOLT" 61538 "PARALLEL_LOW_TEMP" 61539 "PARALLEL_HIGH_TEMP" 61540 "PARALLEL_ACTIVE_STRINGS" 61541 "PARALLEL_UNIT_TYPE" 61542 "PARALLEL_HIGH_CELLV1" 61543 "PARALLEL_LOW_CELLV1" 61550 "SWDT_FAULTS" 61555 "CURRENT_OFFSET1" 61556 "CURRENT_OFFSET2" 61557 "BALANCING_STATUS" 61558 "FLOAT_VOLTAGE" 61559 "PRECHARGE_STATE" 61568 "APPLICATION_DC_BUS_VOLT1" 61570 "PACK_KW" 61692 "REMOTE_VOLTAGES_MXL" 61693 "INT_THERMISTORS" 61694 "TEM_DATA" 61695 "THERMISTORS" 61696 "CELLBANK0" 61697 "CELLBANK1" 61698 "CELLBANK2" 61699 "CELLBANK3" 61700 "CELLBANK4" 61701 "CELLBANK5" 61702 "CELLBANK6" 61703 "CELLBANK7" 61704 "CELLBANK8" 61705 "CELLBANK9" 61706 "CELLBANK10" 61707 "CELLBANK11" 61708 "CELLBANK12" 61709 "CELLBANK13" 61710 "CELLBANK14" 61711 "CELLBANK15" 61712 "CELLBANK16" 61713 "CELLBANK17" 61714 "CELLBANK18" 61715 "CELLBANK19" 61716 "CELLBANK20" 61717 "CELLBANK21" 61718 "CELLBANK22" 61719 "CELLBANK23" 61720 "CELLBANK24" 61721 "CELLBANK25" 61722 "CELLBANK26" 61952 "INTRESBANK0" 61953 "INTRESBANK1" 61954 "INTRESBANK2" 61955 "INTRESBANK3" 61956 "INTRESBANK4" 61957 "INTRESBANK5" 61958 "INTRESBANK6" 61959 "INTRESBANK7" 61960 "INTRESBANK8" 61961 "INTRESBANK9" 61962 "INTRESBANK10" 61963 "INTRESBANK11" 61964 "INTRESBANK12" 61965 "INTRESBANK13" 61966 "INTRESBANK14" 61967 "INTRESBANK15" 61968 "INTRESBANK16" 61969 "INTRESBANK17" 61970 "INTRESBANK18" 61971 "INTRESBANK19" 61972 "INTRESBANK20" 61973 "INTRESBANK21" 61974 "INTRESBANK22" 61975 "INTRESBANK23" 61976 "INTRESBANK24" 61977 "INTRESBANK25" 61978 "INTRESBANK26" 62208 "OPENCELLBANK0" 62209 "OPENCELLBANK1" 62210 "OPENCELLBANK2" 62211 "OPENCELLBANK3" 62212 "OPENCELLBANK4" 62213 "OPENCELLBANK5" 62214 "OPENCELLBANK6" 62215 "OPENCELLBANK7" 62216 "OPENCELLBANK8" 62217 "OPENCELLBANK9" 62218 "OPENCELLBANK10" 62219 "OPENCELLBANK11" 62220 "OPENCELLBANK12" 62221 "OPENCELLBANK13" 62222 "OPENCELLBANK14" 62223 "OPENCELLBANK15" 62224 "OPENCELLBANK16" 62225 "OPENCELLBANK17" 62226 "OPENCELLBANK18" 62227 "OPENCELLBANK19" 62228 "OPENCELLBANK20" 62229 "OPENCELLBANK21" 62230 "OPENCELLBANK22" 62231 "OPENCELLBANK23" 62232 "OPENCELLBANK24" 62233 "OPENCELLBANK25" 62234 "OPENCELLBANK26" ;
+VAL_ 2027 SF_InfoType 4 "FirmwareVersion" 6 "ProfileCRC" 10 "Serial" 11 "Identify" 12 "LoadedChips" 18 "Nickname" 19 "HardwareRevision" ;
+VAL_ 2027 SF_ResetType 1 "Restart" 10 "ClearCycleCount" 11 "ClearLearnedSOC" 12 "ClearContactorCount" ;
+VAL_ 2027 SF_LivePid8 31 "RUNTIME" 77 "DTC_ACTIVE_TIME" 78 "DTC_CLEAR_TIME" ;
+VAL_ 2027 SF_SecurityLevel 1 "Tier1_SeedRequest" 2 "Tier1_Key" 5 "Tier2_SeedRequest" 6 "Tier2_Key" ;
+VAL_ 2027 SF_WriteSub 0 "ProfileChunk" 2 "HistoricalData" 3 "Commit" 4 "SetRTC" 6 "SetPassword" 8 "SetNickname" ;
+VAL_ 2027 SF_RejectedMode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" ;
+VAL_ 2027 SF_Mode 1 "CurrentData" 2 "FreezeFrame" 3 "StoredDTCs" 4 "ClearDTCs" 5 "Mode05" 7 "PendingDTCs" 9 "VehicleInfo" 10 "PermanentDTCs" 17 "Reset" 23 "Mode17" 32 "Lock" 33 "ReadPID8" 34 "ReadPID16" 35 "ReadPID24" 39 "SecurityAccess" 59 "Write" 60 "ProfileRead" 65 "CurrentData_Reply" 66 "FreezeFrame_Reply" 67 "StoredDTCs_Reply" 68 "ClearDTCs_Reply" 69 "Mode05_Reply" 71 "PendingDTCs_Reply" 73 "VehicleInfo_Reply" 74 "PermanentDTCs_Reply" 81 "Reset_Reply" 87 "Mode17_Reply" 96 "Lock_Reply" 97 "ReadPID8_Reply" 98 "ReadPID16_Reply" 99 "ReadPID24_Reply" 103 "SecurityAccess_Reply" 123 "Write_Reply" 124 "ProfileRead_Reply" 127 "NegativeOrAck" 163 "ModeA3" 176 "ModeB0" 177 "Calibrate" 178 "LinkStatus" 179 "NvramLog" 181 "Watchdog" 227 "ModeA3_Reply" 240 "ModeB0_Reply" 241 "Calibrate_Reply" 242 "LinkStatus_Reply" 243 "NvramLog_Reply" 245 "Watchdog_Reply" ;
+VAL_ 2027 PCI 1 "SingleFrame_1" 2 "SingleFrame_2" 3 "SingleFrame_3" 4 "SingleFrame_4" 5 "SingleFrame_5" 6 "SingleFrame_6" 7 "SingleFrame_7" 16 "FirstFrame" 32 "Consecutive_0" 33 "Consecutive_1" 34 "Consecutive_2" 35 "Consecutive_3" 36 "Consecutive_4" 37 "Consecutive_5" 38 "Consecutive_6" 39 "Consecutive_7" 40 "Consecutive_8" 41 "Consecutive_9" 42 "Consecutive_10" 43 "Consecutive_11" 44 "Consecutive_12" 45 "Consecutive_13" 46 "Consecutive_14" 47 "Consecutive_15" 48 "FlowControl" ;
+SIG_VALTYPE_ 1028 PhaseCurrentB : 1;
+SIG_VALTYPE_ 1028 PhaseCurrentC : 1;
+SIG_VALTYPE_ 1029 Vq : 1;
+SIG_VALTYPE_ 1029 Vd : 1;
+SIG_VALTYPE_ 1030 Iq : 1;
+SIG_VALTYPE_ 1031 BEMFq : 1;
+SIG_VALTYPE_ 1031 BEMFd : 1;
+SIG_VALTYPE_ 1032 ReservedSupply15V : 1;
+SIG_VALTYPE_ 1033 Supply1V9 : 1;
+SIG_VALTYPE_ 1033 Supply3V3 : 1;
+SIG_VALTYPE_ 1034 Reserved0A0 : 1;
+SIG_VALTYPE_ 1034 Reserved0A1 : 1;
+SIG_VALTYPE_ 1036 DspBoardTemp : 1;
+SIG_VALTYPE_ 1036 ReservedDspBoardTemp : 1;
+SIG_VALTYPE_ 1037 Reserved0D0 : 1;
+SIG_VALTYPE_ 1037 Reserved0D1 : 1;
+SIG_VALTYPE_ 1038 Odometer : 1;
+SIG_VALTYPE_ 1038 DCBusAh : 1;
+SIG_VALTYPE_ 1047 SlipSpeed : 1;
+SIG_VALTYPE_ 1047 ReservedSlipSpeed : 1;
+
+SG_MUL_VAL_ 1042 ACTMOT_Tag Op 17217-17217;
+SG_MUL_VAL_ 1042 Size_Bytes Op 8-8;
+SG_MUL_VAL_ 1042 Request_Address Op 7-7;
+SG_MUL_VAL_ 1042 BadSeq_FramesReceived Op 6-6;
+SG_MUL_VAL_ 1042 BlockAck_Status Op 4-4;
+SG_MUL_VAL_ 1042 ParamAck_BlockSize Op 3-3;
+SG_MUL_VAL_ 1042 Close_Kind Op 2-2;
+SG_MUL_VAL_ 1042 Init_BlockSize Op 1-1;
+SG_MUL_VAL_ 1042 Request_Size Op 7-7;
+SG_MUL_VAL_ 1042 BadSeq_FramesPerBlock Op 6-6;
+SG_MUL_VAL_ 1042 ParamAck_Timeout Op 3-3;
+SG_MUL_VAL_ 1042 Init_Timeout Op 1-1;
+SG_MUL_VAL_ 1042 BlockAck_Toggle Op 4-4;
+SG_MUL_VAL_ 1042 ACTMOT_MotorIndex Op 17217-17217;
+SG_MUL_VAL_ 1042 Request_Stream Op 7-7;
+SG_MUL_VAL_ 1042 ParamAck_Retries Op 3-3;
+SG_MUL_VAL_ 1042 Init_Retries Op 1-1;
+SG_MUL_VAL_ 1042 Request_ResponderSends Op 7-7;
+SG_MUL_VAL_ 2015 FC_BlockSize PCI 48-48;
+SG_MUL_VAL_ 2015 CF_Data PCI 32-47;
+SG_MUL_VAL_ 2015 FF_Length PCI 16-16;
+SG_MUL_VAL_ 2015 SF_Mode PCI 1-7;
+SG_MUL_VAL_ 2015 SF_RejectedMode SF_Mode 127-127;
+SG_MUL_VAL_ 2015 SF_ReadSub SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2015 SF_WriteSub SF_Mode 59-59;
+SG_MUL_VAL_ 2015 SF_SecurityLevel SF_Mode 39-39, 103-103;
+SG_MUL_VAL_ 2015 SF_Pid24 SF_Mode 35-35, 99-99;
+SG_MUL_VAL_ 2015 SF_LivePid8 SF_Mode 33-33, 97-97;
+SG_MUL_VAL_ 2015 SF_ResetType SF_Mode 17-17, 81-81;
+SG_MUL_VAL_ 2015 SF_InfoType SF_Mode 9-9, 73-73;
+SG_MUL_VAL_ 2015 SF_Pid16 SF_Mode 5-5, 23-23, 34-34, 69-69, 87-87, 98-98;
+SG_MUL_VAL_ 2015 SF_B2 SF_Mode 3-4, 7-7, 10-10, 68-68;
+SG_MUL_VAL_ 2015 SF_Pid8 SF_Mode 1-2, 32-32, 65-67, 71-71, 74-74, 96-96, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 FC_SeparationTime PCI 48-48;
+SG_MUL_VAL_ 2015 FF_Mode PCI 16-16;
+SG_MUL_VAL_ 2015 FF_RejectedMode FF_Mode 127-127;
+SG_MUL_VAL_ 2015 FF_ReadSub FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2015 FF_WriteSub FF_Mode 59-59;
+SG_MUL_VAL_ 2015 FF_SecurityLevel FF_Mode 39-39, 103-103;
+SG_MUL_VAL_ 2015 FF_Pid24 FF_Mode 35-35, 99-99;
+SG_MUL_VAL_ 2015 FF_LivePid8 FF_Mode 33-33, 97-97;
+SG_MUL_VAL_ 2015 FF_ResetType FF_Mode 17-17, 81-81;
+SG_MUL_VAL_ 2015 FF_InfoType FF_Mode 9-9, 73-73;
+SG_MUL_VAL_ 2015 FF_Pid16 FF_Mode 5-5, 23-23, 34-34, 69-69, 87-87, 98-98;
+SG_MUL_VAL_ 2015 FF_B3 FF_Mode 3-4, 7-7, 10-10, 68-68;
+SG_MUL_VAL_ 2015 FF_Pid8 FF_Mode 1-2, 32-32, 65-67, 71-71, 74-74, 96-96, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 SF_ResponseCode SF_Mode 127-127;
+SG_MUL_VAL_ 2015 SF_Seed SF_Mode 103-103;
+SG_MUL_VAL_ 2015 SF_ReadLength SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2015 SF_WriteChecksum SF_Mode 59-59;
+SG_MUL_VAL_ 2015 SF_Key SF_Mode 39-39;
+SG_MUL_VAL_ 2015 SF_B3 SF_Mode 1-4, 7-7, 9-10, 17-17, 32-33, 65-68, 71-71, 73-74, 81-81, 96-97, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 FF_ResponseCode FF_Mode 127-127;
+SG_MUL_VAL_ 2015 FF_Seed FF_Mode 103-103;
+SG_MUL_VAL_ 2015 FF_ReadLength FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2015 FF_WriteLength FF_Mode 59-59;
+SG_MUL_VAL_ 2015 FF_Key FF_Mode 39-39;
+SG_MUL_VAL_ 2015 FF_B4 FF_Mode 1-4, 7-7, 9-10, 17-17, 32-33, 65-68, 71-71, 73-74, 81-81, 96-97, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 SF_Detail SF_Mode 127-127;
+SG_MUL_VAL_ 2015 SF_ReadAddress SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2015 SF_B4 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-34, 65-69, 71-71, 73-74, 81-81, 87-87, 96-98, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 FF_Detail FF_Mode 127-127;
+SG_MUL_VAL_ 2015 FF_ReadAddress FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2015 FF_WriteAddress FF_Mode 59-59;
+SG_MUL_VAL_ 2015 FF_B5 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-34, 65-69, 71-71, 73-74, 81-81, 87-87, 96-98, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 SF_B5 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-123, 127-127, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 FF_B6 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 123-123, 127-127, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2015 SF_ReadChecksum SF_Mode 60-60, 163-163;
+SG_MUL_VAL_ 2015 SF_B6 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-124, 127-127, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2015 FF_B7 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 59-60, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 123-124, 127-127, 163-163, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2015 SF_B7 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-124, 127-127, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2019 FC_BlockSize PCI 48-48;
+SG_MUL_VAL_ 2019 CF_Data PCI 32-47;
+SG_MUL_VAL_ 2019 FF_Length PCI 16-16;
+SG_MUL_VAL_ 2019 SF_Mode PCI 1-7;
+SG_MUL_VAL_ 2019 SF_RejectedMode SF_Mode 127-127;
+SG_MUL_VAL_ 2019 SF_ReadSub SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2019 SF_WriteSub SF_Mode 59-59;
+SG_MUL_VAL_ 2019 SF_SecurityLevel SF_Mode 39-39, 103-103;
+SG_MUL_VAL_ 2019 SF_Pid24 SF_Mode 35-35, 99-99;
+SG_MUL_VAL_ 2019 SF_LivePid8 SF_Mode 33-33, 97-97;
+SG_MUL_VAL_ 2019 SF_ResetType SF_Mode 17-17, 81-81;
+SG_MUL_VAL_ 2019 SF_InfoType SF_Mode 9-9, 73-73;
+SG_MUL_VAL_ 2019 SF_Pid16 SF_Mode 5-5, 23-23, 34-34, 69-69, 87-87, 98-98;
+SG_MUL_VAL_ 2019 SF_B2 SF_Mode 3-4, 7-7, 10-10, 68-68;
+SG_MUL_VAL_ 2019 SF_Pid8 SF_Mode 1-2, 32-32, 65-67, 71-71, 74-74, 96-96, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 FC_SeparationTime PCI 48-48;
+SG_MUL_VAL_ 2019 FF_Mode PCI 16-16;
+SG_MUL_VAL_ 2019 FF_RejectedMode FF_Mode 127-127;
+SG_MUL_VAL_ 2019 FF_ReadSub FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2019 FF_WriteSub FF_Mode 59-59;
+SG_MUL_VAL_ 2019 FF_SecurityLevel FF_Mode 39-39, 103-103;
+SG_MUL_VAL_ 2019 FF_Pid24 FF_Mode 35-35, 99-99;
+SG_MUL_VAL_ 2019 FF_LivePid8 FF_Mode 33-33, 97-97;
+SG_MUL_VAL_ 2019 FF_ResetType FF_Mode 17-17, 81-81;
+SG_MUL_VAL_ 2019 FF_InfoType FF_Mode 9-9, 73-73;
+SG_MUL_VAL_ 2019 FF_Pid16 FF_Mode 5-5, 23-23, 34-34, 69-69, 87-87, 98-98;
+SG_MUL_VAL_ 2019 FF_B3 FF_Mode 3-4, 7-7, 10-10, 68-68;
+SG_MUL_VAL_ 2019 FF_Pid8 FF_Mode 1-2, 32-32, 65-67, 71-71, 74-74, 96-96, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 SF_ResponseCode SF_Mode 127-127;
+SG_MUL_VAL_ 2019 SF_Seed SF_Mode 103-103;
+SG_MUL_VAL_ 2019 SF_ReadLength SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2019 SF_WriteChecksum SF_Mode 59-59;
+SG_MUL_VAL_ 2019 SF_Key SF_Mode 39-39;
+SG_MUL_VAL_ 2019 SF_B3 SF_Mode 1-4, 7-7, 9-10, 17-17, 32-33, 65-68, 71-71, 73-74, 81-81, 96-97, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 FF_ResponseCode FF_Mode 127-127;
+SG_MUL_VAL_ 2019 FF_Seed FF_Mode 103-103;
+SG_MUL_VAL_ 2019 FF_ReadLength FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2019 FF_WriteLength FF_Mode 59-59;
+SG_MUL_VAL_ 2019 FF_Key FF_Mode 39-39;
+SG_MUL_VAL_ 2019 FF_B4 FF_Mode 1-4, 7-7, 9-10, 17-17, 32-33, 65-68, 71-71, 73-74, 81-81, 96-97, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 SF_Detail SF_Mode 127-127;
+SG_MUL_VAL_ 2019 SF_ReadAddress SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2019 SF_B4 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-34, 65-69, 71-71, 73-74, 81-81, 87-87, 96-98, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 FF_Detail FF_Mode 127-127;
+SG_MUL_VAL_ 2019 FF_ReadAddress FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2019 FF_WriteAddress FF_Mode 59-59;
+SG_MUL_VAL_ 2019 FF_B5 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-34, 65-69, 71-71, 73-74, 81-81, 87-87, 96-98, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 SF_B5 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-123, 127-127, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 FF_B6 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 123-123, 127-127, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2019 SF_ReadChecksum SF_Mode 60-60, 163-163;
+SG_MUL_VAL_ 2019 SF_B6 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-124, 127-127, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2019 FF_B7 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 59-60, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 123-124, 127-127, 163-163, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2019 SF_B7 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-124, 127-127, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2027 FC_BlockSize PCI 48-48;
+SG_MUL_VAL_ 2027 CF_Data PCI 32-47;
+SG_MUL_VAL_ 2027 FF_Length PCI 16-16;
+SG_MUL_VAL_ 2027 SF_Mode PCI 1-7;
+SG_MUL_VAL_ 2027 SF_RejectedMode SF_Mode 127-127;
+SG_MUL_VAL_ 2027 SF_ReadSub SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2027 SF_WriteSub SF_Mode 59-59;
+SG_MUL_VAL_ 2027 SF_SecurityLevel SF_Mode 39-39, 103-103;
+SG_MUL_VAL_ 2027 SF_Pid24 SF_Mode 35-35, 99-99;
+SG_MUL_VAL_ 2027 SF_LivePid8 SF_Mode 33-33, 97-97;
+SG_MUL_VAL_ 2027 SF_ResetType SF_Mode 17-17, 81-81;
+SG_MUL_VAL_ 2027 SF_InfoType SF_Mode 9-9, 73-73;
+SG_MUL_VAL_ 2027 SF_Pid16 SF_Mode 5-5, 23-23, 34-34, 69-69, 87-87, 98-98;
+SG_MUL_VAL_ 2027 SF_B2 SF_Mode 3-4, 7-7, 10-10, 68-68;
+SG_MUL_VAL_ 2027 SF_Pid8 SF_Mode 1-2, 32-32, 65-67, 71-71, 74-74, 96-96, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 FC_SeparationTime PCI 48-48;
+SG_MUL_VAL_ 2027 FF_Mode PCI 16-16;
+SG_MUL_VAL_ 2027 FF_RejectedMode FF_Mode 127-127;
+SG_MUL_VAL_ 2027 FF_ReadSub FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2027 FF_WriteSub FF_Mode 59-59;
+SG_MUL_VAL_ 2027 FF_SecurityLevel FF_Mode 39-39, 103-103;
+SG_MUL_VAL_ 2027 FF_Pid24 FF_Mode 35-35, 99-99;
+SG_MUL_VAL_ 2027 FF_LivePid8 FF_Mode 33-33, 97-97;
+SG_MUL_VAL_ 2027 FF_ResetType FF_Mode 17-17, 81-81;
+SG_MUL_VAL_ 2027 FF_InfoType FF_Mode 9-9, 73-73;
+SG_MUL_VAL_ 2027 FF_Pid16 FF_Mode 5-5, 23-23, 34-34, 69-69, 87-87, 98-98;
+SG_MUL_VAL_ 2027 FF_B3 FF_Mode 3-4, 7-7, 10-10, 68-68;
+SG_MUL_VAL_ 2027 FF_Pid8 FF_Mode 1-2, 32-32, 65-67, 71-71, 74-74, 96-96, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 SF_ResponseCode SF_Mode 127-127;
+SG_MUL_VAL_ 2027 SF_Seed SF_Mode 103-103;
+SG_MUL_VAL_ 2027 SF_ReadLength SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2027 SF_WriteChecksum SF_Mode 59-59;
+SG_MUL_VAL_ 2027 SF_Key SF_Mode 39-39;
+SG_MUL_VAL_ 2027 SF_B3 SF_Mode 1-4, 7-7, 9-10, 17-17, 32-33, 65-68, 71-71, 73-74, 81-81, 96-97, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 FF_ResponseCode FF_Mode 127-127;
+SG_MUL_VAL_ 2027 FF_Seed FF_Mode 103-103;
+SG_MUL_VAL_ 2027 FF_ReadLength FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2027 FF_WriteLength FF_Mode 59-59;
+SG_MUL_VAL_ 2027 FF_Key FF_Mode 39-39;
+SG_MUL_VAL_ 2027 FF_B4 FF_Mode 1-4, 7-7, 9-10, 17-17, 32-33, 65-68, 71-71, 73-74, 81-81, 96-97, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 SF_Detail SF_Mode 127-127;
+SG_MUL_VAL_ 2027 SF_ReadAddress SF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2027 SF_B4 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-34, 65-69, 71-71, 73-74, 81-81, 87-87, 96-98, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 FF_Detail FF_Mode 127-127;
+SG_MUL_VAL_ 2027 FF_ReadAddress FF_Mode 60-60, 124-124, 163-163, 227-227;
+SG_MUL_VAL_ 2027 FF_WriteAddress FF_Mode 59-59;
+SG_MUL_VAL_ 2027 FF_B5 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-34, 65-69, 71-71, 73-74, 81-81, 87-87, 96-98, 123-123, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 SF_B5 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-123, 127-127, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 FF_B6 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 123-123, 127-127, 176-179, 181-181, 240-243, 245-245;
+SG_MUL_VAL_ 2027 SF_ReadChecksum SF_Mode 60-60, 163-163;
+SG_MUL_VAL_ 2027 SF_B6 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-124, 127-127, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2027 FF_B7 FF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 59-60, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 123-124, 127-127, 163-163, 176-179, 181-181, 227-227, 240-243, 245-245;
+SG_MUL_VAL_ 2027 SF_B7 SF_Mode 1-5, 7-7, 9-10, 17-17, 23-23, 32-35, 39-39, 59-59, 65-69, 71-71, 73-74, 81-81, 87-87, 96-99, 103-103, 123-124, 127-127, 176-179, 181-181, 227-227, 240-243, 245-245;

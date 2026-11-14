@@ -7,3 +7,13 @@ picotool
 _deps
 .vscode
 README.pdf
+.venv
+
+# Test generated outputs
+tests/*.json
+tests/*_canid.hpp
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
